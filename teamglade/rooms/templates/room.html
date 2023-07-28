@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MyRoom</title>
+  </head>
+  <body>
+    <h1>MyRoom</h1>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for topic in topics_list %}
+          <tr>
+            <td>
+              {{ topic.id }}<br>
+            </td>
+            <td>
+              {{ topic.title }}<br>
+            </td>
+            <td>
+              {{ topic.created_at }}<br>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
