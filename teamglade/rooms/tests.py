@@ -1,6 +1,6 @@
 from django.urls import reverse
 from django.test import TestCase
-# Got an error creating the test database: permission denied to create database
+
 class RoomViewTests(TestCase):
     def test_room_view_status_code(self):
         url = reverse('room')
