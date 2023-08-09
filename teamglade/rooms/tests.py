@@ -6,3 +6,4 @@ class RoomViewTests(TestCase):
         url = reverse('room')
         responce = self.client.get(url)
         self.assertEquals(responce.status_code, 200)
+
