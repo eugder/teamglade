@@ -3,11 +3,13 @@ from django.http import HttpResponse, Http404
 from django.template import loader
 #from django.urls import reverse
 
-from .models import Topic, Room
+from .models import Topic, Room, RoomUser
 
 def room(request):
     topics_list = Topic.objects.all().values()
-    context = {'topics_list': topics_list}
+    user_name = RoomUser.objects.all().values()
+    #print(user_name.username)
+    context = {'topics_list': topics_list, 'user_name': "My User Name"}
     #print(reverse('room'))
     return render(request, 'room.html', context)
 
