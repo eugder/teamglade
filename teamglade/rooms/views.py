@@ -6,11 +6,11 @@ from django.template import loader
 from .models import Topic, Room, RoomUser
 
 def room(request):
-    topics_list = Topic.objects.all().values()
-    user_name = RoomUser.objects.all().values()
-    #print(user_name.username)
+    topics_list = Topic.objects.all()
+    # user_name = RoomUser.objects.get(id=1)
+    # print(user_name.username)
     context = {'topics_list': topics_list, 'user_name': "My User Name"}
-    #print(reverse('room'))
+    #print(context)
     return render(request, 'room.html', context)
 
     # topics_list = Topic.objects.all().values()

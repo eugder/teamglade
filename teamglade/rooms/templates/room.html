@@ -31,7 +31,7 @@
       <table class="table">
         <thead class="thead-light">
           <tr>
-            <th>ID</th>
+            <th>User Name</th>
             <th>Title</th>
             <th>Data</th>
           </tr>
@@ -40,7 +40,7 @@
           {% for topic in topics_list %}
             <tr>
               <td class="align-middle">
-                {{ topic.id }}<br>
+                {{ topic.created_by.username}}<br>
               </td>
               <td class="align-middle">
                 {{ topic.title }}<br>
