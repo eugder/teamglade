@@ -9,7 +9,7 @@ def room(request):
     topics_list = Topic.objects.all()
     # user_name = RoomUser.objects.get(id=1)
     # print(user_name.username)
-    context = {'topics_list': topics_list, 'user_name': "My User Name"}
+    context = {'topics_list': topics_list, 'user_name': "My User Name", 'room_name': "My Room"}
     #print(context)
     return render(request, 'room.html', context)
 
