@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MyRoom</title>
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="{% url 'home' %}">
+        <img src="{% static 'images/Teamglade.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        TeamGlade
+      </a>
+      {% block navbar %}
+      <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'room' %}">My Room</a>
+              </li>
+          </ul>
+      </div>
+      {% endblock %}
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+  </body>
+</html>
