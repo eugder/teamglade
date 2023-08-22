@@ -1,49 +1,12 @@
 {% extends 'base.html' %}
 
-{% block navbar %}
-<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-    <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="#">{{user_name}}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Settings</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Log out</a>
-        </li>
-    </ul>
-</div>
-{% endblock %}
 
 {% block content %}
 <div class="container">
-  <table class="table">
-    <thead class="thead-light">
-      <tr>
-        <th>{{room_name}} </th>
-        <th></th>
-        <th class="text-right">
-          <a class="btn btn-secondary" href="#" role="button">Make New Topic</a>
-          <a class="btn btn-secondary" href="#" role="button">Invite</a>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for topic in topics_list %}
-        <tr>
-          <td class="align-middle">
-            {{ topic.created_by.username}}<br>
-          </td>
-          <td class="align-middle">
-            {{ topic.title }}<br>
-          </td>
-          <td class="align-middle">
-            {{ topic.created_at }}<br>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">New Topic</li>
+    </ol>
+  </nav>
 </div>
 {% endblock %}

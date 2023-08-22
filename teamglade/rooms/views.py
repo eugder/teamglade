@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.template import loader
 #from django.urls import reverse
@@ -11,7 +11,9 @@ def room(request):
     return render(request, 'room.html', context)
 
 def new_topic(request, pk):
-    pass
+    room = get_object_or_404(Room, pk=pk)
+    context = {'room' : room}
+    return render(request, 'new_topic.html', context)
 
 def index(request):
     return render(request, 'index.html')
