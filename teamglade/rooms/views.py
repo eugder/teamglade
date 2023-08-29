@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.template import loader
 from .models import Topic, Room, RoomUser
@@ -10,8 +10,29 @@ def room(request):
 
 def new_topic(request, pk):
     room = get_object_or_404(Room, pk=pk)
+
+    if request.method == 'POST':
+        title = request.POST['title']
+        message = request.POST['message']
+
+        user = RoomUser.objects.first()
+
+        topic = Topic.objects.create(
+            room=room,
+            title=title,
+            message=message,
+            created_by= user
+        )
+
+        return redirect('room')
+
     context = {'room' : room}
     return render(request, 'new_topic.html', context)
+
+# def new_topic(request, pk):
+#     room = get_object_or_404(Room, pk=pk)
+#     context = {'room' : room}
+#     return render(request, 'new_topic.html', context)
 
 def index(request):
     return render(request, 'index.html')
