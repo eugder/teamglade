@@ -14,6 +14,12 @@ class RoomViewTests(TestCase):
         responce = self.client.get(url)
         self.assertEquals(responce.status_code, 200)
 
+    def test_room_view_contains_navigation_links(self):
+        homepage_url = reverse('home')
+        roompage_url = reverse('room')
+        responce = self.client.get(roompage_url)
+        self.assertContains(responce, 'href="{0}"'.format(homepage_url))
+
 class NewTopicTests(TestCase):
     def setUp(self):
         user = RoomUser.objects.create_user(username='usr', email='usr@test.com', password='111')
