@@ -10,9 +10,19 @@ def room(request):
     return render(request, 'room.html', context)
 
 def new_topic(request, pk):
+    room = get_object_or_404(Room, pk=pk)
+
     if request.method == 'POST':
         form = NewTopicForm(request.POST)
         if form.is_valid():
+            user = RoomUser.objects.first()
+
+            topic = Topic.objects.create(
+                room=room,
+                title=form.cleaned_data['title'],
+                message=form.cleaned_data['message'],
+                created_by=user
+            )
             return redirect('room')
     else:
         form = NewTopicForm()
