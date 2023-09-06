@@ -10,9 +10,12 @@
     </ol>
   </nav>
 
-  <form method="post">
+  <form method="post" novalidate>
     {% csrf_token %}
-    {{ form.as_p }}
+    
+    {% include 'includes/form.html' %}
+
+    <!-- {{ form.as_p }} -->
     
 <!--     <div class="form-group">
       <label for="id_title">Title</label>
