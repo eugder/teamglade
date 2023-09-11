@@ -9,7 +9,7 @@ def room(request):
     context = {'topics_list': topics_list, 'user_name': "My User Name", 'room_name': "My Room"}
     return render(request, 'room.html', context)
 
-def new_topic(request, pk):
+def new_topic_ModelForm_version(request, pk):
     room = get_object_or_404(Room, pk=pk)
 
     if request.method == 'POST':
@@ -28,7 +28,7 @@ def new_topic(request, pk):
 
     return render(request, 'new_topic.html', {'form' : form})
 
-def new_topic_from_class_version(request, pk):
+def new_topic(request, pk):
     room = get_object_or_404(Room, pk=pk)
 
     if request.method == 'POST':
