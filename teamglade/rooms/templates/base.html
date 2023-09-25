@@ -5,6 +5,10 @@
     <meta charset="utf-8">
     <title>{% block title %}TeamGlade{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+    {% block stylesheet %}{% endblock %}
+    <!-- <style>
+      body {background-image: url('{% static 'images/leaves.webp' %}');}
+    </style> -->
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
