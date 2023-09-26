@@ -5,11 +5,16 @@ from django.shortcuts import render, redirect
 from rooms.models import RoomUser
 
 class RoomUserCreationForm(UserCreationForm):
+    email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
     class Meta(UserCreationForm.Meta):
-        email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
+        #email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
         model = RoomUser
         fields = ('username', 'email', 'password1', 'password2')
         #fields = UserCreationForm.Meta.fields + ('custom_field',) - adding fields don't working
+
+    # def __init__(self, *args, **kwargs):
+    #     super(RoomUserCreationForm, self).__init__(*args, **kwargs)
+    #     self.fields['email'].required = True
 
 def signup(request):
     if request.method == 'POST':
