@@ -16,6 +16,9 @@
         <img src="{% static 'images/Teamglade.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
         TeamGlade
       </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       {% block navbar %}
       <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
           <ul class="navbar-nav ml-auto">              
@@ -38,14 +41,18 @@
                     <a class="dropdown-item" href="#">My account</a>
                     <a class="dropdown-item" href="#">Change password</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Log out</a>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
                   </div>
                 </li>
 
               {% else %}
-                <li class="nav-item">
+<!--                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'signup' %}">LOGIN/SIGHN UP</a>
-                </li>
+                </li> -->
+                <form class="form-inline ml-auto">
+                  <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a>
+                  <a href="{% url 'signup' %}" class="btn btn-primary ml-2">Sign up</a>
+                </form>
               {% endif %}                                
           </ul>
       </div>
