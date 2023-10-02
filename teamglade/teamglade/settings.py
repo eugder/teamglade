@@ -111,6 +111,8 @@ AUTH_USER_MODEL = "rooms.RoomUser"
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
