@@ -2,7 +2,9 @@ from django.urls import reverse
 from django.test import TestCase
 
 class SignUpTests(TestCase):
-    def test_sighnup_status_code(self):
+    def setUp(self):
         url = reverse('signup')
-        response = self.client.get(url)
-        self.assertEquals(response.status_code, 200)
+        self.response = self.client.get(url)
+
+    def test_sighnup_status_code(self):
+        self.assertEquals(self.response.status_code, 200)
