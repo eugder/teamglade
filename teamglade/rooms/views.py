@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import loader
 from .models import Topic, Room, RoomUser
@@ -28,6 +29,7 @@ def new_topic_ModelForm_version(request, pk):
 
     return render(request, 'new_topic.html', {'form' : form})
 
+@login_required
 def new_topic(request, pk):
     room = get_object_or_404(Room, pk=pk)
 
