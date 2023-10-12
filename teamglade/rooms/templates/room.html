@@ -7,7 +7,7 @@
   <table class="table">
     <thead class="thead-light">
       <tr>
-        <th>{{room_name}} </th>
+        <th>{{room.name}} </th>
         <th></th>
         <th class="text-right">
           <a class="btn btn-secondary" href="{% url 'new_topic' 2 %}" role="button">Make New Topic</a>
@@ -16,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for topic in topics_list %}
+      {% for topic in room.topics.all %}
         <tr>
           <td class="align-middle">
             {{ topic.created_by.username}}<br>
