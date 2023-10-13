@@ -5,7 +5,7 @@ from django.template import loader
 from .models import Topic, Room, RoomUser
 from .forms import NewTopicForm, NewTopicModelForm
 
-def show_room(request, pk):
+def room(request, pk):
     #topics_list = Topic.objects.all()
     room = get_object_or_404(Room, pk=pk)
     #context = {'topics_list': topics_list, 'user_name': "My User Name", 'room_name': "My Room"}
@@ -46,7 +46,7 @@ def new_topic(request, pk):
                 message=form.cleaned_data['message'],
                 created_by=user
             )
-            return redirect('room')
+            return redirect('room', pk=room_obj.pk)
     else:
         form = NewTopicForm()
 
