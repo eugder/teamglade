@@ -14,7 +14,7 @@ class NewTopicTests(TestCase):
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
 
-    def test_new_topic_view_status_code2(self):
+    def test_new_topic_view_status_code_not_found(self):
         url = reverse('new_topic', kwargs={'pk': 99})
         response = self.client.get(url)
         self.assertEquals(response.status_code, 404)
