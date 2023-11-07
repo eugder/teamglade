@@ -7,6 +7,8 @@ from .forms import NewTopicForm, NewTopicModelForm
 
 def room(request, pk):
     #topics_list = Topic.objects.all()
+    my_user = request.user
+    print(my_user.rooms.get().pk)
     room = get_object_or_404(Room, pk=pk)
     #context = {'topics_list': topics_list, 'user_name': "My User Name", 'room_name': "My Room"}
     context = {'room': room}
