@@ -5,12 +5,11 @@ from django.template import loader
 from .models import Topic, Room, RoomUser
 from .forms import NewTopicForm, NewTopicModelForm
 
-def room(request, pk):
-    #topics_list = Topic.objects.all()
+@login_required
+def room(request):
     my_user = request.user
-    print(my_user.rooms.get().pk)
-    room = get_object_or_404(Room, pk=pk)
-    #context = {'topics_list': topics_list, 'user_name': "My User Name", 'room_name': "My Room"}
+    # room = get_object_or_404(Room, pk=pk)
+    room = my_user.rooms.first()
     context = {'room': room}
     return render(request, 'room.html', context)
 
