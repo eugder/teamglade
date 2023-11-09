@@ -36,6 +36,10 @@ def new_topic_ModelForm_version(request, pk):
 def new_topic(request, pk):
     room_obj = get_object_or_404(Room, pk=pk)
 
+    # if user is not owner of this room (no permission to create new topic here)
+    if request.user.rooms.first().pk != pk:
+        raise Http404
+
     if request.method == 'POST':
         form = NewTopicForm(request.POST)
         if form.is_valid():

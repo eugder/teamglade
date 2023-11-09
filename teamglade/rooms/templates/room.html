@@ -10,7 +10,7 @@
         <th>{{room.name}} </th>
         <th></th>
         <th class="text-right">
-          <a class="btn btn-secondary" href="{% url 'new_topic' 2 %}" role="button">Make New Topic</a>
+          <a class="btn btn-secondary" href="{% url 'new_topic' room.pk %}" role="button">Make New Topic</a>
           <a class="btn btn-secondary" href="#" role="button">Invite</a>
         </th>
       </tr>
