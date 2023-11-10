@@ -5,6 +5,7 @@ from django.template import loader
 from .models import Topic, Room, RoomUser
 from .forms import NewTopicForm, NewTopicModelForm
 
+
 @login_required
 def room(request):
     my_user = request.user
@@ -13,24 +14,6 @@ def room(request):
     context = {'room': room}
     return render(request, 'room.html', context)
 
-def new_topic_ModelForm_version(request, pk):
-    room = get_object_or_404(Room, pk=pk)
-
-    if request.method == 'POST':
-        form = NewTopicModelForm(request.POST)
-        if form.is_valid():
-            user = RoomUser.objects.first()
-
-            topic = form.save(commit=False)
-            topic.room = room
-            topic.created_by = user
-            topic.save()
-
-            return redirect('room')
-    else:
-        form = NewTopicModelForm()
-
-    return render(request, 'new_topic.html', {'form' : form})
 
 @login_required
 def new_topic(request, pk):
@@ -51,11 +34,32 @@ def new_topic(request, pk):
                 message=form.cleaned_data['message'],
                 created_by=user
             )
-            return redirect('room', pk=room_obj.pk)
+            return redirect('room')
     else:
         form = NewTopicForm()
 
-    return render(request, 'new_topic.html', {'form' : form})
+    return render(request, 'new_topic.html', {'form': form})
+
+
+def new_topic_ModelForm_version(request, pk):
+    room = get_object_or_404(Room, pk=pk)
+
+    if request.method == 'POST':
+        form = NewTopicModelForm(request.POST)
+        if form.is_valid():
+            user = RoomUser.objects.first()
+
+            topic = form.save(commit=False)
+            topic.room = room
+            topic.created_by = user
+            topic.save()
+
+            return redirect('room')
+    else:
+        form = NewTopicModelForm()
+
+    return render(request, 'new_topic.html', {'form': form})
+
 
 def new_topic_html_version(request, pk):
     room = get_object_or_404(Room, pk=pk)
@@ -70,13 +74,14 @@ def new_topic_html_version(request, pk):
             room=room,
             title=title,
             message=message,
-            created_by= user
+            created_by=user
         )
 
         return redirect('room')
 
-    context = {'room' : room}
+    context = {'room': room}
     return render(request, 'new_topic.html', context)
+
 
 def index(request):
     return render(request, 'index.html')

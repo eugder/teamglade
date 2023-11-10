@@ -8,7 +8,8 @@ class RoomViewTests(TestCase):
     def setUp(self):
         user = RoomUser.objects.create_user(username='usr', email='usr@test.com', password='111')
         room_obj = Room.objects.create(name='Room name', created_by=user)
-        self.url = reverse('room', kwargs={'pk': room_obj.pk})
+        self.client.login(username='usr', password='111')  # room view has a @login_required
+        self.url = reverse('room')
         self.response = self.client.get(self.url)
 
     def test_room_view_status_code(self):
