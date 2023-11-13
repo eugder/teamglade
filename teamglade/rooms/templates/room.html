@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container">
-  <table class="table">
+  <table class="table table-success table-striped table-hover">
     <thead class="thead-light">
       <tr>
         <th>{{room.name}} </th>
@@ -17,7 +17,7 @@
     </thead>
     <tbody>
       {% for topic in room.topics.all %}
-        <tr>
+        <tr style='cursor: pointer; cursor: hand;' onclick="window.location='https://www.google.com/';">
           <td class="align-middle">
             {{ topic.created_by.username}}<br>
           </td>
