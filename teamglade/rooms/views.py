@@ -41,6 +41,13 @@ def new_topic(request, pk):
     return render(request, 'new_topic.html', {'form': form})
 
 
+# @login_required
+def topic(request, pk):
+    the_topic = get_object_or_404(Topic, pk=pk)
+    context = {'topic': the_topic}
+    return render(request, 'topic.html', context)
+
+
 def new_topic_ModelForm_version(request, pk):
     room = get_object_or_404(Room, pk=pk)
 
