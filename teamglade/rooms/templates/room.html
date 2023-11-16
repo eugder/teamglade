@@ -1,31 +1,31 @@
 {% extends 'base.html' %}
 
-<title>{% block title %}Topic{% endblock %}</title>
+<title>{% block title %}Room{% endblock %}</title>
 
 {% block content %}
-<div class="container">
+<div class="container mt-5">
   <table class="table table-success table-striped table-hover">
-    <thead class="thead-light">
+    <thead class="bg-success">
       <tr>
-        <th>{{room.name}} </th>
+        <th class="text-white align-middle"> {{room.name}} </th>
         <th></th>
         <th class="text-right">
-          <a class="btn btn-secondary" href="{% url 'new_topic' room.pk %}" role="button">Make New Topic</a>
-          <a class="btn btn-secondary" href="#" role="button">Invite</a>
+          <a class="btn btn-success btn-outline-light" href="{% url 'new_topic' room.pk %}" role="button">Make New Topic</a>
+          <a class="btn btn-success btn-outline-light" href="#" role="button">Invite</a>
         </th>
       </tr>
     </thead>
     <tbody>
-      {% for topic in room.topics.all %}
-        <tr style='cursor: pointer; cursor: hand;' onclick="window.location='https://www.google.com/';">
+      {% for the_topic in room.topics.all %}
+        <tr style='cursor: pointer; cursor: hand;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
           <td class="align-middle">
-            {{ topic.created_by.username}}<br>
+            {{ the_topic.created_by.username}}<br>
           </td>
           <td class="align-middle">
-            {{ topic.title }}<br>
+            {{ the_topic.title }}<br>
           </td>
           <td class="align-middle">
-            {{ topic.created_at }}<br>
+            {{ the_topic.created_at }}<br>
           </td>
         </tr>
       {% endfor %}
