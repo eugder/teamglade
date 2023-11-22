@@ -11,7 +11,7 @@
         <th></th>
         <th class="text-right">
           <a class="btn btn-success btn-outline-light" href="{% url 'new_topic' room.pk %}" role="button">Make New Topic</a>
-          <a class="btn btn-success btn-outline-light" href="#" role="button">Invite</a>
+          <a class="btn btn-success btn-outline-light" href="{% url 'send_invite' room.pk %}" role="button">Invite</a>
         </th>
       </tr>
     </thead>

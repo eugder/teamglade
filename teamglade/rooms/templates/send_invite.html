@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Send Invite{% endblock %}
+
+{% block content %}
+<div class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-success">
+      <li class="text-white">Send Invite</li>
+    </ol>
+  </nav>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Send</button>
+  </form>
+</div>
+{% endblock %}

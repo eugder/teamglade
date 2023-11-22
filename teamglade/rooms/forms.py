@@ -21,3 +21,7 @@ class NewTopicModelForm(forms.ModelForm):
     class Meta:
         model = Topic
         fields = ['title', 'message']
+
+
+class SendInviteForm(forms.Form):
+    email = forms.EmailField()

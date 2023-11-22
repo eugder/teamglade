@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import loader
+from django.views import View
 from .models import Topic, Room, RoomUser
-from .forms import NewTopicForm, NewTopicModelForm
+from .forms import NewTopicForm, NewTopicModelForm, SendInviteForm
 
 
 @login_required
@@ -46,6 +47,18 @@ def new_topic(request, pk):
         form = NewTopicForm()
 
     return render(request, 'new_topic.html', {'form': form})
+
+
+class SendInviteView(View):
+    def post(self, request, pk):
+        form = SendInviteForm(request.POST)
+        if form.is_valid():
+            return redirect('room')
+        return render(request, 'send_invite.html', {'form': form})
+
+    def get(self, request, pk):
+        form = SendInviteForm()
+        return render(request, 'send_invite.html', {'form': form})
 
 
 def new_topic_ModelForm_version(request, pk):
