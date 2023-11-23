@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.template import loader
+from django.core.mail import send_mail, EmailMessage
+from django.template.loader import render_to_string
 from django.views import View
 from .models import Topic, Room, RoomUser
 from .forms import NewTopicForm, NewTopicModelForm, SendInviteForm
@@ -50,9 +51,25 @@ def new_topic(request, pk):
 
 
 class SendInviteView(View):
+    def send_invite_mail(self):
+        context = "https://www.google.com/"
+        html_message = render_to_string('invite_email.html', {'context': context, })
+        message = EmailMessage("subject", html_message, "from@example.com", ["to@example.com"])
+        #message.content_subtype = 'html'  # this is required because there is no plain text email message
+        message.send()
+
+        # send_mail(
+        #     "Subject here",
+        #     "Here is the message.",
+        #     "from@example.com",
+        #     ["to@example.com"],
+        #     fail_silently=False,
+        # )
+
     def post(self, request, pk):
         form = SendInviteForm(request.POST)
         if form.is_valid():
+            self.send_invite_mail()
             return redirect('room')
         return render(request, 'send_invite.html', {'form': form})
 

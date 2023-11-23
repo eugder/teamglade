@@ -24,4 +24,4 @@ class NewTopicModelForm(forms.ModelForm):
 
 
 class SendInviteForm(forms.Form):
-    email = forms.EmailField()
+    email = forms.EmailField(initial="test@test.com")
