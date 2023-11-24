@@ -1,8 +1,10 @@
+from uuid import uuid4
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.views import View
 from .models import Topic, Room, RoomUser
 from .forms import NewTopicForm, NewTopicModelForm, SendInviteForm
@@ -51,8 +53,9 @@ def new_topic(request, pk):
 
 
 class SendInviteView(View):
-    def send_invite_mail(self):
-        context = "https://www.google.com/"
+    def send_invite_mail(self, request):
+        invite_code = uuid4().hex[:8]
+        context = request.build_absolute_uri('/')[:-1] + reverse('login_invite', kwargs={'code': invite_code})
         html_message = render_to_string('invite_email.html', {'context': context, })
         message = EmailMessage("subject", html_message, "from@example.com", ["to@example.com"])
         #message.content_subtype = 'html'  # this is required because there is no plain text email message
@@ -69,7 +72,7 @@ class SendInviteView(View):
     def post(self, request, pk):
         form = SendInviteForm(request.POST)
         if form.is_valid():
-            self.send_invite_mail()
+            self.send_invite_mail(request)
             return redirect('room')
         return render(request, 'send_invite.html', {'form': form})
 
@@ -77,6 +80,8 @@ class SendInviteView(View):
         form = SendInviteForm()
         return render(request, 'send_invite.html', {'form': form})
 
+class LoginInviteView(View):
+    pass
 
 def new_topic_ModelForm_version(request, pk):
     room = get_object_or_404(Room, pk=pk)
