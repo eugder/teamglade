@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 class RoomUser(AbstractUser):
     invite_code = models.CharField(max_length=10)
+    member_of = models.ForeignKey('Room', null=True, on_delete=models.CASCADE, related_name="members")
 
 class Room(models.Model):
     name = models.CharField(max_length=30)

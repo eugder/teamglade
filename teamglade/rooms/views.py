@@ -54,10 +54,15 @@ def new_topic(request, pk):
 
 class SendInviteView(View):
     def send_invite_mail(self, request):
+        # generate random identifier
         invite_code = uuid4().hex[:8]
+        # generate link with identifier to login_invite view
         context = request.build_absolute_uri('/')[:-1] + reverse('login_invite', kwargs={'code': invite_code})
+
         html_message = render_to_string('invite_email.html', {'context': context, })
-        message = EmailMessage("subject", html_message, "from@example.com", ["to@example.com"])
+        subject = "[TeamGlade] You are invited to join TeamGlade room"
+        to = "to@example.com"
+        message = EmailMessage(subject, html_message, "from@example.com", [to])
         #message.content_subtype = 'html'  # this is required because there is no plain text email message
         message.send()
 
