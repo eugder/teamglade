@@ -53,33 +53,35 @@ def new_topic(request, pk):
 
 
 class SendInviteView(View):
-    def send_invite_mail(self, request):
-        # generate random identifier
-        invite_code = uuid4().hex[:8]
+    def create_invited_user(self, request, invite_email, invite_code):
+        user = RoomUser.objects.create_user(
+            username=invite_email,
+            email=invite_email,
+            password=invite_code,
+            invite_code=invite_code,
+            member_of=request.user.rooms.first()
+        )
+
+    def send_invite_mail(self, request, email, invite_code):
         # generate link with identifier to login_invite view
         context = request.build_absolute_uri('/')[:-1] + reverse('login_invite', kwargs={'code': invite_code})
-
         html_message = render_to_string('invite_email.html', {'context': context, })
         subject = "[TeamGlade] You are invited to join TeamGlade room"
-        to = "to@example.com"
-        message = EmailMessage(subject, html_message, "from@example.com", [to])
-        #message.content_subtype = 'html'  # this is required because there is no plain text email message
+        from_email = "from@example.com"
+        message = EmailMessage(subject, html_message, from_email, [email])
         message.send()
 
-        # send_mail(
-        #     "Subject here",
-        #     "Here is the message.",
-        #     "from@example.com",
-        #     ["to@example.com"],
-        #     fail_silently=False,
-        # )
 
     def post(self, request, pk):
         form = SendInviteForm(request.POST)
         if form.is_valid():
-            self.send_invite_mail(request)
+            email = form.cleaned_data["email"]
+            invite_code = uuid4().hex[:8] # generate random identifier - letters and digits
+            self.create_invited_user(request, email, invite_code)
+            self.send_invite_mail(request, email, invite_code)
             return redirect('room')
         return render(request, 'send_invite.html', {'form': form})
+
 
     def get(self, request, pk):
         form = SendInviteForm()
