@@ -1,11 +1,13 @@
 from uuid import uuid4
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views import View
+from django.utils.decorators import method_decorator
 from .models import Topic, Room, RoomUser
 from .forms import NewTopicForm, NewTopicModelForm, SendInviteForm
 
@@ -15,6 +17,8 @@ def room(request):
     my_user = request.user
     # room = get_object_or_404(Room, pk=pk)
     room = my_user.rooms.first()
+    if room is None:
+        room = my_user.member_of
     context = {'room': room}
     return render(request, 'room.html', context)
 
@@ -52,6 +56,7 @@ def new_topic(request, pk):
     return render(request, 'new_topic.html', {'form': form})
 
 
+@method_decorator(login_required, name='dispatch')
 class SendInviteView(View):
     def create_invited_user(self, request, invite_email, invite_code):
         user = RoomUser.objects.create_user(
@@ -71,7 +76,6 @@ class SendInviteView(View):
         message = EmailMessage(subject, html_message, from_email, [email])
         message.send()
 
-
     def post(self, request, pk):
         form = SendInviteForm(request.POST)
         if form.is_valid():
@@ -82,13 +86,19 @@ class SendInviteView(View):
             return redirect('room')
         return render(request, 'send_invite.html', {'form': form})
 
-
     def get(self, request, pk):
         form = SendInviteForm()
         return render(request, 'send_invite.html', {'form': form})
 
+
 class LoginInviteView(View):
-    pass
+    def get(self, request, code):
+        invited_user_obj = RoomUser.objects.filter(invite_code=code).first()
+        invited_user = authenticate(username=invited_user_obj.username, password=invited_user_obj.invite_code)
+        if invited_user is not None:
+            login(request, invited_user)
+        return redirect('room')
+
 
 def new_topic_ModelForm_version(request, pk):
     room = get_object_or_404(Room, pk=pk)
