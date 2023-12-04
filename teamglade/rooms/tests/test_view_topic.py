@@ -24,6 +24,7 @@ class TopicViewTests(TestCase):
         view = resolve(self.url)
         self.assertEquals(view.func, topic)
 
+
 class LoginRequiredTopicTests(TestCase):
     def setUp(self):
         self.url = reverse('topic', kwargs={'pk': 1})
