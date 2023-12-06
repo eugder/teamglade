@@ -31,10 +31,7 @@ class SendInviteViewTests(SendInviteViewTestCase):
         form = self.response.context.get('form')
         self.assertIsInstance(form, SendInviteForm)
 
-#     def test_topic_view_contains_room_navigation_link(self):
-#         homepage_url = reverse('room')
-#         self.assertContains(self.response, 'href="{0}"'.format(homepage_url))
-#
+
 class LoginRequiredSendInviteViewTests(SendInviteViewTestCase):
     def setUp(self):
         super().setUp()
@@ -46,20 +43,26 @@ class LoginRequiredSendInviteViewTests(SendInviteViewTestCase):
         self.assertRedirects(response, '{login_url}?next={url}'.format(login_url=login_url, url=self.url))
 
 
-class SuccessfulPostUpdateViewTests(SendInviteViewTestCase):
+class SuccessfulSendInviteViewTests(SendInviteViewTestCase):
     def setUp(self):
         super().setUp()
-        self.response = self.client.post(self.url, {'email': 'test@test.com'})
+        self.email_to = 'test@test.com'
+        self.response = self.client.post(self.url, {'email': self.email_to})
         self.email = mail.outbox[0]
 
     def test_email_subject(self):
         self.assertEqual('[TeamGlade] You are invited to join TeamGlade room', self.email.subject)
 
-    # def test_email_body(self):
-    #     context = reverse('login_invite', kwargs={'code': invite_code})
-    #     self.assertIn(password_reset_token_url, self.email.body)
-    #     self.assertIn('john', self.email.body)
-    #     self.assertIn('john@doe.com', self.email.body)
+    def test_email_body(self):
+        # has a link with code (8 symbols)
+        self.assertRegex(self.email.body, r'rooms/invite/[a-z0-9]{8}/')
+
+    def test_invited_user(self):
+        users = RoomUser.objects.all()
+        invited_user = users.last()
+        self.assertEquals(len(users), 2)
+        self.assertEquals(invited_user.username, self.email_to)
+        self.assertEquals(invited_user.email, self.email_to)
 
     def test_redirection(self):
         '''
@@ -67,7 +70,3 @@ class SuccessfulPostUpdateViewTests(SendInviteViewTestCase):
         '''
         room_url = reverse('room')
         self.assertRedirects(self.response, room_url)
-
-    # def test_post_changed(self):
-    #     self.post.refresh_from_db()
-    #     self.assertEquals(self.post.message, 'edited message')

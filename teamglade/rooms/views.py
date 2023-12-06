@@ -91,7 +91,7 @@ class SendInviteView(View):
         return render(request, 'send_invite.html', {'form': form})
 
 
-class LoginInviteView(View):
+class LoginInvitedView(View):
     def get(self, request, code):
         invited_user_obj = RoomUser.objects.filter(invite_code=code).first()
         invited_user = authenticate(username=invited_user_obj.username, password=invited_user_obj.invite_code)
