@@ -7,9 +7,27 @@ from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views import View
+from django.views.generic import ListView
 from django.utils.decorators import method_decorator
 from .models import Topic, Room, RoomUser
 from .forms import NewTopicForm, NewTopicModelForm, SendInviteForm
+
+
+class RoomView(ListView):
+    #model = Room
+    context_object_name = 'room'
+    template_name = 'room.html'
+    #paginate_by = 20
+
+    def get_queryset(self):
+        my_user = self.request.user
+        user_room = my_user.rooms.first()
+        if user_room is None:
+            user_room = my_user.member_of
+
+        queryset = user_room
+        # queryset = self.user_room.objects.all().order_by('-last_updated')
+        return queryset
 
 
 @login_required
