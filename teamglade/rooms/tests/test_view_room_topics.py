@@ -1,7 +1,7 @@
 from django.urls import reverse, resolve
 from django.test import TestCase
 from ..models import Room, RoomUser
-from ..views import room
+from ..views import RoomView
 
 
 class RoomViewTests(TestCase):
@@ -21,4 +21,4 @@ class RoomViewTests(TestCase):
 
     def test_url_resolves_correct_view(self):
         view = resolve(self.url)
-        self.assertEquals(view.func, room)
+        self.assertEquals(view.func.view_class, RoomView)

@@ -13,11 +13,21 @@ from .models import Topic, Room, RoomUser
 from .forms import NewTopicForm, NewTopicModelForm, SendInviteForm
 
 
+@method_decorator(login_required, name='dispatch')
 class RoomView(ListView):
-    #model = Room
-    context_object_name = 'room'
+    model = Room
+    context_object_name = 'topics'
     template_name = 'room.html'
-    #paginate_by = 20
+    paginate_by = 12
+
+    def get_context_data(self, **kwargs):
+        my_user = self.request.user
+        user_room = my_user.rooms.first()
+        if user_room is None:
+            user_room = my_user.member_of
+
+        kwargs['room'] = user_room
+        return super().get_context_data(**kwargs)
 
     def get_queryset(self):
         my_user = self.request.user
@@ -25,13 +35,12 @@ class RoomView(ListView):
         if user_room is None:
             user_room = my_user.member_of
 
-        queryset = user_room
-        # queryset = self.user_room.objects.all().order_by('-last_updated')
+        queryset = user_room.topics.all().order_by('-created_at')
         return queryset
 
 
 @login_required
-def room(request):
+def room_FBV_version(request):
     my_user = request.user
     # room = get_object_or_404(Room, pk=pk)
     room = my_user.rooms.first()
