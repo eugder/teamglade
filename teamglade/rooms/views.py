@@ -15,7 +15,7 @@ from .forms import NewTopicForm, NewTopicModelForm, SendInviteForm
 
 @method_decorator(login_required, name='dispatch')
 class RoomView(ListView):
-    model = Room
+    #model = Room
     context_object_name = 'topics'
     template_name = 'room.html'
     paginate_by = 12
