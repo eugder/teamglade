@@ -30,7 +30,7 @@
                     {% else %}
                       <a class="dropdown-item" href="{% url 'room' %}">{{ user.member_of.name }}</a>
                     {% endif %}
-                    <a class="dropdown-item" href="#">My account</a>
+                    <a class="dropdown-item" href="{% url 'my_account' %}">My account</a>
                     <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>

@@ -23,11 +23,12 @@ class RoomUserCreationForm(UserCreationForm):
 @method_decorator(login_required, name='dispatch')
 class UserUpdateView(UpdateView):
     model = RoomUser
-    fields = ('first_name', 'last_name', 'email', )
+    fields = ('username', 'email', )
     template_name = 'my_account.html'
     success_url = reverse_lazy('my_account')
 
     def get_object(self):
+        # let know UpdateView what exactly user is updating
         return self.request.user
 
 
