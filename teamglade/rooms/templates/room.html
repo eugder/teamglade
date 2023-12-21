@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
+
 <title>{% block title %}Room{% endblock %}</title>
 
 {% block content %}
@@ -25,7 +27,7 @@
             {{ the_topic.title }}<br>
           </td>
           <td class="align-middle">
-            {{ the_topic.created_at }}<br>
+            {{ the_topic.created_at|naturaltime }}<br>
           </td>
         </tr>
       {% endfor %}
