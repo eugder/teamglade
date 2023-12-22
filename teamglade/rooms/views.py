@@ -15,6 +15,7 @@ from .forms import NewTopicForm, NewTopicModelForm, SendInviteForm
 
 @method_decorator(login_required, name='dispatch')
 class RoomView(ListView):
+    # TODO add room view appearance
     #model = Room
     context_object_name = 'topics'
     template_name = 'room.html'
@@ -52,6 +53,7 @@ def room_FBV_version(request):
 
 @login_required
 def topic(request, pk):
+    # TODO add topic viewed system
     the_topic = get_object_or_404(Topic, pk=pk)
     context = {'topic': the_topic}
     return render(request, 'topic.html', context)
@@ -59,6 +61,7 @@ def topic(request, pk):
 
 @login_required
 def new_topic(request, pk):
+    # TODO add new topic appearance
     room_obj = get_object_or_404(Room, pk=pk)
 
     # if user is not owner of this room (no permission to create new topic here)
@@ -85,6 +88,7 @@ def new_topic(request, pk):
 
 @method_decorator(login_required, name='dispatch')
 class SendInviteView(View):
+    # TODO add send invite appearance
     def create_invited_user(self, request, invite_email, invite_code):
         user = RoomUser.objects.create_user(
             username=invite_email,
@@ -170,4 +174,5 @@ def new_topic_html_version(request, pk):
 
 
 def index(request):
+    # TODO add home page design
     return render(request, 'index.html')

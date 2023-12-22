@@ -10,6 +10,7 @@ from rooms.models import RoomUser
 
 class RoomUserCreationForm(UserCreationForm):
     email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
+    # TODO add new room
     class Meta(UserCreationForm.Meta):
         #email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
         model = RoomUser
