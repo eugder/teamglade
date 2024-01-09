@@ -16,6 +16,7 @@ from .forms import NewTopicForm, NewTopicModelForm, SendInviteForm
 @method_decorator(login_required, name='dispatch')
 class RoomView(ListView):
     # TODO add room view appearance
+    test = 2
     #model = Room
     context_object_name = 'topics'
     template_name = 'room.html'
