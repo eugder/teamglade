@@ -4,6 +4,10 @@
 
 <title>{% block title %}Topic{% endblock %}</title>
 
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'rooms.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
   <div class="card mb-2">

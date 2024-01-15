@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% load humanize %}
 
 <title>{% block title %}Room{% endblock %}</title>
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'rooms.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
