@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Send Invite{% endblock %}
 
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'rooms.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="container">
+<div class="container rounded bg-light mt-5 pt-3 pb-3">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb bg-success">
       <li class="text-white">Send Invite</li>
