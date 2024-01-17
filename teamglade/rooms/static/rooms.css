@@ -2,4 +2,29 @@ body {
   background-image: url(./images/trees.webp);
 }
 
+.page-link {
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #009030 !important;
+    background-color: #fff !important;
+    border: 1px solid #b9dac1 !important;
+}
+
+.page-link:hover {
+    z-index: 2;
+    color: #fff !important;
+    text-decoration: none;
+    background-color: #b4d5bc !important;
+    border-color: #b9dac1;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff !important;
+    background-color: #007f1f !important;
+    border-color: #b9dac1;
+}
 

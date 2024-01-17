@@ -4,10 +4,11 @@ from .models import Topic
 class NewTopicForm(forms.Form):
     title = forms.CharField(label='Title', max_length=160)
     message = forms.CharField(
-        widget=forms.Textarea(attrs={'rows': 5, 'placeholder': 'Your message'}),
+        widget=forms.Textarea(attrs={'rows': 5,
+                                     'placeholder': 'Your message. The max length of the text is 1000.'}),
         label='Message',
         max_length=1000,
-        help_text='The max length of the text is 1000.',
+        #help_text='The max length of the text is 1000.',
     )
 
 class NewTopicModelForm(forms.ModelForm):

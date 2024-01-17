@@ -60,7 +60,6 @@ def topic(request, pk):
 
 @login_required
 def new_topic(request, pk):
-    # TODO add new topic appearance
     room_obj = get_object_or_404(Room, pk=pk)
 
     # if user is not owner of this room (no permission to create new topic here)
