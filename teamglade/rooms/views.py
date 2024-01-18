@@ -86,7 +86,6 @@ def new_topic(request, pk):
 
 @method_decorator(login_required, name='dispatch')
 class SendInviteView(View):
-    # TODO add send invite appearance
     def create_invited_user(self, request, invite_email, invite_code):
         user = RoomUser.objects.create_user(
             username=invite_email,
