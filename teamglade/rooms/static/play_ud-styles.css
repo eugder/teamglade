@@ -13,9 +13,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap");
 :root {
   --font: "Inter", sans-serif;
-  --body-color: #637381;
-  --heading-color: #212b36;
-  --primary-color: #3056d3;
+  --body-color: #859587;
+  --heading-color: #32494B;
+  --primary-color: #1B7931;
   --white: #ffffff;
 }
 
@@ -999,7 +999,7 @@ p {
 .ud-faq {
   padding-top: 120px;
   padding-bottom: 90px;
-  background: #f3f4fe;
+  background: #e7e9e6;
   position: relative;
   z-index: 1;
 }
