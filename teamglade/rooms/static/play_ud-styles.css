@@ -16,6 +16,7 @@
   --body-color: #859587;
   --heading-color: #32494B;
   --primary-color: #1B7931;
+  --back-color: #d1e4d6;
   --white: #ffffff;
 }
 
@@ -785,7 +786,7 @@ p {
 
 /* ===== About CSS ===== */
 .ud-about {
-  background: #f3f4fe;
+  background: var(--back-color);
   padding: 120px 0;
 }
 
@@ -999,7 +1000,7 @@ p {
 .ud-faq {
   padding-top: 120px;
   padding-bottom: 90px;
-  background: #e7e9e6;
+  background: var(--white);
   position: relative;
   z-index: 1;
 }
@@ -1020,7 +1021,7 @@ p {
 
 .ud-single-faq {
   background: var(--white);
-  border: 1px solid #f3f4fe;
+  border: 1px solid var(--back-color);
   -webkit-box-shadow: 0px 20px 95px rgba(201, 203, 204, 0.3);
           box-shadow: 0px 20px 95px rgba(201, 203, 204, 0.3);
   border-radius: 10px;
@@ -1327,7 +1328,7 @@ p {
   top: 0;
   left: 0;
   height: 50%;
-  background: #f3f4fe;
+  background: var(--back-color);
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -1507,7 +1508,7 @@ p {
 .ud-widget .ud-widget-desc {
   font-size: 15px;
   line-height: 24px;
-  color: #f3f4fe;
+  color: var(--back-color);
   margin-bottom: 30px;
   max-width: 260px;
 }
@@ -1543,7 +1544,7 @@ p {
   margin-bottom: 12px;
   font-size: 15px;
   line-height: 30px;
-  color: #f3f4fe;
+  color: var(--back-color);
 }
 
 .ud-widget .ud-widget-links a:hover {
@@ -1600,7 +1601,7 @@ p {
 .ud-footer-bottom .ud-footer-bottom-left a {
   font-weight: normal;
   font-size: 15px;
-  color: #f3f4fe;
+  color: var(--back-color);
   margin-right: 30px;
   display: inline-block;
 }
@@ -1619,7 +1620,7 @@ p {
   text-align: right;
   font-weight: normal;
   font-size: 15px;
-  color: #f3f4fe;
+  color: var(--back-color);
 }
 
 .ud-footer-bottom .ud-footer-bottom-right a {
