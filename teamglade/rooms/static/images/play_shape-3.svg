@@ -1,9 +1,12 @@
-<svg width="372" height="264" viewBox="0 0 372 264" fill="none" xmlns="http://www.w3.org/2000/svg">
-<ellipse cx="244.343" cy="243.965" rx="199.017" ry="199.017" transform="rotate(-75 244.343 243.965)" fill="url(#paint0_linear)"/>
-<defs>
-<linearGradient id="paint0_linear" x1="244.343" y1="44.9479" x2="244.343" y2="442.982" gradientUnits="userSpaceOnUse">
-<stop stop-color="#3056D3" stop-opacity="0.32"/>
-<stop offset="1" stop-opacity="0"/>
-</linearGradient>
-</defs>
+<svg width="372" height="264" xmlns="http://www.w3.org/2000/svg" fill="none">
+ <defs>
+  <linearGradient y2="1" x2="0.5" y1="0" x1="0.5" id="svg_2">
+   <stop stop-opacity="0.31641" stop-color="#13c18d"/>
+   <stop stop-opacity="0" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <ellipse transform="rotate(-75 244.343 243.965)" id="svg_1" fill="url(#svg_2)" ry="199.017" rx="199.017" cy="243.965" cx="244.343"/>
+ </g>
 </svg>

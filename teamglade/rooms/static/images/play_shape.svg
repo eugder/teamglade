@@ -1,1 +1,13 @@
-<svg fill="none" height="886" viewBox="0 0 1440 886" width="1440" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><linearGradient id="a" gradientUnits="userSpaceOnUse" x1="1308.65" x2="602.827" y1="1142.58" y2="-418.681"><stop offset="0" stop-color="#3056d3" stop-opacity=".36"/><stop offset="1" stop-color="#f5f2fd" stop-opacity="0"/><stop offset="1" stop-color="#f5f2fd" stop-opacity=".096144"/></linearGradient><path d="m193.307-273.321 1287.563 1287.561-359.02 359.02s-390.105-390.029-643.337-643.333c-252.537-252.61-644.227-644.2277-644.227-644.2277z" fill="url(#a)" opacity=".5"/></svg>
+<svg width="1440" height="886" xmlns="http://www.w3.org/2000/svg" fill="none">
+ <defs>
+  <linearGradient y2="-0.08828" y1="0.8599" x2="0.46675" x1="0.89541" id="svg_2">
+   <stop stop-opacity="0.35547" stop-color="#30d158" offset="0"/>
+   <stop stop-opacity="0" stop-color="#f5f2fd" offset="1"/>
+   <stop stop-opacity="0.09614" stop-color="#f5f2fd" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <path id="svg_1" opacity="0.5" fill="url(#svg_2)" d="m193.307,-273.321l1287.563,1287.561l-359.02,359.02s-390.105,-390.029 -643.337,-643.333c-252.537,-252.61 -644.227,-644.2277 -644.227,-644.2277l359.021,-359.0203z"/>
+ </g>
+</svg>

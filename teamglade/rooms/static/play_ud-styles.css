@@ -1000,7 +1000,7 @@ p {
 .ud-faq {
   padding-top: 120px;
   padding-bottom: 90px;
-  background: var(--white);
+  background: #def2e3;
   position: relative;
   z-index: 1;
 }
@@ -1069,7 +1069,7 @@ p {
           justify-content: center;
   width: 42px;
   height: 42px;
-  background: rgba(48, 86, 211, 0.06);
+  background: #def2e3;
   border-radius: 10px;
   color: var(--primary-color);
   margin-right: 24px;
