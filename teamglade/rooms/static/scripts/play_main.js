@@ -15,7 +15,7 @@
 
     // === logo change
     if (ud_header.classList.contains("sticky")) {
-      logo.src = LOGO_URL;
+      logo.src = LOGO2_URL;
     } else {
       logo.src = LOGO_URL;
     }
