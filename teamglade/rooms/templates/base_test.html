@@ -1,0 +1,214 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TeamGlade</title>
+
+    <!-- Primary Meta Tags -->
+<meta name="title" content="Play - Free Open Source HTML Bootstrap Template by UIdeck">
+<meta name="description" content="Play - Free Open Source HTML Bootstrap Template by UIdeck Team">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://uideck.com/play/">
+<meta property="og:title" content="Play - Free Open Source HTML Bootstrap Template by UIdeck">
+<meta property="og:description" content="Play - Free Open Source HTML Bootstrap Template by UIdeck Team">
+<meta property="og:image" content="https://uideck.com/wp-content/uploads/2021/09/play-meta-bs.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://uideck.com/play/">
+<meta property="twitter:title" content="Play - Free Open Source HTML Bootstrap Template by UIdeck">
+<meta property="twitter:description" content="Play - Free Open Source HTML Bootstrap Template by UIdeck Team">
+<meta property="twitter:image" content="https://uideck.com/wp-content/uploads/2021/09/play-meta-bs.jpg">
+
+    <!--====== Favicon Icon ======-->
+    <link
+      rel="shortcut icon"
+      href="{% static 'images/favicon.png' %}"
+      type="image/png"
+    />
+
+    <!-- ===== All CSS files ===== --> 
+    <link rel="stylesheet" href="{% static 'play_bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'play_animate.css' %}">
+    <link rel="stylesheet" href="{% static 'play_lineicons.css' %}">
+    <link rel="stylesheet" href="{% static 'play_ud-styles.css' %}">
+  </head>
+  <body>
+    <!-- ====== Header Start ====== -->
+    <header class="ud-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <nav class="navbar navbar-expand-lg">
+              <a class="navbar-brand" href="index.html">
+                <img src="{% static 'images/logo.svg' %}" alt="Logo" />
+              </a>
+
+              <div class="navbar-collapse">
+                <ul id="nav" class="navbar-nav mx-auto">
+                  <li class="nav-item nav-item-has-children">
+                    <a href="javascript:void(0)"> Pages </a>
+                    <ul class="ud-submenu">
+                      <li class="ud-submenu-item">
+                        <a href="about.html" class="ud-submenu-link">
+                          About Page
+                        </a>
+                      </li>
+                      <li class="ud-submenu-item">
+                        <a href="pricing.html" class="ud-submenu-link">
+                          Pricing Page
+                        </a>
+                      </li>
+                      <li class="ud-submenu-item">
+                        <a href="contact.html" class="ud-submenu-link">
+                          Contact Page
+                        </a>
+                      </li>
+                      <li class="ud-submenu-item">
+                        <a href="blog.html" class="ud-submenu-link">
+                          Blog Grid Page
+                        </a>
+                      </li>
+                      <li class="ud-submenu-item">
+                        <a href="blog-details.html" class="ud-submenu-link">
+                          Blog Details Page
+                        </a>
+                      </li>
+                      <li class="ud-submenu-item">
+                        <a href="login.html" class="ud-submenu-link">
+                          Sign In Page
+                        </a>
+                      </li>
+                      <li class="ud-submenu-item">
+                        <a href="404.html" class="ud-submenu-link">404 Page</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="navbar-btn d-none d-sm-inline-block">
+                <a href="{% url 'login' %}" class="ud-main-btn ud-login-btn">
+                  Sign In
+                </a>
+                <a class="ud-main-btn ud-white-btn" href="{% url 'signup' %}">
+                  Sign Up
+                </a>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- ====== Header End ====== -->
+
+    <!-- ====== Hero Start ====== -->
+    <section class="ud-hero" id="home">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="ud-hero-content wow fadeInUp" data-wow-delay=".2s">
+              <h1 class="ud-hero-title">
+                Open-Source Web Template for SaaS, Startup, Apps, and More
+              </h1>
+              <p class="ud-hero-desc">
+                Multidisciplinary Web Template Built with Your Favourite
+                Technology - HTML Bootstrap, Tailwind and React NextJS.
+              </p>
+              <ul class="ud-hero-buttons">
+                <li>
+                  <a href="https://links.uideck.com/play-bootstrap-download" rel="nofollow noopener" target="_blank" class="ud-main-btn ud-white-btn">
+                    Join Now
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div
+              class="ud-hero-brands-wrapper wow fadeInUp"
+              data-wow-delay=".3s"
+            >
+              <img src="{% static 'images/play_brand.svg' %}" alt="brand" /> 
+            </div>
+            <div class="ud-hero-image wow fadeInUp" data-wow-delay=".25s">
+              <img src="{% static 'images/play_hero-image.svg' %}" alt="hero-image" />
+              <img
+                src="{% static 'images/play_dotted-shape.svg' %}"
+                alt="shape"
+                class="shape shape-1"
+              />
+              <img
+                src="{% static 'images/play_dotted-shape.svg' %}"
+                alt="shape"
+                class="shape shape-2"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ====== Hero End ====== -->
+
+
+    <!-- ====== Back To Top Start ====== -->
+    <a href="javascript:void(0)" class="back-to-top">
+      <i class="lni lni-chevron-up"> </i>
+    </a>
+    <!-- ====== Back To Top End ====== -->
+
+    <!-- ====== All Javascript Files ====== -->
+    <script src="{% static 'scripts/play_bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'scripts/play_wow.min.js' %}"></script>
+    <script src="{% static 'scripts/play_main.js' %}"></script>
+    <script>
+      var LOGO_URL = "{% static 'images/logo.svg' %}";
+      var LOGO2_URL = "{% static 'images/logo2.svg' %}";
+      // ==== for menu scroll
+      const pageLink = document.querySelectorAll(".ud-menu-scroll");
+
+      pageLink.forEach((elem) => {
+        elem.addEventListener("click", (e) => {
+          e.preventDefault();
+          document.querySelector(elem.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+            offsetTop: 1 - 60,
+          });
+        });
+      });
+
+      // section menu active
+      function onScroll(event) {
+        const sections = document.querySelectorAll(".ud-menu-scroll");
+        const scrollPos =
+          window.pageYOffset ||
+          document.documentElement.scrollTop ||
+          document.body.scrollTop;
+
+        for (let i = 0; i < sections.length; i++) {
+          const currLink = sections[i];
+          const val = currLink.getAttribute("href");
+          const refElement = document.querySelector(val);
+          const scrollTopMinus = scrollPos + 73;
+          if (
+            refElement.offsetTop <= scrollTopMinus &&
+            refElement.offsetTop + refElement.offsetHeight > scrollTopMinus
+          ) {
+            document
+              .querySelector(".ud-menu-scroll")
+              .classList.remove("active");
+            currLink.classList.add("active");
+          } else {
+            currLink.classList.remove("active");
+          }
+        }
+      }
+
+      window.document.addEventListener("scroll", onScroll);
+    </script>
+  </body>
+</html>
