@@ -508,7 +508,12 @@ p {
 /* ===== Hero CSS ===== */
 .ud-hero {
   background: var(--primary-color);
-  padding-top: 180px;
+  padding-top: 90px;
+}
+
+.ud-hero-narrov {
+  background: var(--primary-color);
+  padding-top: 90px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
