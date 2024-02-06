@@ -49,7 +49,7 @@
         <div class="row">
           <div class="col-lg-12">
             <nav class="navbar navbar-expand-lg">
-              <a class="navbar-brand" href="index.html">
+              <a class="navbar-brand" href="{% url 'home' %}">
                 <img src="{% static 'images/logo.svg' %}" alt="Logo" />
               </a>
               <button class="navbar-toggler">
@@ -57,57 +57,58 @@
                 <span class="toggler-icon"> </span>
                 <span class="toggler-icon"> </span>
               </button>
+              
               <div class="navbar-collapse">
-                <ul id="nav" class="navbar-nav mx-auto">
-                  <li class="nav-item nav-item-has-children">
-                    <a href="javascript:void(0)"> Pages </a>
-                    <ul class="ud-submenu">
-                      <li class="ud-submenu-item">
-                        <a href="about.html" class="ud-submenu-link">
-                          About Page
-                        </a>
-                      </li>
-                      <li class="ud-submenu-item">
-                        <a href="pricing.html" class="ud-submenu-link">
-                          Pricing Page
-                        </a>
-                      </li>
-                      <li class="ud-submenu-item">
-                        <a href="contact.html" class="ud-submenu-link">
-                          Contact Page
-                        </a>
-                      </li>
-                      <li class="ud-submenu-item">
-                        <a href="blog.html" class="ud-submenu-link">
-                          Blog Grid Page
-                        </a>
-                      </li>
-                      <li class="ud-submenu-item">
-                        <a href="blog-details.html" class="ud-submenu-link">
-                          Blog Details Page
-                        </a>
-                      </li>
-                      <li class="ud-submenu-item">
-                        <a href="login.html" class="ud-submenu-link">
-                          Sign In Page
-                        </a>
-                      </li>
-                      <li class="ud-submenu-item">
-                        <a href="404.html" class="ud-submenu-link">404 Page</a>
-                      </li>
-                    </ul>
-                  </li>
+                <ul id="nav" class="navbar-nav ml-auto">
+                  {% if user.is_authenticated %}
+                    <li class="nav-item nav-item-has-children">
+                      <a href="javascript:void(0)"> {{ user.username }} </a>
+                      <ul class="ud-submenu">
+                        {% if user.rooms.first is not None %}
+                          <li class="ud-submenu-item">
+                            <a href="{% url 'room' %}" class="ud-submenu-link">
+                              {{ user.rooms.first.name }}
+                            </a>
+                          </li>
+                        {% else %}
+                          <li class="ud-submenu-item">
+                            <a href="{% url 'room' %}" class="ud-submenu-link">
+                              {{ user.member_of.name }}
+                            </a>
+                          </li>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                        <li class="ud-submenu-item">
+                          <a href="{% url 'my_account' %}" class="ud-submenu-link">
+                            My account
+                          </a>
+                        </li>
+                        <li class="ud-submenu-item">
+                          <a href="{% url 'password_change' %}" class="ud-submenu-link">
+                            Change password
+                          </a>
+                        </li>
+                        <div class="dropdown-divider"></div>
+                        <li class="ud-submenu-item">
+                          <a href="{% url 'logout' %}" class="ud-submenu-link">
+                            Log out
+                          </a>
+                        </li>                      
+                      </ul>
+                    </li>
+                  {% else %}
                 </ul>
               </div>
-
-              <div class="navbar-btn d-none d-sm-inline-block">
-                <a href="{% url 'login' %}" class="ud-main-btn ud-login-btn">
-                  Sign In
-                </a>
-                <a class="ud-main-btn ud-white-btn" href="{% url 'signup' %}">
-                  Sign Up
-                </a>
-              </div>
+              
+                <div class="navbar-btn d-none d-sm-inline-block">
+                  <a href="{% url 'login' %}" class="ud-main-btn ud-login-btn">
+                    Sign In
+                  </a>
+                  <a class="ud-main-btn ud-white-btn" href="{% url 'signup' %}">
+                    Sign Up
+                  </a>
+                </div>
+              {% endif %}
             </nav>
           </div>
         </div>

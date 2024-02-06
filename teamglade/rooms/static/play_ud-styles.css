@@ -357,7 +357,7 @@ p {
 
 .navbar-nav .nav-item .ud-submenu {
   position: absolute;
-  width: 250px;
+  width: 200px;
   background: var(--white);
   top: 110%;
   padding: 20px 30px;
