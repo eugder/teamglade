@@ -25,7 +25,7 @@
     </thead>
     <tbody>
       {% for the_topic in topics %}
-        <tr style='cursor: pointer; cursor: hand;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
+        <tr style='cursor: pointer; cursor: hand; color: #333;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
           <td class="align-middle">
             {{ the_topic.created_by.username}}<br>
           </td>
