@@ -171,5 +171,4 @@ def new_topic_html_version(request, pk):
 
 
 def index(request):
-    # TODO add home page design
     return render(request, 'index.html')
