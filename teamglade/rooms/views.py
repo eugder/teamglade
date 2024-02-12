@@ -75,7 +75,8 @@ def new_topic(request, pk):
                 room=room_obj,
                 title=form.cleaned_data['title'],
                 message=form.cleaned_data['message'],
-                created_by=user
+                created_by=user,
+                # was_read_by=user
             )
             return redirect('room')
     else:
