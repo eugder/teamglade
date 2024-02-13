@@ -76,8 +76,9 @@ def new_topic(request, pk):
                 title=form.cleaned_data['title'],
                 message=form.cleaned_data['message'],
                 created_by=user,
-                # was_read_by=user
             )
+            topic.was_read_by.add(user)
+
             return redirect('room')
     else:
         form = NewTopicForm()
