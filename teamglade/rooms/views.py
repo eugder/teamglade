@@ -27,6 +27,7 @@ class RoomView(ListView):
             user_room = my_user.member_of
 
         kwargs['room'] = user_room
+        # print(my_user.read_topics.all.values_list("id"))
         return super().get_context_data(**kwargs)
 
     def get_queryset(self):

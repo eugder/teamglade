@@ -26,7 +26,7 @@
     <tbody>
       {% for the_topic in topics %}
 
-      {% if the_topic in user.read_topics %}
+      {% if the_topic in user.read_topics.all %}
         <tr style='cursor: pointer; cursor: hand; color: #333;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
       {% else %}
         <tr style='cursor: pointer; cursor: hand; color: #333; font-weight: bold;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
