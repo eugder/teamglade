@@ -26,13 +26,13 @@
     <tbody>
       {% for the_topic in topics %}
 
-      {% if the_topic in user.read_topics.all %}
-        <tr style='cursor: pointer; cursor: hand; color: #333;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
+      {% if the_topic.id in was_read %}
+        <tr style='cursor: pointer; cursor: hand; color: #444;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
       {% else %}
-        <tr style='cursor: pointer; cursor: hand; color: #333; font-weight: bold;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
+        <tr style='cursor: pointer; cursor: hand; color: #444; font-weight: bold;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
       {% endif %} 
       
-        <tr style='cursor: pointer; cursor: hand; color: #333; font-weight: bold;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
+        <!-- <tr style='cursor: pointer; cursor: hand; color: #333; font-weight: bold;' onclick="window.location='{% url 'topic' the_topic.pk %}';"> -->
           <td class="align-middle">
             {{ the_topic.created_by.username}}<br>
           </td>
