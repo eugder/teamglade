@@ -6,11 +6,11 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import UpdateView
-from rooms.models import RoomUser
+from rooms.models import RoomUser, Room
 
 class RoomUserCreationForm(UserCreationForm):
     email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
-    # TODO add new room
+
     class Meta(UserCreationForm.Meta):
         #email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
         model = RoomUser
@@ -38,6 +38,13 @@ def signup(request):
         form = RoomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+
+            # all new users get room
+            new_room = Room.objects.create(
+                name=str(user.username) + " room",
+                created_by=user,
+            )
+
             login(request, user)
             return redirect('home')
     else:

@@ -86,6 +86,8 @@ def new_topic(request, pk):
                 message=form.cleaned_data['message'],
                 created_by=user,
             )
+
+            # new topic marked as was read by creator
             topic.was_read_by.add(user)
 
             return redirect('room')
