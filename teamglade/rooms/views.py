@@ -28,9 +28,7 @@ class RoomView(ListView):
 
         # list with id of all topics that was read by this user
         was_read = list(my_user.read_topics.all().values_list("id", flat=True))
-        # print(was_read)
 
-        # kwargs['room'] = user_room
         kwargs = {'room': user_room, 'was_read': was_read}
 
         return super().get_context_data(**kwargs)
@@ -58,9 +56,8 @@ def room_FBV_version(request):
 
 @login_required
 def topic(request, pk):
-    # TODO add topic viewed system
     the_topic = get_object_or_404(Topic, pk=pk)
-
+    # topic marked as was read by this user
     the_topic.was_read_by.add(request.user)
 
     context = {'topic': the_topic}
