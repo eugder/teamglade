@@ -1,8 +1,8 @@
 from django.db import models
 #from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
-from django.utils.html import mark_safe
-from markdown import markdown
+# from django.utils.html import mark_safe
+# from markdown import markdown
 
 class RoomUser(AbstractUser):
     invite_code = models.CharField(max_length=10)
@@ -24,8 +24,8 @@ class Topic(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name="topics")
     was_read_by = models.ManyToManyField(RoomUser, related_name='read_topics')
 
-    def get_message_as_markdown(self):
-        return mark_safe(markdown(self.message, safe_mode='escape'))
+    # def get_message_as_markdown(self):
+    #     return mark_safe(markdown(self.message, safe_mode='escape'))
 
     def __str__(self):
         return self.title

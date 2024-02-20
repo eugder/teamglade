@@ -39,7 +39,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
 
-            # all new users get room
+            # all new users get a room
             new_room = Room.objects.create(
                 name=str(user.username) + " room",
                 created_by=user,
