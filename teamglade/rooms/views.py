@@ -73,7 +73,7 @@ def new_topic(request, pk):
         raise Http404
 
     if request.method == 'POST':
-        form = NewTopicForm(request.POST)
+        form = NewTopicForm(request.POST, request.FILES)
         if form.is_valid():
             user = request.user
 
@@ -81,6 +81,7 @@ def new_topic(request, pk):
                 room=room_obj,
                 title=form.cleaned_data['title'],
                 message=form.cleaned_data['message'],
+                files=request.FILES['files'],
                 created_by=user,
             )
 
