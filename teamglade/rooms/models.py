@@ -19,7 +19,7 @@ class Room(models.Model):
 class Topic(models.Model):
     title = models.CharField(max_length=100)
     message = models.TextField(max_length=1000)
-    files = models.FileField(upload_to='uploads/')
+    files = models.FileField(upload_to='uploads/', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(RoomUser, on_delete=models.CASCADE, related_name='topics')
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name="topics")
