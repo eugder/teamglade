@@ -12,7 +12,8 @@ class NewTopicForm(forms.Form):
     )
     files = forms.FileField(
         label='Select a file',
-        help_text='max. 42 megabytes'
+        help_text='max. 42 megabytes',
+        # widget=forms.ClearableFileInput(attrs={'class': 'btn btn-success'}),
     )
 
 class NewTopicModelForm(forms.ModelForm):
