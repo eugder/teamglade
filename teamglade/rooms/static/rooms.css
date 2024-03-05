@@ -28,15 +28,21 @@ body {
     border-color: #b9dac1;
 }
 
-input[type="file"]::file-selector-button {
-  border: 2px solid #6c5ce7;
-  padding: 0.2em 0.4em;
-  border-radius: 0.2em;
-  background-color: #a29bfe;
-  transition: 1s;
+/* file upload form field */
+
+input[type=file]::file-selector-button {
+  background-color: #fff;
+  color: #1b7931;
+  font-weight: bold;
+  border: 0px;
+  border-right: 1px solid #e5e5e5;
+  padding: 5px 20px 5px 10px;
+  margin-right: 20px;
+  transition: .5s;
 }
 
-input[type="file"]::file-selector-button:hover {
-  background-color: #81ecec;
-  border: 2px solid #00cec9;
+input[type=file]::file-selector-button:hover {
+  color: #28a745;
+  border: 0px;
+  border-right: 1px solid #e5e5e5;
 }
