@@ -46,7 +46,13 @@
           {% if topic.files %}
             <hr>
             <h6 class="text-muted">Attachments:</h6>
-            <a href="{{ topic.files.url }}">{{ topic.files.name }}</a>
+            <div class="card bg-light mt-3 mb-3" style="width: 19rem;">
+              <img class="card-img-top" src="{% static 'images/icon_file.svg' %}" style="width: 5rem;" alt="File">
+              <div class="card-body" style="width: 9rem;">              
+                <a href="{{ topic.files.url }}">{{ topic.filename}}</a>
+                <p class="card-text"> <small class="text-muted">({{ topic.files.size|filesizeformat }})</small></p>
+              </div>
+            </div>
           {% endif %}
         </div>
       </div>
