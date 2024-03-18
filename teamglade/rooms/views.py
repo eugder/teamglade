@@ -77,15 +77,20 @@ def new_topic(request, pk):
         if form.is_valid():
             user = request.user
 
-            # for i in request.FILES['files']:
-            #     print(i)
+            print(type(request.FILES['files']))
+            for i in request.FILES['files']:
+                print(i)
+
             files = request.FILES.getlist('files')
+            print(type(files))
             for f in files:
+                print(type(f))
                 print(f)
 
-            # files2 = form.cleaned_data["files"]
-            # for f in files2:
-            #     print(f)
+            files2 = form.cleaned_data["files"]
+            print(type(files2))
+            for f in files2:
+                print(f)
 
             topic = Topic.objects.create(
                 room=room_obj,
