@@ -35,3 +35,7 @@ class Topic(models.Model):
 
     def __str__(self):
         return self.title
+
+# class File(models.Model):
+#     file = models.FileField(upload_to='uploads/')
+#     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='files')
