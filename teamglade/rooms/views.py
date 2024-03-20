@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView
 from django.utils.decorators import method_decorator
-from .models import Topic, Room, RoomUser
+from .models import Topic, Room, RoomUser, File
 from .forms import NewTopicForm, NewTopicModelForm, SendInviteForm
 
 
@@ -60,6 +60,8 @@ def topic(request, pk):
     # topic marked as was read by this user
     the_topic.was_read_by.add(request.user)
 
+    # print(the_topic.files.all())
+
     context = {'topic': the_topic}
     return render(request, 'topic.html', context)
 
@@ -81,12 +83,7 @@ def new_topic(request, pk):
             # for i in request.FILES['files']:
             #     print(i)
 
-            files = request.FILES.getlist('files')
-            print(type(files))
-            print(type(request.FILES))
-            for f in files:
-                print(type(f))
-                print(f)
+
 
             # files2 = form.cleaned_data["files"]
             # print(type(files2))
@@ -97,12 +94,23 @@ def new_topic(request, pk):
                 room=room_obj,
                 title=form.cleaned_data['title'],
                 message=form.cleaned_data['message'],
-                files=request.FILES['files'],
+                # files=request.FILES['files'],
                 created_by=user,
             )
 
             # new topic marked as was read by creator
             topic.was_read_by.add(user)
+
+            files = request.FILES.getlist('files')
+            print(type(files))
+            print(type(request.FILES))
+            for f in files:
+                file = File.objects.create(
+                    file=f,
+                    topic=topic
+                )
+                print(type(f))
+                print(f)
 
             return redirect('room')
     else:

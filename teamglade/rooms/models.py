@@ -20,15 +20,11 @@ class Room(models.Model):
 class Topic(models.Model):
     title = models.CharField(max_length=100)
     message = models.TextField(max_length=1000)
-    files = models.FileField(upload_to='uploads/', blank=True)
+    # files = models.FileField(upload_to='uploads/', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(RoomUser, on_delete=models.CASCADE, related_name='topics')
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name="topics")
     was_read_by = models.ManyToManyField(RoomUser, related_name='read_topics')
-
-    # file name without path for topic template
-    def filename(self):
-        return basename(self.files.name)
 
     # def get_message_as_markdown(self):
     #     return mark_safe(markdown(self.message, safe_mode='escape'))
@@ -36,6 +32,10 @@ class Topic(models.Model):
     def __str__(self):
         return self.title
 
-# class File(models.Model):
-#     file = models.FileField(upload_to='uploads/')
-#     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='files')
+class File(models.Model):
+    file = models.FileField(upload_to='uploads/')
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='files')
+
+    # file name without path for topic template
+    def filename(self):
+        return basename(self.file.name)
