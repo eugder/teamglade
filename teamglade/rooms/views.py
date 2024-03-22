@@ -79,17 +79,6 @@ def new_topic(request, pk):
         if form.is_valid():
             user = request.user
 
-            # print(type(request.FILES['files']))
-            # for i in request.FILES['files']:
-            #     print(i)
-
-
-
-            # files2 = form.cleaned_data["files"]
-            # print(type(files2))
-            # for f in files2:
-            #     print(f)
-
             topic = Topic.objects.create(
                 room=room_obj,
                 title=form.cleaned_data['title'],
@@ -98,19 +87,18 @@ def new_topic(request, pk):
                 created_by=user,
             )
 
-            # new topic marked as was read by creator
-            topic.was_read_by.add(user)
-
+            # adding files
             files = request.FILES.getlist('files')
-            print(type(files))
-            print(type(request.FILES))
+            # print(type(request.FILES))
             for f in files:
                 file = File.objects.create(
                     file=f,
                     topic=topic
                 )
-                print(type(f))
                 print(f)
+
+            # new topic marked as was read by creator
+            topic.was_read_by.add(user)
 
             return redirect('room')
     else:

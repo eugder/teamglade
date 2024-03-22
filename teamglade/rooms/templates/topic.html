@@ -47,7 +47,25 @@
           <hr>
           <h6 class="text-muted">Attachments:</h6>
           {% if topic.files.all %}
-            <div class="d-flex flex-row">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+              {% for the_file in topic.files.all %}
+              <div class="col mb-1">
+                <div class="card bg-light mt-3 mb-1 mr-3" style="width: 18rem;">
+                  <img class="card-img-top mt-3 ml-3" src="{% static 'images/icon_file.svg' %}" style="width: 4rem;" alt="File">
+                  <div class="card-body py-2" style="width: 9rem;">              
+                    <a href="{{ the_file.file.url }}" target="_blank" class="stretched-link">{{ the_file.filename|truncatechars:28}}</a>
+                    <p class="card-text"> <small class="text-muted">({{ the_file.file.size|filesizeformat }})</small></p>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <small class="text-muted">No attachments.</small>
+          {% endif %}
+
+<!-- Multifile Not responcive version -->
+<!--             <div class="d-flex flex-row">
               {% for the_file in topic.files.all %}
                 <div class="card bg-light mt-3 mb-3 mr-3" style="width: 17rem;">
                   <img class="card-img-top mt-3 ml-3" src="{% static 'images/icon_file.svg' %}" style="width: 4rem;" alt="File">
@@ -57,11 +75,9 @@
                   </div>
                 </div>
               {% endfor %}
-            </div>
-          {% else %}
-            <small class="text-muted">No attachments.</small>
-          {% endif %}
+            </div> -->
 
+<!-- Single file version -->
 <!--           {% if topic.files %}
             <hr>
             <h6 class="text-muted">Attachments:</h6>
