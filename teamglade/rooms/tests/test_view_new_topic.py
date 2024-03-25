@@ -1,3 +1,4 @@
+from pathlib import Path
 from django.urls import reverse
 from django.test import TestCase
 from ..models import Room, Topic, RoomUser
@@ -26,9 +27,19 @@ class NewTopicTests(TestCase):
 
     def test_new_topic_valid_post_data(self):
         url = reverse('new_topic', kwargs={'pk': self.room.pk})
-        data = {'title': 'Test title', 'message': 'Test Message'}
+
+        dir_path = str(Path().absolute())
+        file_list = [dir_path+"/rooms/tests/Upload_Test_File_1.txt", dir_path+"/rooms/tests/Upload_Test_File_2.txt"]
+        files = []
+        for file in file_list:
+            fp = open(file, 'rb')
+            files.append(fp)
+
+        data = {'title': 'Test title', 'message': 'Test Message', 'files': files}
         self.client.post(url, data)
         self.assertTrue(Topic.objects.exists())
+        self.assertTrue(Path(dir_path + "/media/uploads/Upload_Test_File_1.txt").exists())
+        self.assertTrue(Path(dir_path + "/media/uploads/Upload_Test_File_2.txt").exists())
 
 
 class LoginRequiredNewTopicTests(TestCase):

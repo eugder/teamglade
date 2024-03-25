@@ -95,7 +95,7 @@ def new_topic(request, pk):
                     file=f,
                     topic=topic
                 )
-                print(f)
+                # print(f)
 
             # new topic marked as was read by creator
             topic.was_read_by.add(user)
