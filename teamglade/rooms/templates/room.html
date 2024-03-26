@@ -27,9 +27,9 @@
       {% for the_topic in topics %}
 
       {% if the_topic.id in was_read %}
-        <tr style='cursor: pointer; cursor: hand; color: #444;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
+        <tr class="topic" style='cursor: pointer; cursor: hand; color: #444;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
       {% else %}
-        <tr style='cursor: pointer; cursor: hand; color: #444; font-weight: bold;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
+        <tr class="topic" style='cursor: pointer; cursor: hand; color: #444; font-weight: bold;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
       {% endif %} 
       
         <!-- <tr style='cursor: pointer; cursor: hand; color: #333; font-weight: bold;' onclick="window.location='{% url 'topic' the_topic.pk %}';"> -->

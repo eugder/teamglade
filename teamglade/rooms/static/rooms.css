@@ -2,6 +2,8 @@ body {
   background-image: url(./images/trees.webp);
 }
 
+/* pagination page links */
+
 .page-link {
     position: relative;
     display: block;
@@ -45,4 +47,13 @@ input[type=file]::file-selector-button:hover {
   color: #28a745;
   border: 0px;
   border-right: 1px solid #e5e5e5;
+}
+
+.topic:hover {
+/*    z-index: 20;
+    color: #fff !important;
+    text-decoration: none;
+    background-color: #b4d5bc !important;
+    border-color: #b9dac1;*/
+    box-shadow: 1px 1px 3px 3px #92ad99;
 }

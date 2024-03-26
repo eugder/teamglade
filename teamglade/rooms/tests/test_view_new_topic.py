@@ -28,18 +28,26 @@ class NewTopicTests(TestCase):
     def test_new_topic_valid_post_data(self):
         url = reverse('new_topic', kwargs={'pk': self.room.pk})
 
-        dir_path = str(Path().absolute())
-        file_list = [dir_path+"/rooms/tests/Upload_Test_File_1.txt", dir_path+"/rooms/tests/Upload_Test_File_2.txt"]
-        files = []
-        for file in file_list:
-            fp = open(file, 'rb')
-            files.append(fp)
+        # files attached to the topic
+        f1 = open("rooms/tests/Upload_Test_File_1.txt")
+        f2 = open("rooms/tests/Upload_Test_File_2.txt")
+        files = [f1, f2]
 
         data = {'title': 'Test title', 'message': 'Test Message', 'files': files}
         self.client.post(url, data)
+        f1.close()
+        f2.close()
+
         self.assertTrue(Topic.objects.exists())
-        self.assertTrue(Path(dir_path + "/media/uploads/Upload_Test_File_1.txt").exists())
-        self.assertTrue(Path(dir_path + "/media/uploads/Upload_Test_File_2.txt").exists())
+        self.assertTrue(Path("media/uploads/Upload_Test_File_1.txt").exists())
+        self.assertTrue(Path("media/uploads/Upload_Test_File_2.txt").exists())
+
+    def tearDown(self):
+        # removing uploaded files (if exist)
+        p1 = Path("media/uploads/Upload_Test_File_1.txt")
+        p1.unlink(missing_ok=True)
+        p2 = Path("media/uploads/Upload_Test_File_2.txt")
+        p2.unlink(missing_ok=True)
 
 
 class LoginRequiredNewTopicTests(TestCase):
