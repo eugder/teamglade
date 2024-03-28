@@ -15,13 +15,12 @@
   <table class="table table-success  table-hover"> <!-- table-striped -->
     <thead class="bg-success">
       <tr>
-        <th style="width: 15%" class="text-white align-middle"> {{room.name}} </th>
-        <th style="width: 55%"></th>
-        <th style="width: 25%">
+        <th style="width: 15%;" class="text-white align-middle"> {{room.name}} </th>
+        <th style="width: 60%;"></th>
+        <th style="width: 25%;" class="text-right">
           <a class="btn btn-success btn-outline-light" href="{% url 'new_topic' room.pk %}" role="button">Make New Topic</a>
           <a class="btn btn-success btn-outline-light" href="{% url 'send_invite' room.pk %}" role="button">Invite</a>
         </th>
-        <th style="width: 5%" class="text-right"></th>
       </tr>
     </thead>
     <tbody>
@@ -41,11 +40,7 @@
             {{ the_topic.title }}<br>
           </td>
           <td class="align-middle">
-            {{ the_topic.created_at|naturaltime|truncatechars:20 }} <i class="lni lni-trash-can"></i><br>
-          </td>
-          <td class="align-middle text-right">
-            <!-- <a class="btn btn-success btn-outline-light" href="{% url 'send_invite' room.pk %}" role="button"><i class="lni lni-trash-can"></i></a> -->
-            <i class="lni lni-trash-can"></i><br>
+            {{ the_topic.created_at|naturaltime|truncatechars:20 }} <i class="lni lni-trash-can mt-1" style="float: right;"></i><br>
           </td>
         </tr>
       {% endfor %}
