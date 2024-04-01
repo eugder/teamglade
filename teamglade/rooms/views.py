@@ -7,7 +7,7 @@ from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView, DeleteView
 from django.utils.decorators import method_decorator
 from .models import Topic, Room, RoomUser, File
 from .forms import NewTopicForm, NewTopicModelForm, SendInviteForm
@@ -106,6 +106,9 @@ def new_topic(request, pk):
 
     return render(request, 'new_topic.html', {'form': form})
 
+@method_decorator(login_required, name='dispatch')
+class DeleteTopicView(DeleteView):
+    model = Topic
 
 @method_decorator(login_required, name='dispatch')
 class SendInviteView(View):
