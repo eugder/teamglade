@@ -2,10 +2,11 @@ from uuid import uuid4
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DeleteView
 from django.utils.decorators import method_decorator
@@ -106,9 +107,14 @@ def new_topic(request, pk):
 
     return render(request, 'new_topic.html', {'form': form})
 
+
 @method_decorator(login_required, name='dispatch')
 class DeleteTopicView(DeleteView):
     model = Topic
+    context_object_name = 'topic'
+    success_url = reverse_lazy('room')
+    template_name = "topic_confirm_delete.html"
+
 
 @method_decorator(login_required, name='dispatch')
 class SendInviteView(View):
