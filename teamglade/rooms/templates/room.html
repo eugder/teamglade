@@ -26,11 +26,11 @@
     <tbody>
       {% for the_topic in topics %}
 
-      {% if the_topic.id in was_read %}
-        <tr class="topic" style='cursor: pointer; cursor: hand; color: #444;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
-      {% else %}
-        <tr class="topic" style='cursor: pointer; cursor: hand; color: #444; font-weight: bold;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
-      {% endif %} 
+        {% if the_topic.id in was_read %}
+          <tr class="topic" style='cursor: pointer; cursor: hand; color: #444;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
+        {% else %}
+          <tr class="topic" style='cursor: pointer; cursor: hand; color: #444; font-weight: bold;' onclick="window.location='{% url 'topic' the_topic.pk %}';">
+        {% endif %} 
       
         <!-- <tr style='cursor: pointer; cursor: hand; color: #333; font-weight: bold;' onclick="window.location='{% url 'topic' the_topic.pk %}';"> -->
           <td class="align-middle">
@@ -45,7 +45,7 @@
               {{ the_topic.created_at|naturaltime|truncatechars:22 }} 
             </div>
             <div style="float: right; width:24px; height:24px;" title="Delete">
-              <a href="google.com">
+              <a href="{% url 'delete_topic' the_topic.pk %}">
                 <img src="{% static 'images/icon_trash_can.svg' %}" alt="trash-can" class="mb-1" />
               </a>
             </div>
