@@ -1,6 +1,8 @@
 from django.db import models
 #from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import pre_delete
+from django.dispatch.dispatcher import receiver
 # from django.utils.html import mark_safe
 # from markdown import markdown
 from os.path import basename
@@ -39,3 +41,9 @@ class File(models.Model):
     # file name without path for topic template
     def filename(self):
         return basename(self.file.name)
+
+
+@receiver(pre_delete, sender=File)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    if instance.file:
+        instance.file.delete(False)
