@@ -43,7 +43,8 @@ class File(models.Model):
         return basename(self.file.name)
 
 
+# Deletes file when File instance is deleting
 @receiver(pre_delete, sender=File)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
     if instance.file:
-        instance.file.delete(False)
+        instance.file.delete(save=False)
