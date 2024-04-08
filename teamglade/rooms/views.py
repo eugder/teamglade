@@ -44,24 +44,32 @@ class RoomView(ListView):
         return queryset
 
 
-@login_required
-def room_FBV_version(request):
-    my_user = request.user
-    # room = get_object_or_404(Room, pk=pk)
-    room = my_user.rooms.first()
-    if room is None:
-        room = my_user.member_of
-    context = {'room': room}
-    return render(request, 'room.html', context)
+# @login_required
+# def room_FBV_version(request):
+#     my_user = request.user
+#     # room = get_object_or_404(Room, pk=pk)
+#     room = my_user.rooms.first()
+#     if room is None:
+#         room = my_user.member_of
+#     context = {'room': room}
+#     return render(request, 'room.html', context)
 
 
 @login_required
 def topic(request, pk):
+    # my_user = request.user
+    # user_room = my_user.rooms.first()
+    # if user_room is None:
+    #     user_room = my_user.member_of
+    #     if user_room is None:
+    #         raise Http404
+    #
+    # if pk not in user_room.topics.all().id:
+    #     raise Http404
+
     the_topic = get_object_or_404(Topic, pk=pk)
     # topic marked as was read by this user
     the_topic.was_read_by.add(request.user)
-
-    # print(the_topic.files.all())
 
     context = {'topic': the_topic}
     return render(request, 'topic.html', context)
@@ -160,46 +168,46 @@ class LoginInvitedView(View):
         return redirect('room')
 
 
-def new_topic_ModelForm_version(request, pk):
-    room = get_object_or_404(Room, pk=pk)
+# def new_topic_ModelForm_version(request, pk):
+#     room = get_object_or_404(Room, pk=pk)
+#
+#     if request.method == 'POST':
+#         form = NewTopicModelForm(request.POST)
+#         if form.is_valid():
+#             user = RoomUser.objects.first()
+#
+#             topic = form.save(commit=False)
+#             topic.room = room
+#             topic.created_by = user
+#             topic.save()
+#
+#             return redirect('room')
+#     else:
+#         form = NewTopicModelForm()
+#
+#     return render(request, 'new_topic.html', {'form': form})
 
-    if request.method == 'POST':
-        form = NewTopicModelForm(request.POST)
-        if form.is_valid():
-            user = RoomUser.objects.first()
 
-            topic = form.save(commit=False)
-            topic.room = room
-            topic.created_by = user
-            topic.save()
-
-            return redirect('room')
-    else:
-        form = NewTopicModelForm()
-
-    return render(request, 'new_topic.html', {'form': form})
-
-
-def new_topic_html_version(request, pk):
-    room = get_object_or_404(Room, pk=pk)
-
-    if request.method == 'POST':
-        title = request.POST['title']
-        message = request.POST['message']
-
-        user = RoomUser.objects.first()
-
-        topic = Topic.objects.create(
-            room=room,
-            title=title,
-            message=message,
-            created_by=user
-        )
-
-        return redirect('room')
-
-    context = {'room': room}
-    return render(request, 'new_topic.html', context)
+# def new_topic_html_version(request, pk):
+#     room = get_object_or_404(Room, pk=pk)
+#
+#     if request.method == 'POST':
+#         title = request.POST['title']
+#         message = request.POST['message']
+#
+#         user = RoomUser.objects.first()
+#
+#         topic = Topic.objects.create(
+#             room=room,
+#             title=title,
+#             message=message,
+#             created_by=user
+#         )
+#
+#         return redirect('room')
+#
+#     context = {'room': room}
+#     return render(request, 'new_topic.html', context)
 
 
 def index(request):

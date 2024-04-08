@@ -18,6 +18,7 @@ class MultipleFileField(forms.FileField):
             result = single_file_clean(data, initial)
         return result
 
+
 class NewTopicForm(forms.Form):
     title = forms.CharField(label='Title', max_length=100)
     message = forms.CharField(
@@ -32,6 +33,7 @@ class NewTopicForm(forms.Form):
         help_text='max. 42 megabytes',
         widget=MultipleFileInput(attrs={"multiple": True}), required=False
     )
+
 
 class NewTopicModelForm(forms.ModelForm):
     message = forms.CharField(
