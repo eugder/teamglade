@@ -23,9 +23,10 @@ class RoomView(ListView):
 
     def get_context_data(self, **kwargs):
         my_user = self.request.user
-        user_room = my_user.rooms.first()
-        if user_room is None:
-            user_room = my_user.member_of
+        user_room = get_user_room(self.request)
+        # user_room = my_user.rooms.first()
+        # if user_room is None:
+        #     user_room = my_user.member_of
 
         # list with id of all topics that was read by this user
         was_read = list(my_user.read_topics.all().values_list("id", flat=True))
@@ -43,6 +44,7 @@ class RoomView(ListView):
         queryset = user_room.topics.all().order_by('-created_at')
         return queryset
 
+
 # @login_required
 # def room_FBV_version(request):
 #     my_user = request.user
@@ -56,17 +58,14 @@ class RoomView(ListView):
 
 @login_required
 def topic(request, pk):
-    # my_user = request.user
-    # user_room = my_user.rooms.first()
-    # if user_room is None:
-    #     user_room = my_user.member_of
-    #     if user_room is None:
-    #         raise Http404
-    #
-    # if pk not in user_room.topics.all().id:
-    #     raise Http404
+    user_room = get_user_room(request)
 
     the_topic = get_object_or_404(Topic, pk=pk)
+
+    # if user is not owner/member of this room (no permission to read topic)
+    if the_topic not in user_room.topics.all():
+        raise Http404
+
     # topic marked as was read by this user
     the_topic.was_read_by.add(request.user)
 
@@ -211,3 +210,21 @@ class LoginInvitedView(View):
 
 def index(request):
     return render(request, 'index.html')
+
+
+def get_user_room(request):
+    """
+    Helper function.
+    User has to have room in which he can operate.
+    If user is owner - there is a room with relation to user (Room.created_by).
+    If user is invited member - he has a relation to Room (field member_of).
+    Function returns Room object in which user can operate.
+    """
+    my_user = request.user
+    user_room = my_user.rooms.first()
+    if user_room is None:
+        user_room = my_user.member_of
+        if user_room is None:
+            # not standard case
+            raise Http404
+    return (user_room)
