@@ -43,7 +43,6 @@ class RoomView(ListView):
         queryset = user_room.topics.all().order_by('-created_at')
         return queryset
 
-
 # @login_required
 # def room_FBV_version(request):
 #     my_user = request.user
