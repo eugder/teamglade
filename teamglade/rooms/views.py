@@ -36,10 +36,11 @@ class RoomView(ListView):
         return super().get_context_data(**kwargs)
 
     def get_queryset(self):
-        my_user = self.request.user
-        user_room = my_user.rooms.first()
-        if user_room is None:
-            user_room = my_user.member_of
+        user_room = get_user_room(self.request)
+        # my_user = self.request.user
+        # user_room = my_user.rooms.first()
+        # if user_room is None:
+        #     user_room = my_user.member_of
 
         queryset = user_room.topics.all().order_by('-created_at')
         return queryset
@@ -77,8 +78,10 @@ def topic(request, pk):
 def new_topic(request, pk):
     room_obj = get_object_or_404(Room, pk=pk)
 
-    # if user is not owner of this room (no permission to create new topic here)
-    if request.user.rooms.first().pk != pk:
+    # if user is not owner/invited of this room (no permission to create new topic here)
+    user_room = get_user_room(request)
+    # if request.user.rooms.first().pk != pk:
+    if user_room.pk != pk:
         raise Http404
 
     if request.method == 'POST':
@@ -121,6 +124,14 @@ class DeleteTopicView(DeleteView):
     success_url = reverse_lazy('room')
     template_name = "topic_confirm_delete.html"
 
+    # def form_valid(self, form):
+    #     my_user = super.request.user
+    #     # if user is not owner of this room (invited user)
+    #     if my_user.rooms.first() is None:
+    #         # he can delete only own topics
+    #         if self.pk not in my_user.topics.all().values_list("id", flat=True) :
+    #             raise Http404
+    #     return super(DeleteTopicView, self).form_valid(form)
 
 @method_decorator(login_required, name='dispatch')
 class SendInviteView(View):
