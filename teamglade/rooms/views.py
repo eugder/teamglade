@@ -124,14 +124,22 @@ class DeleteTopicView(DeleteView):
     success_url = reverse_lazy('room')
     template_name = "topic_confirm_delete.html"
 
-    # def form_valid(self, form):
-    #     my_user = super.request.user
-    #     # if user is not owner of this room (invited user)
-    #     if my_user.rooms.first() is None:
-    #         # he can delete only own topics
-    #         if self.pk not in my_user.topics.all().values_list("id", flat=True) :
-    #             raise Http404
-    #     return super(DeleteTopicView, self).form_valid(form)
+    def form_valid(self, form):
+        my_user = self.request.user
+        user_room = get_user_room(self.request)
+
+        # if user is not owner/invited of this room - no permission to delete in another's room
+        # prevent malicious deleting by user typing in the address bar
+        if self.kwargs['pk'] not in user_room.topics.all().values_list("id", flat=True):
+            raise Http404
+
+        # if user is not owner of this room (invited user)
+        if my_user.rooms.first() is None:
+            # he can delete only own topics
+            if self.kwargs['pk'] not in my_user.topics.all().values_list("id", flat=True) :
+                raise Http404
+
+        return super(DeleteTopicView, self).form_valid(form)
 
 @method_decorator(login_required, name='dispatch')
 class SendInviteView(View):
