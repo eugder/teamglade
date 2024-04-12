@@ -44,11 +44,14 @@
             <div style="float: left;">
               {{ the_topic.created_at|naturaltime|truncatechars:22 }} 
             </div>
-            <div style="float: right; width:24px; height:24px;" title="Delete">
-              <a href="{% url 'delete_topic' the_topic.pk %}">
-                <img src="{% static 'images/icon_trash_can.svg' %}" alt="trash-can" class="mb-1" />
-              </a>
-            </div>
+            {# owner of this room can delete any topic in this room, invited user can delete only his own topics #}
+            {% if user.id == room.created_by.id or user.id == the_topic.created_by.id %}            
+              <div style="float: right; width:24px; height:24px;" title="Delete">
+                <a href="{% url 'delete_topic' the_topic.pk %}">
+                  <img src="{% static 'images/icon_trash_can.svg' %}" alt="trash-can" class="mb-1" />
+                </a>
+              </div>
+            {% endif %}
           </td>
         </tr>
       {% endfor %}
