@@ -162,6 +162,10 @@ class SendInviteView(View):
         message.send()
 
     def post(self, request, pk):
+        # if user is not owner of this room (invited user)
+        if self.request.user.rooms.first() is None:
+            raise Http404
+
         form = SendInviteForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data["email"]
@@ -179,6 +183,10 @@ class SendInviteView(View):
 class LoginInvitedView(View):
     def get(self, request, code):
         invited_user_obj = RoomUser.objects.filter(invite_code=code).first()
+
+        if invited_user_obj is None:
+            raise Http404
+
         invited_user = authenticate(username=invited_user_obj.username, password=invited_user_obj.invite_code)
         if invited_user is not None:
             login(request, invited_user)

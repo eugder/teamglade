@@ -19,7 +19,10 @@
         <th style="width: 60%;"></th>
         <th style="width: 25%;" class="text-right">
           <a class="btn btn-success btn-outline-light" href="{% url 'new_topic' room.pk %}" role="button">Make New Topic</a>
-          <a class="btn btn-success btn-outline-light" href="{% url 'send_invite' room.pk %}" role="button">Invite</a>
+          {# not owner of this room (invited user) can't invite new users #}
+          {% if user.id == room.created_by.id %}
+            <a class="btn btn-success btn-outline-light" href="{% url 'send_invite' room.pk %}" role="button">Invite</a>
+          {% endif %}
         </th>
       </tr>
     </thead>
