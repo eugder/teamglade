@@ -16,6 +16,14 @@ class TopicViewTests(TestCase):
     def test_topic_view_status_code(self):
         self.assertEquals(self.response.status_code, 200)
 
+    def test_topic_view_no_permission(self):
+        user2 = RoomUser.objects.create_user(username='usr2', email='usr2@test.com', password='222')
+        room_obj2 = Room.objects.create(name='Room name', created_by=user2)
+        topic_obj2 = Topic.objects.create(title='Test title', message='Test message', created_by=user2, room=room_obj2)
+        url = reverse('topic', kwargs={'pk': topic_obj2.pk})
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 404)
+
     def test_topic_view_contains_room_navigation_link(self):
         homepage_url = reverse('room')
         self.assertContains(self.response, 'href="{0}"'.format(homepage_url))

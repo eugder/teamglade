@@ -20,6 +20,13 @@ class NewTopicTests(TestCase):
         response = self.client.get(url)
         self.assertEquals(response.status_code, 404)
 
+    def test_new_topic_view_no_permission(self):
+        user2 = RoomUser.objects.create_user(username='usr2', email='usr2@test.com', password='222')
+        room_obj2 = Room.objects.create(name='Room name', created_by=user2)
+        url = reverse('new_topic', kwargs={'pk': room_obj2.pk})
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 404)
+
     def test_mscrf(self):
         url = reverse('new_topic', kwargs={'pk': self.room.pk})
         response = self.client.get(url)
