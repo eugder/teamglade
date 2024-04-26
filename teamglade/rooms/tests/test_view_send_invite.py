@@ -9,8 +9,8 @@ from ..forms import SendInviteForm
 class SendInviteViewTestCase(TestCase):
     def setUp(self):
         user = RoomUser.objects.create_user(username='usr', email='usr@test.com', password='111')
-        room_obj = Room.objects.create(name='Room name', created_by=user)
-        topic_obj = Topic.objects.create(title='Test title', message='Test message', created_by=user, room=room_obj)
+        self.room_obj = Room.objects.create(name='Room name', created_by=user)
+        topic_obj = Topic.objects.create(title='Test title', message='Test message', created_by=user, room=self.room_obj)
         self.client.login(username='usr', password='111')  # topic view has a @login_required
         self.url = reverse('send_invite', kwargs={'pk': 1})
         self.response = self.client.get(self.url)
@@ -19,6 +19,13 @@ class SendInviteViewTestCase(TestCase):
 class SendInviteViewTests(SendInviteViewTestCase):
     def test_send_invite_view_status_code(self):
         self.assertEquals(self.response.status_code, 200)
+
+    def test_send_invite_view_no_permission(self):
+        user2 = RoomUser.objects.create_user(username='usr2', email='usr2@test.com', password='222', member_of=self.room_obj)
+        self.client.login(username='usr2', password='222')
+        url = reverse('send_invite', kwargs={'pk': 1})
+        response = self.client.post(url)
+        self.assertEquals(response.status_code, 404)
 
     def test_url_resolves_correct_view(self):
         view = resolve(self.url)
