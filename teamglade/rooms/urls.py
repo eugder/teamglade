@@ -10,4 +10,5 @@ urlpatterns = [
     path('rooms/invite/<str:code>/', views.LoginInvitedView.as_view(), name='login_invite'),
     path('topic/<int:pk>/', views.topic, name='topic'),
     path('topic/<int:pk>/delete/', views.DeleteTopicView.as_view(), name='delete_topic'),
+    path('message/', views.message, name='message'),
 ]

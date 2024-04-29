@@ -234,6 +234,8 @@ class LoginInvitedView(View):
 #     context = {'room': room}
 #     return render(request, 'new_topic.html', context)
 
+def message(request):
+    return render(request, 'index.html')
 
 def index(request):
     return render(request, 'index.html')
