@@ -235,7 +235,16 @@ class LoginInvitedView(View):
 #     return render(request, 'new_topic.html', context)
 
 def message(request):
-    return render(request, 'index.html')
+    if request.method == 'POST':
+        name = request.POST['name']
+        subject = f"Site visitor's message. [{name}]"
+        message = request.POST['message'] + "\n" + request.POST['phone']
+        from_email = request.POST['email']
+        message = EmailMessage(subject, message, from_email, ["tg@email.com"])
+        message.send()
+
+    return redirect('home')
+
 
 def index(request):
     return render(request, 'index.html')
