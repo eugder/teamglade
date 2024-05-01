@@ -235,13 +235,20 @@ class LoginInvitedView(View):
 #     return render(request, 'new_topic.html', context)
 
 def message(request):
+    """
+    Accepts message form from home page and sends email with message
+    """
     if request.method == 'POST':
         name = request.POST['name']
-        subject = f"Site visitor's message. [{name}]"
-        message = request.POST['message'] + "\n" + request.POST['phone']
         from_email = request.POST['email']
-        message = EmailMessage(subject, message, from_email, ["tg@email.com"])
-        message.send()
+        phone = request.POST['phone']
+        message = request.POST['message'] + "\n" + phone
+
+        subject = f"Site visitor's message. [{name}]"
+
+        if is_email(from_email) and (len(name) < 31) and (len(message) < 191) and (len(phone) < 17):  # mini validation
+            message = EmailMessage(subject, message, from_email, ["tg@email.com"])
+            message.send()
 
     return redirect('home')
 
@@ -266,3 +273,13 @@ def get_user_room(request):
             # not standard case
             raise Http404
     return (user_room)
+
+
+def is_email(email_string: str):
+    from django.core.validators import validate_email
+    from django.core.exceptions import ValidationError
+    try:
+        validate_email(email_string)
+    except ValidationError:
+        return False
+    return True

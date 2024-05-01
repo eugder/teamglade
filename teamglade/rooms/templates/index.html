@@ -395,9 +395,11 @@
                 <div class="ud-form-group">
                   <label for="phone">Phone (optional)</label>
                   <input
-                    type="text"
+                    type="tel"
                     name="phone"
                     placeholder="+1 123 456 7890"
+                    minlength="4" 
+                    maxlength="16"
                   />
                 </div>
                 <div class="ud-form-group">
@@ -405,8 +407,10 @@
                   <textarea
                     name="message"
                     rows="5"
-                    placeholder="type your message here"
+                    placeholder="Type your message here"
                     required
+                    minlength="1" 
+                    maxlength="190"
                   ></textarea>
                 </div>
                 <div class="ud-form-group mb-0">
