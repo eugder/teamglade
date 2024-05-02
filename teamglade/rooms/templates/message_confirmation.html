@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Message sent{% endblock %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'rooms.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container rounded bg-light mt-5 pt-3 pb-3">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-success">
+      <li class="text-white">Message sent.</li>
+    </ol>
+    <a class="btn btn-success btn-outline-light" href="{% url 'home' %}" role="button">Ok</a>
+  </nav>
+</div>
+{% endblock %}

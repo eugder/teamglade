@@ -249,6 +249,7 @@ def message(request):
         if is_email(from_email) and (len(name) < 31) and (len(message) < 191) and (len(phone) < 17):  # mini validation
             message = EmailMessage(subject, message, from_email, ["tg@email.com"])
             message.send()
+            return render(request, 'message_confirmation.html')
 
     return redirect('home')
 
