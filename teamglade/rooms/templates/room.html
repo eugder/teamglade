@@ -37,10 +37,10 @@
       
         <!-- <tr style='cursor: pointer; cursor: hand; color: #333; font-weight: bold;' onclick="window.location='{% url 'topic' the_topic.pk %}';"> -->
           <td class="align-middle">
-            {{ the_topic.created_by.username}}<br>
+            {{ the_topic.created_by.username|truncatechars:15}}<br>
           </td>
           <td class="align-middle">
-            {{ the_topic.title }}<br>
+            {{ the_topic.title|truncatechars:60 }}<br>
           </td>
           <td class="align-middle">
             <!-- <i class="lni lni-trash-can mt-1" style="float: right;"></i> -->
