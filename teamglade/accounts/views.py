@@ -26,7 +26,7 @@ class UserUpdateView(UpdateView):
     model = RoomUser
     fields = ('username', 'email', )
     template_name = 'my_account.html'
-    success_url = reverse_lazy('my_account')
+    success_url = reverse_lazy('room')
 
     def get_object(self):
         # let know UpdateView what exactly user is updating
