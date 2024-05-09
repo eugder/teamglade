@@ -41,6 +41,11 @@ class UserUpdateView(UpdateView):
     template_name = 'my_account.html'
     success_url = reverse_lazy('room')
 
+    # def get_context_data(self, **kwargs):
+    #     context = super(UserUpdateView, self).get_context_data(**kwargs)
+    #     context['second_model'] = Room.objects.get(id=1) #whatever you would like
+    #     return context
+
     def get_object(self):
         # let know UpdateView what exactly user is updating
         return self.request.user
@@ -55,7 +60,7 @@ def user_update(request):
             return redirect('home')
     else:
         form = UserUpdateForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'my_account.html', {'form': form})
 
 
 def signup(request):
