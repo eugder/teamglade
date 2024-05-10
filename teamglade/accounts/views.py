@@ -2,7 +2,9 @@ from django import forms
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import UpdateView
@@ -59,10 +61,40 @@ def user_update(request):
 
             return redirect('home')
     else:
-        form = UserUpdateForm()
+        form = UserUpdateForm(instance=request.user)
     return render(request, 'my_account.html', {'form': form})
 
+#---------------------------------------------------------
+class ProfileUpdateForm(forms.ModelForm):
+    username = forms.CharField(max_length=32)
+    email = forms.CharField(max_length=32)
+    class Meta:
+        model = Room
+        fields = ['name']
 
+class UserSettings(LoginRequiredMixin, UpdateView):
+    template_name = 'my_account.html'
+    context_object_name = 'user'
+    queryset = Room.objects.all()
+    form_class = ProfileUpdateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(UserSettings, self).get_context_data(**kwargs)
+        user = self.request.user
+        context['form'] = ProfileUpdateForm(instance=self.request.user.userprofile, initial={'username': user.username, 'email': user.email})
+        return context
+
+    def form_valid(self, form):
+        profile = form.save(commit=False)
+        user = profile.user
+        user.username = form.cleaned_data['username']
+        user.email = form.cleaned_data['email']
+        user.save()
+        profile.save()
+        # return HttpResponseRedirect(reverse('users:user-profile', kwargs={'pk': self.get_object().id}))
+        # return HttpResponseRedirect(self.get_success_url())
+
+#---------------------------------------------------------
 def signup(request):
     if request.method == 'POST':
         form = RoomUserCreationForm(request.POST)
