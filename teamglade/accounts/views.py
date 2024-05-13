@@ -23,6 +23,8 @@ class RoomUserCreationForm(UserCreationForm):
     #     super(RoomUserCreationForm, self).__init__(*args, **kwargs)
     #     self.fields['email'].required = True
 
+
+#---------------------------------------------------------
 class UserUpdateForm(forms.ModelForm):
     room = forms.CharField(
         widget=forms.Textarea(attrs={'rows': 5, 'placeholder': 'Your message'}),
@@ -35,6 +37,18 @@ class UserUpdateForm(forms.ModelForm):
         model = RoomUser
         fields = ['username', 'email', 'room']
 
+
+def user_update(request):
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+
+            return redirect('home')
+    else:
+        form = UserUpdateForm(instance=request.user)
+    return render(request, 'my_account.html', {'form': form})
+#---------------------------------------------------------
 
 @method_decorator(login_required, name='dispatch')
 class UserUpdateView(UpdateView):
@@ -53,17 +67,6 @@ class UserUpdateView(UpdateView):
         return self.request.user
 
 
-def user_update(request):
-    if request.method == 'POST':
-        form = UserUpdateForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-
-            return redirect('home')
-    else:
-        form = UserUpdateForm(instance=request.user)
-    return render(request, 'my_account.html', {'form': form})
-
 #---------------------------------------------------------
 class ProfileUpdateForm(forms.ModelForm):
     username = forms.CharField(max_length=32)
@@ -78,23 +81,89 @@ class UserSettings(LoginRequiredMixin, UpdateView):
     queryset = Room.objects.all()
     form_class = ProfileUpdateForm
 
+    def get_object(self):
+        # let know UpdateView what exactly user is updating
+        return Room.objects.filter(pk=1).first()
+
     def get_context_data(self, **kwargs):
         context = super(UserSettings, self).get_context_data(**kwargs)
         user = self.request.user
-        context['form'] = ProfileUpdateForm(instance=self.request.user.userprofile, initial={'username': user.username, 'email': user.email})
+        context['form'] = ProfileUpdateForm(instance=self.request.user.rooms.first(), initial={'username': user.username, 'email': user.email})
         return context
 
     def form_valid(self, form):
         profile = form.save(commit=False)
-        user = profile.user
+        user = profile.created_by
         user.username = form.cleaned_data['username']
         user.email = form.cleaned_data['email']
         user.save()
         profile.save()
         # return HttpResponseRedirect(reverse('users:user-profile', kwargs={'pk': self.get_object().id}))
-        # return HttpResponseRedirect(self.get_success_url())
+        return HttpResponseRedirect(self.get_success_url())
 
+    def get_success_url(self):
+        return reverse('room')
 #---------------------------------------------------------
+#---------------------------------------------------------
+class ClientsUserForm(forms.ModelForm):
+    class Meta:
+        model = RoomUser
+        fields = ['username', 'email']
+
+class ClientsForm(forms.ModelForm):
+    class Meta:
+        model = Room
+        fields = ['name']
+
+class ClientUpdateView(UpdateView):
+    model = RoomUser
+    form_class = ClientsUserForm
+    second_form_class = ClientsForm
+    template_name = 'my_account.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ClientUpdateView, self).get_context_data(**kwargs)
+        context['active_client'] = True
+        if 'form' not in context:
+            context['form'] = self.form_class(self.request.GET, instance=self.request.user)
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(self.request.GET)
+        context['active_client'] = True
+        return context
+
+    def get_object(self):
+        # let know UpdateView what exactly user is updating
+        return self.request.user
+
+    def get(self, request, *args, **kwargs):
+        super(ClientUpdateView, self).get(request, *args, **kwargs)
+        form = self.form_class
+        form2 = self.second_form_class
+        return self.render_to_response(self.get_context_data(
+            object=self.object, form=form, form2=form2))
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.form_class(request.POST)
+        form2 = self.second_form_class(request.POST)
+
+        if form.is_valid() and form2.is_valid():
+            userdata = form.save(commit=False)
+            # used to set the password, but no longer necesarry
+            userdata.save()
+            employeedata = form2.save(commit=False)
+            employeedata.user = userdata
+            employeedata.save()
+            # messages.success(self.request, 'Settings saved successfully')
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(
+              self.get_context_data(form=form, form2=form2))
+
+    def get_success_url(self):
+        return reverse('room')
+#---------------------------------------------------------
+
 def signup(request):
     if request.method == 'POST':
         form = RoomUserCreationForm(request.POST)
