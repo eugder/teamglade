@@ -62,6 +62,8 @@
               
               <div class="navbar-collapse">
                 <ul id="nav" class="navbar-nav ml-auto">
+                  <!-- {% if request.user.is_authenticated %} -->
+                  <!-- {% endif %} -->
                   {% if user.is_authenticated %}
                     <li class="nav-item nav-item-has-children">
                       <a href="javascript:void(0)"> {{ user.username|truncatechars:50}} </a>

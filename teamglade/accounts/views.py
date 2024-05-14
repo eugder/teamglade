@@ -69,20 +69,20 @@ class UserUpdateView(UpdateView):
 
 #---------------------------------------------------------
 class ProfileUpdateForm(forms.ModelForm):
-    username = forms.CharField(max_length=32)
-    email = forms.CharField(max_length=32)
+    username = forms.CharField(max_length=30)
+    email = forms.EmailField()
     class Meta:
         model = Room
         fields = ['name']
 
 class UserSettings(LoginRequiredMixin, UpdateView):
     template_name = 'my_account.html'
-    context_object_name = 'user'
-    queryset = Room.objects.all()
+    context_object_name = 'form'
+    # queryset = Room.objects.all()
     form_class = ProfileUpdateForm
 
     def get_object(self):
-        # let know UpdateView what exactly user is updating
+        # let know UpdateView what exactly room is updating
         return Room.objects.filter(pk=1).first()
 
     def get_context_data(self, **kwargs):
@@ -92,17 +92,17 @@ class UserSettings(LoginRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        profile = form.save(commit=False)
-        user = profile.created_by
+        room = form.save()
+        user = room.created_by
         user.username = form.cleaned_data['username']
         user.email = form.cleaned_data['email']
         user.save()
-        profile.save()
+        # profile.save()
         # return HttpResponseRedirect(reverse('users:user-profile', kwargs={'pk': self.get_object().id}))
-        return HttpResponseRedirect(self.get_success_url())
+        return HttpResponseRedirect(reverse('room'))
 
-    def get_success_url(self):
-        return reverse('room')
+    # def get_success_url(self):
+    #     return reverse('room')
 #---------------------------------------------------------
 #---------------------------------------------------------
 class ClientsUserForm(forms.ModelForm):
