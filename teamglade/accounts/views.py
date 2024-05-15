@@ -68,6 +68,47 @@ class UserUpdateView(UpdateView):
 
 
 #---------------------------------------------------------
+class ProfileUpdateForm2(forms.ModelForm):
+    roomname = forms.CharField(max_length=30)
+    class Meta:
+        model = RoomUser
+        fields = ['username', 'email']
+        # labels = {
+        #           'roomname': 'Room name',
+        #            }
+
+@method_decorator(login_required, name='dispatch')
+class UserUpdateView2(UpdateView):
+    template_name = 'my_account.html'
+    context_object_name = 'form'
+    form_class = ProfileUpdateForm2
+    # success_url = reverse_lazy('room')
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(UserUpdateView, self).get_context_data(**kwargs)
+    #     context['second_model'] = Room.objects.get(id=1) #whatever you would like
+    #     return context
+
+    def get_object(self):
+        # let know UpdateView what exactly user is updating instance=self.request.user.rooms.first()
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super(UserUpdateView2, self).get_context_data(**kwargs)
+        user = self.request.user
+        context['form'] = ProfileUpdateForm2(instance=user, initial={'roomname': user.rooms.first().name})
+        return context
+
+    def form_valid(self, form):
+        my_user = form.save()
+        room = my_user.rooms.first()
+        room.name = form.cleaned_data['roomname']
+        room.save()
+        # profile.save()
+        # return HttpResponseRedirect(reverse('users:user-profile', kwargs={'pk': self.get_object().id}))
+        return HttpResponseRedirect(reverse('room'))
+#---------------------------------------------------------
+#---------------------------------------------------------
 class ProfileUpdateForm(forms.ModelForm):
     username = forms.CharField(max_length=30)
     email = forms.EmailField()
