@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import UpdateView
 from rooms.models import RoomUser, Room
 
@@ -69,13 +70,14 @@ class UserUpdateView(UpdateView):
 
 #---------------------------------------------------------
 class ProfileUpdateForm2(forms.ModelForm):
-    roomname = forms.CharField(max_length=30)
+    roomname = forms.CharField(
+        max_length=30, label="Room name",
+        help_text="Required. 30 characters or fewer.",
+    )
     class Meta:
         model = RoomUser
         fields = ['username', 'email']
-        # labels = {
-        #           'roomname': 'Room name',
-        #            }
+
 
 @method_decorator(login_required, name='dispatch')
 class UserUpdateView2(UpdateView):
