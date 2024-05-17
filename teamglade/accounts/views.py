@@ -71,12 +71,16 @@ class UserUpdateView(UpdateView):
 #---------------------------------------------------------
 class ProfileUpdateForm2(forms.ModelForm):
     roomname = forms.CharField(
-        max_length=30, label="Room name",
+        max_length=30,
+        label="Room name",
         help_text="Required. 30 characters or fewer.",
     )
     class Meta:
         model = RoomUser
         fields = ['username', 'email']
+        help_texts = {
+            "email": _("Required. Valid email address."),
+        }
 
 
 @method_decorator(login_required, name='dispatch')
@@ -99,6 +103,7 @@ class UserUpdateView2(UpdateView):
         context = super(UserUpdateView2, self).get_context_data(**kwargs)
         user = self.request.user
         context['form'] = ProfileUpdateForm2(instance=user, initial={'roomname': user.rooms.first().name})
+        # return super().get_context_data(**kwargs)
         return context
 
     def form_valid(self, form):
