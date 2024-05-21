@@ -87,7 +87,7 @@ class UserUpdateForm(forms.ModelForm):
 @method_decorator(login_required, name='dispatch')
 class UserUpdateView(UpdateView):
     template_name = 'my_account.html'
-    context_object_name = 'form'
+    # context_object_name = 'form'
     form_class = UserUpdateForm
     # success_url = reverse_lazy('room')
 
@@ -105,15 +105,29 @@ class UserUpdateView(UpdateView):
         user = self.request.user
         # context['form'] = ProfileUpdateForm2(instance=user, initial={'roomname': user.rooms.first().name})
         context = super().get_context_data(**kwargs)
-        context['form'].fields["roomname"].initial = user.rooms.first().name
+
+        roomname_field = context['form'].fields["roomname"]
+        try:
+            roomname_field.initial = user.rooms.first().name
+        except:
+            context['form'].exclude = ('roomname',)
+            # roomname_field.disabled = True
+            # roomname_field.blank = True
+            # roomname_field.required = False
+            # roomname_field.initial = user.member_of.name
+            # roomname_field.help_text = "Invited users can't change room name"
+
         return context
         # return context
 
     def form_valid(self, form):
         user = form.save()
-        room = user.rooms.first()
-        room.name = form.cleaned_data['roomname']
-        room.save()
+        try:
+            room = user.rooms.first()
+            room.name = form.cleaned_data['roomname']
+            room.save()
+        except:
+            pass
         # profile.save()
         # return HttpResponseRedirect(reverse('users:user-profile', kwargs={'pk': self.get_object().id}))
         return HttpResponseRedirect(reverse('room'))
