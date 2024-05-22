@@ -75,6 +75,7 @@ class UserUpdateForm(forms.ModelForm):
         max_length=30,
         label="Room name",
         help_text="Required. 30 characters or fewer.",
+        required=False
     )
     class Meta:
         model = RoomUser
@@ -91,11 +92,6 @@ class UserUpdateView(UpdateView):
     form_class = UserUpdateForm
     # success_url = reverse_lazy('room')
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(UserUpdateView, self).get_context_data(**kwargs)
-    #     context['second_model'] = Room.objects.get(id=1) #whatever you would like
-    #     return context
-
     def get_object(self):
         # let know UpdateView what exactly user is updating
         return self.request.user
@@ -106,28 +102,36 @@ class UserUpdateView(UpdateView):
         # context['form'] = ProfileUpdateForm2(instance=user, initial={'roomname': user.rooms.first().name})
         context = super().get_context_data(**kwargs)
 
-        roomname_field = context['form'].fields["roomname"]
-        try:
+        # if user is owner of this room he can edit room name, otherwise not
+        if user.rooms.first() is not None:
+            roomname_field = context['form'].fields["roomname"]
             roomname_field.initial = user.rooms.first().name
-        except:
-            context['form'].exclude = ('roomname',)
-            # roomname_field.disabled = True
-            # roomname_field.blank = True
-            # roomname_field.required = False
-            # roomname_field.initial = user.member_of.name
-            # roomname_field.help_text = "Invited users can't change room name"
+        else:
+            roomname_field = context['form'].fields["roomname"]
+            roomname_field.initial = user.member_of.name
+            roomname_field.disabled = True
+            roomname_field.help_text = "Invited users can't change room name"
+
+        # print("User Room - ",user.rooms.first())
+        # context['form'].exclude = ('roomname',)
+        # roomname_field.disabled = True
+        # roomname_field.blank = True
+        # roomname_field.required = False
+        # roomname_field.initial = user.member_of.name
+        # roomname_field.help_text = "Invited users can't change room name"
 
         return context
         # return context
 
     def form_valid(self, form):
         user = form.save()
-        try:
+
+        # if user is owner of this room - room name is saving
+        if user.rooms.first() is not None:
             room = user.rooms.first()
             room.name = form.cleaned_data['roomname']
             room.save()
-        except:
-            pass
+
         # profile.save()
         # return HttpResponseRedirect(reverse('users:user-profile', kwargs={'pk': self.get_object().id}))
         return HttpResponseRedirect(reverse('room'))
