@@ -74,7 +74,7 @@ class UserUpdateForm(forms.ModelForm):
     roomname = forms.CharField(
         max_length=30,
         label="Room name",
-        help_text="Required. 30 characters or fewer.",
+        help_text="30 characters or fewer.",
         required=False
     )
     class Meta:
@@ -98,10 +98,11 @@ class UserUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         # context = super(UserUpdateView2, self).get_context_data(**kwargs)
-        user = self.request.user
+
         # context['form'] = ProfileUpdateForm2(instance=user, initial={'roomname': user.rooms.first().name})
         context = super().get_context_data(**kwargs)
 
+        user = self.request.user
         # if user is owner of this room he can edit room name, otherwise not
         if user.rooms.first() is not None:
             roomname_field = context['form'].fields["roomname"]
@@ -112,21 +113,17 @@ class UserUpdateView(UpdateView):
             roomname_field.disabled = True
             roomname_field.help_text = "Invited users can't change room name"
 
-        # print("User Room - ",user.rooms.first())
         # context['form'].exclude = ('roomname',)
         # roomname_field.disabled = True
         # roomname_field.blank = True
         # roomname_field.required = False
-        # roomname_field.initial = user.member_of.name
-        # roomname_field.help_text = "Invited users can't change room name"
 
         return context
-        # return context
 
     def form_valid(self, form):
         user = form.save()
 
-        # if user is owner of this room - room name is saving
+        # if user is owner of this room - room name is saving, if invited user - not
         if user.rooms.first() is not None:
             room = user.rooms.first()
             room.name = form.cleaned_data['roomname']
