@@ -1,6 +1,7 @@
 from django import forms
 from .models import Topic
 
+
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
@@ -26,7 +27,7 @@ class NewTopicForm(forms.Form):
                                      'placeholder': 'Your message. The max length of the text is 1000.'}),
         label='Message',
         max_length=1000,
-        #help_text='The max length of the text is 1000.',
+        # help_text='The max length of the text is 1000.',
     )
     files = MultipleFileField(
         label='Select a file',
@@ -35,17 +36,17 @@ class NewTopicForm(forms.Form):
     )
 
 
-class NewTopicModelForm(forms.ModelForm):
-    message = forms.CharField(
-        widget=forms.Textarea(attrs={'rows': 5, 'placeholder': 'Your message'}),
-        label='Message',
-        max_length=1000,
-        help_text='The max length of the text is 1000.',
-    )
-
-    class Meta:
-        model = Topic
-        fields = ['title', 'message']
+# class NewTopicModelForm(forms.ModelForm):
+#     message = forms.CharField(
+#         widget=forms.Textarea(attrs={'rows': 5, 'placeholder': 'Your message'}),
+#         label='Message',
+#         max_length=1000,
+#         help_text='The max length of the text is 1000.',
+#     )
+#
+#     class Meta:
+#         model = Topic
+#         fields = ['title', 'message']
 
 
 class SendInviteForm(forms.Form):

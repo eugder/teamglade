@@ -1,28 +1,13 @@
-from django import forms
 from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
-from django.utils.translation import gettext_lazy as _
 from django.views.generic import UpdateView
 from rooms.models import RoomUser, Room
-
-class RoomUserCreationForm(UserCreationForm):
-    email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
-
-    class Meta(UserCreationForm.Meta):
-        #email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
-        model = RoomUser
-        fields = ('username', 'email', 'password1', 'password2')
-        #fields = UserCreationForm.Meta.fields + ('custom_field',) - adding fields don't working
-
-    # def __init__(self, *args, **kwargs):
-    #     super(RoomUserCreationForm, self).__init__(*args, **kwargs)
-    #     self.fields['email'].required = True
+from .forms import RoomUserCreationForm, UserUpdateForm
 
 
 #----------------Teset update variant------------------------------
@@ -70,19 +55,6 @@ class RoomUserCreationForm(UserCreationForm):
 
 
 #---------------------------------------------------------
-class UserUpdateForm(forms.ModelForm):
-    roomname = forms.CharField(
-        max_length=30,
-        label="Room name",
-        help_text="30 characters or fewer.",
-        required=False
-    )
-    class Meta:
-        model = RoomUser
-        fields = ['username', 'email']
-        help_texts = {
-            "email": _("Required. Valid email address."),
-        }
 
 
 @method_decorator(login_required, name='dispatch')

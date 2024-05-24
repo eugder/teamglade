@@ -11,12 +11,12 @@ from django.views import View
 from django.views.generic import ListView, DeleteView
 from django.utils.decorators import method_decorator
 from .models import Topic, Room, RoomUser, File
-from .forms import NewTopicForm, NewTopicModelForm, SendInviteForm
+from .forms import NewTopicForm, SendInviteForm
 
 
 @method_decorator(login_required, name='dispatch')
 class RoomView(ListView):
-    #model = Room
+    # model = Room
     context_object_name = 'topics'
     template_name = 'room.html'
     paginate_by = 12
@@ -136,7 +136,7 @@ class DeleteTopicView(DeleteView):
         # if user is not owner of this room (invited user)
         if my_user.rooms.first() is None:
             # he can delete only own topics
-            if self.kwargs['pk'] not in my_user.topics.all().values_list("id", flat=True) :
+            if self.kwargs['pk'] not in my_user.topics.all().values_list("id", flat=True):
                 raise Http404
 
         return super(DeleteTopicView, self).form_valid(form)
@@ -169,7 +169,7 @@ class SendInviteView(View):
         form = SendInviteForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data["email"]
-            invite_code = uuid4().hex[:8] # generate random identifier - letters and digits
+            invite_code = uuid4().hex[:8]  # generate random identifier - letters and digits
             self.create_invited_user(request, email, invite_code)
             self.send_invite_mail(request, email, invite_code)
             return redirect('room')
