@@ -35,11 +35,35 @@
       <label for="id_message">Message</label>
       <textarea class="form-control" id="id_message" name="message" rows="5"></textarea>
     </div> -->
-
+    <p id="error_field">
+    </p>
     <button type="submit" class="btn btn-success">Create</button>
   </form>
 </div>
 {% endblock %}
 
 {% block javascript %}
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
+<script>
+const uploadField = document.getElementById("id_files");
+const errorField = document.getElementById("error_field");
+const maximumSize = 20
+
+uploadField.onchange = function() {
+  for(const file of this.files) 
+    if(file.size > maximumSize) {
+      /*alert("File is too big!"); */
+      errorField.innerText = "File(s) is big!"
+      this.value = "";
+    }
+};
+
+/*uploadField.onchange = function() {
+    if(this.files[1].size > 20) {
+       alert("File is too big!");
+       this.value = "";
+    }
+};*/
+
+</script>
 {% endblock %}
