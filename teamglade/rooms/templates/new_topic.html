@@ -35,8 +35,8 @@
       <label for="id_message">Message</label>
       <textarea class="form-control" id="id_message" name="message" rows="5"></textarea>
     </div> -->
-    <p id="error_field">
-    </p>
+    <p id="error_field"></p>
+
     <button type="submit" class="btn btn-success">Create</button>
   </form>
 </div>
@@ -47,15 +47,24 @@
 <script>
 const uploadField = document.getElementById("id_files");
 const errorField = document.getElementById("error_field");
-const maximumSize = 20
+const maximumSize = 5242880 /* 5 MB */
+const maximumQuantity = 5
 
 uploadField.onchange = function() {
+  errorField.innerText = "";
+  if(this.files.length > maximumQuantity) {
+    errorField.innerText = "Too many files chosen! You can chose up to 5 files.";
+    this.value = "";
+    this.setAttribute("data-title", "No");
+  }
+
   for(const file of this.files) 
     if(file.size > maximumSize) {
       /*alert("File is too big!"); */
-      errorField.innerText = "File(s) is big!"
+      errorField.innerText = "File is too big! You can chose file up to 5 MB.";
       this.value = "";
     }
+
 };
 
 /*uploadField.onchange = function() {

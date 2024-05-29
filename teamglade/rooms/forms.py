@@ -30,8 +30,8 @@ class NewTopicForm(forms.Form):
         # help_text='The max length of the text is 1000.',
     )
     files = MultipleFileField(
-        label='Select a file',
-        help_text='max. 42 megabytes',
+        label='Select a files',
+        help_text='Up to 5 files, up to 5 MB each.',
         widget=MultipleFileInput(attrs={"multiple": True}), required=False
     )
 
