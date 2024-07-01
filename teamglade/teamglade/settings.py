@@ -84,7 +84,8 @@ DATABASES = {
         'NAME': 'teamglade_db',
         'USER': 'tg_admin',
         'PASSWORD': '123',
-        'HOST': '127.0.0.1',
+        # 'HOST': '127.0.0.1',
+        'HOST': "host.docker.internal",
         'PORT': '5432',
     }
 }
