@@ -85,7 +85,8 @@ DATABASES = {
         'USER': 'tg_admin',
         'PASSWORD': '123',
         # 'HOST': '127.0.0.1',
-        'HOST': "host.docker.internal",
+        # 'HOST': "host.docker.internal",
+        'HOST': os.environ.get('DATABASE_HOST', '127.0.0.1'),
         'PORT': '5432',
     }
 }
