@@ -21,11 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-f32eoe$!r0r03wf=b44zt*@*zeij!%$hjf7!+3(deglv(b5^+x'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-f32eoe$!r0r03wf=b44zt*@*zeij!%$hjf7!+3(deglv(b5^+x')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get('DEBUG', default=1))
 
+# ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", '').split(" ")
 ALLOWED_HOSTS = []
 
 
@@ -80,14 +81,14 @@ WSGI_APPLICATION = 'teamglade.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'teamglade_db',
-        'USER': 'tg_admin',
-        'PASSWORD': '123',
+        'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': os.environ.get('DATABASE_NAME', 'teamglade_db'),
+        'USER': os.environ.get('DATABASE_USER', 'tg_admin'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', '123'),
         # 'HOST': '127.0.0.1',
         # 'HOST': "host.docker.internal",
         'HOST': os.environ.get('DATABASE_HOST', '127.0.0.1'),
-        'PORT': '5432',
+        'PORT': os.environ.get('DATABASE_PORT', '5432'),
     }
 }
 
