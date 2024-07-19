@@ -24,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-f32eoe$!r0r03wf=b44zt*@*zeij!%$hjf7!+3(deglv(b5^+x')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get('DEBUG', default=1))
+DEBUG = bool(os.environ.get('DEBUG', 1))
 
-# ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", '').split(" ")
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", 'localhost 127.0.0.1 [::1]').split(" ")
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -85,7 +85,6 @@ DATABASES = {
         'NAME': os.environ.get('DATABASE_NAME', 'teamglade_db'),
         'USER': os.environ.get('DATABASE_USER', 'tg_admin'),
         'PASSWORD': os.environ.get('DATABASE_PASSWORD', '123'),
-        # 'HOST': '127.0.0.1',
         # 'HOST': "host.docker.internal",
         'HOST': os.environ.get('DATABASE_HOST', '127.0.0.1'),
         'PORT': os.environ.get('DATABASE_PORT', '5432'),
