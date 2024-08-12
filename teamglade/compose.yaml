@@ -1,6 +1,6 @@
 services:
   web:
-    image: tg_app:alpha-1.0
+    image: teamglade/tg-app:alpha-1.0
     ports:
       - "8000:8000"
 # uncomment this if docker file doesn't have command to run server
