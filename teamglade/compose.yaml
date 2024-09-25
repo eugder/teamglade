@@ -1,6 +1,6 @@
 services:
   web:
-    image: teamglade/tg-app:alpha-1.1
+    image: teamglade/tg-app:alpha-1.3
 # use expose with nginx and use ports to directly access to gunicorn in container
     expose:
       - 8000
@@ -9,6 +9,9 @@ services:
 # uncomment this if docker file doesn't have command to run server
 #    command: python manage.py runserver 0.0.0.0:8000
     command: gunicorn --bind 0.0.0.0:8000 teamglade.wsgi:application
+    volumes:
+      - static_files:/app/static
+      - media_files:/app/media
 # synchronize app code inside and outside container (including .env file)
 #    volumes:
 #      - .:/app
@@ -26,7 +29,11 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
   nginx:
-    image: teamglade/tg-nginx:alpha-1.4
+    image: teamglade/tg-nginx:alpha-1.6
+    volumes:
+#      - static_files:/home/app/static
+      - static_files:/usr/share/nginx/html/static
+      - media_files:/usr/share/nginx/html/media
     ports:
       - 1337:80
     depends_on:
@@ -34,3 +41,5 @@ services:
 
 volumes:
   postgres_data:
+  static_files:
+  media_files:

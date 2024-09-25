@@ -29,6 +29,7 @@ DEBUG = bool(os.environ.get('DEBUG', 1))
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", 'localhost 127.0.0.1 [::1]').split(" ")
 # ALLOWED_HOSTS = []
 
+# CSRF_TRUSTED_ORIGINS = ["http://localhost:1337"]
 
 # Application definition
 
@@ -140,7 +141,8 @@ STATIC_URL = os.environ.get('STATIC_URL', 'static/')
 
 # MEDIA_ROOT = Path(BASE_DIR, 'media')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = os.environ.get('MEDIA_URL', '/media/')
+# MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
