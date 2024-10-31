@@ -117,7 +117,13 @@ LOGIN_REDIRECT_URL = 'room'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'email-smtp.eu-north-1.amazonaws.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
