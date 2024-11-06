@@ -247,7 +247,7 @@ def message(request):
         subject = f"Site visitor's message. [{name}]"
 
         if is_email(from_email) and (len(name) < 31) and (len(message) < 191) and (len(phone) < 17):  # mini validation
-            message = EmailMessage(subject, message, to=["tg@email.com"]) # FROM field will be DEFAULT_FROM_EMAIL
+            message = EmailMessage(subject, message, to=["lawagame@gmail.com"]) # FROM field will be DEFAULT_FROM_EMAIL
             message.send()
             return render(request, 'message_confirmation.html')
 

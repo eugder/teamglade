@@ -117,14 +117,21 @@ LOGIN_REDIRECT_URL = 'room'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 # EMAIL_HOST = 'email-smtp.eu-north-1.amazonaws.com'
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
 # EMAIL_PORT = 587
+EMAIL_PORT = os.environ.get('EMAIL_PORT', '25')
 # EMAIL_USE_TLS = True
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'False')
 # EMAIL_HOST_USER = ''
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 # EMAIL_HOST_PASSWORD = ''
-DEFAULT_FROM_EMAIL = 'noreply@teamglade.com'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+# DEFAULT_FROM_EMAIL = 'noreply@teamglade.com'
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@teamglade.com')
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
