@@ -8,7 +8,7 @@
    y="0px"
    viewBox="0 0 30 38"
    xml:space="preserve"
-   sodipodi:docname="icon_file2.svg"
+   sodipodi:docname="icon_file.svg"
    width="30"
    height="38"
    inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
@@ -26,16 +26,17 @@
    inkscape:pagecheckerboard="0"
    inkscape:deskcolor="#d1d1d1"
    inkscape:zoom="17.104167"
-   inkscape:cx="24"
+   inkscape:cx="24.029232"
    inkscape:cy="24"
    inkscape:window-width="1920"
    inkscape:window-height="1017"
    inkscape:window-x="-8"
    inkscape:window-y="-8"
    inkscape:window-maximized="1"
-   inkscape:current-layer="Layer_2" />
+   inkscape:current-layer="Layer_2"
+   showgrid="false" />
 <path
-   style="fill:#50e6ff"
+   style="fill:#7fc37e;fill-opacity:1"
    d="m 30,11 v 25 c 0,1.105 -0.895,2 -2,2 H 2 C 0.895,38 0,37.105 0,36 V 2 C 0,0.895 0.895,0 2,0 h 17 z"
    id="path1" />
 <linearGradient
@@ -56,7 +57,7 @@
    id="stop2" />
 </linearGradient>
 <path
-   style="fill:url(#SVGID_1_)"
+   style="fill:#1b7931;fill-opacity:1"
    d="m 19,0 v 9 c 0,1.105 0.895,2 2,2 h 9 z"
    id="path2" />
 </svg>
