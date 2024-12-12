@@ -1,6 +1,6 @@
 services:
   web:
-    image: teamglade/tg-app:alpha-1.7
+    image: teamglade/tg-app:alpha-1.9
 # use expose with nginx and use ports to directly access to gunicorn in container
     expose:
       - 8000
