@@ -50,4 +50,4 @@ class NewTopicForm(forms.Form):
 
 
 class SendInviteForm(forms.Form):
-    email = forms.EmailField(initial="test@test.com")
+    email = forms.EmailField(help_text="Required. Valid email address.")

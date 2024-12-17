@@ -157,8 +157,9 @@ class SendInviteView(View):
         context = request.build_absolute_uri('/')[:-1] + reverse('login_invite', kwargs={'code': invite_code})
         html_message = render_to_string('invite_email.html', {'context': context, })
         subject = "[TeamGlade] You are invited to join TeamGlade room"
-        from_email = "from@example.com"
-        message = EmailMessage(subject, html_message, from_email, [email])
+        # from_email = "from@example.com"
+        message = EmailMessage(subject, html_message, to=[email])
+        # message = EmailMessage(subject, message, to=["lawagame@gmail.com"])  # FROM field will be DEFAULT_FROM_EMAIL
         message.send()
 
     def post(self, request, pk):
