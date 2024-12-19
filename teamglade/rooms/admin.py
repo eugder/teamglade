@@ -12,5 +12,4 @@ class Admin(admin.ModelAdmin):
 
 admin.site.register(RoomUser)
 admin.site.register(Room)
-# admin.site.register(Topic)
 admin.site.register(Topic, Admin)

@@ -16,8 +16,6 @@ services:
 #    volumes:
 #      - .:/app
     env_file: .env
-#    environment:
-#      DATABASE_HOST: ${DATABASE_HOST}
     depends_on:
       - db
   db:
@@ -25,13 +23,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
+      # getting environment variables from .env file
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
   nginx:
     image: teamglade/tg-nginx:alpha-1.6
     volumes:
-#      - static_files:/home/app/static
       - static_files:/usr/share/nginx/html/static
       - media_files:/usr/share/nginx/html/media
     ports:

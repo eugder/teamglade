@@ -2,9 +2,8 @@ from uuid import uuid4
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.core.mail import send_mail, EmailMessage
+from django.http import Http404
+from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.views import View
@@ -24,9 +23,6 @@ class RoomView(ListView):
     def get_context_data(self, **kwargs):
         my_user = self.request.user
         user_room = get_user_room(self.request)
-        # user_room = my_user.rooms.first()
-        # if user_room is None:
-        #     user_room = my_user.member_of
 
         # list with id of all topics that was read by this user
         was_read = list(my_user.read_topics.all().values_list("id", flat=True))
@@ -37,10 +33,6 @@ class RoomView(ListView):
 
     def get_queryset(self):
         user_room = get_user_room(self.request)
-        # my_user = self.request.user
-        # user_room = my_user.rooms.first()
-        # if user_room is None:
-        #     user_room = my_user.member_of
 
         queryset = user_room.topics.all().order_by('-created_at')
         return queryset
@@ -80,7 +72,7 @@ def new_topic(request, pk):
 
     # if user is not owner/invited of this room (no permission to create new topic here)
     user_room = get_user_room(request)
-    # if request.user.rooms.first().pk != pk:
+
     if user_room.pk != pk:
         raise Http404
 
@@ -99,13 +91,12 @@ def new_topic(request, pk):
 
             # adding files
             files = request.FILES.getlist('files')
-            # print(type(request.FILES))
+
             for f in files:
                 file = File.objects.create(
                     file=f,
                     topic=topic
                 )
-                # print(f)
 
             # new topic marked as was read by creator
             topic.was_read_by.add(user)
@@ -141,6 +132,7 @@ class DeleteTopicView(DeleteView):
 
         return super(DeleteTopicView, self).form_valid(form)
 
+
 @method_decorator(login_required, name='dispatch')
 class SendInviteView(View):
     def create_invited_user(self, request, invite_email, invite_code):
@@ -157,9 +149,7 @@ class SendInviteView(View):
         context = request.build_absolute_uri('/')[:-1] + reverse('login_invite', kwargs={'code': invite_code})
         html_message = render_to_string('invite_email.html', {'context': context, })
         subject = "[TeamGlade] You are invited to join TeamGlade room"
-        # from_email = "from@example.com"
-        message = EmailMessage(subject, html_message, to=[email])
-        # message = EmailMessage(subject, message, to=["lawagame@gmail.com"])  # FROM field will be DEFAULT_FROM_EMAIL
+        message = EmailMessage(subject, html_message, to=[email])  # FROM field will be DEFAULT_FROM_EMAIL
         message.send()
 
     def post(self, request, pk):
@@ -248,7 +238,7 @@ def message(request):
         subject = f"Site visitor's message. [{name}]"
 
         if is_email(from_email) and (len(name) < 31) and (len(message) < 191) and (len(phone) < 17):  # mini validation
-            message = EmailMessage(subject, message, to=["lawagame@gmail.com"]) # FROM field will be DEFAULT_FROM_EMAIL
+            message = EmailMessage(subject, message, to=["lawagame@gmail.com"])  # FROM field will be DEFAULT_FROM_EMAIL
             message.send()
             return render(request, 'message_confirmation.html')
 
