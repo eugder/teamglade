@@ -29,7 +29,3 @@ class MessageViewTests(TestCase):
     def test_email_body(self):
         # has a message and phone number
         self.assertEqual("Test Message\n1234\ntest@test.com", self.email.body)
-
-
-
-
