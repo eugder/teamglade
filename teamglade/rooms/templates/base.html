@@ -3,29 +3,39 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7TM95KGYZ7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-7TM95KGYZ7');
+    </script>
+
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}TeamGlade: free online place for sharing files in teams{% endblock %}</title> <!-- 50-60 chars -->
 
     <!-- Primary Meta Tags -->
-<meta name="title" content="TeamGlade: free online place for sharing files in teams"> <!-- 50-60 chars -->
-<meta name="description" content="TeamGlade is simple and easy to use online place for collaboration in teams or students groups."> <!-- 70-155 chars -->
-<meta name="keywords" content="sharing files, sharing messages, collaboration in teams, collaboration students, free sharing files, team project, team dashboard, shared inbox">
+    <meta name="title" content="TeamGlade: free online place for sharing files in teams"> <!-- 50-60 chars -->
+    <meta name="description" content="TeamGlade is simple and easy to use online place for collaboration in teams or students groups."> <!-- 70-155 chars -->
+    <meta name="keywords" content="sharing files, sharing messages, collaboration in teams, collaboration students, free sharing files, team project, team dashboard, shared inbox">
 
-<!-- Open Graph / Facebook -->   <!-- test it through the Open Graph debugger -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://uideck.com/play/">
-<meta property="og:title" content="TeamGlade: free online place for sharing files in teams">  <!-- Up to 60 chars -->
-<meta property="og:description" content="TeamGlade - online place for collaboration for teams and students"> <!-- Up to 60-65 chars -->
-<meta property="og:image" content="https://uideck.com/wp-content/uploads/2021/09/play-meta-bs.jpg"> <!-- at least 1200 x 630 pixels, should not be larger than 8 MBs -->
+    <!-- Open Graph / Facebook -->   <!-- test it through the Open Graph debugger -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uideck.com/play/">
+    <meta property="og:title" content="TeamGlade: free online place for sharing files in teams">  <!-- Up to 60 chars -->
+    <meta property="og:description" content="TeamGlade - online place for collaboration for teams and students"> <!-- Up to 60-65 chars -->
+    <meta property="og:image" content="https://uideck.com/wp-content/uploads/2021/09/play-meta-bs.jpg"> <!-- at least 1200 x 630 pixels, should not be larger than 8 MBs -->
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://uideck.com/play/">
-<meta property="twitter:title" content="TeamGlade: free online place for sharing files in teams">
-<meta property="twitter:description" content="TeamGlade - online place for collaboration for teams and students">
-<meta property="twitter:image" content="https://uideck.com/wp-content/uploads/2021/09/play-meta-bs.jpg">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://uideck.com/play/">
+    <meta property="twitter:title" content="TeamGlade: free online place for sharing files in teams">
+    <meta property="twitter:description" content="TeamGlade - online place for collaboration for teams and students">
+    <meta property="twitter:image" content="https://uideck.com/wp-content/uploads/2021/09/play-meta-bs.jpg">
 
     <!--====== Favicon Icon ======-->
     <link
@@ -35,13 +45,10 @@
     />
 
     <!-- ===== All CSS files ===== --> 
-    <!-- <link rel="stylesheet" href="{% static 'play_bootstrap.min.css' %}"> -->
-    <!-- <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}"> --> <!-- old bootstrap (4.0) here - all good but room table gray text -->
-    <link rel="stylesheet" href="{% static 'bootstrap.min46.css' %}"> <!-- old bootstrap (4.6) here - all good but room table gray text -->
+    <link rel="stylesheet" href="{% static 'bootstrap.min46.css' %}"> <!-- old bootstrap (4.6) -->
     <link rel="stylesheet" href="{% static 'play_animate.css' %}">
     <link rel="stylesheet" href="{% static 'play_lineicons.css' %}">
     <link rel="stylesheet" href="{% static 'play_ud-styles.css' %}">
-    <!-- <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}"> --> <!-- old bootstrap here - underlined links but room table good text -->
     {% block stylesheet %}{% endblock %}
   </head>
   <body>
