@@ -63,3 +63,9 @@ def signup(request):
     else:
         form = RoomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
+
+def email_confirmation(request):
+    return render(request, 'email_confirmation_sent.html')
+
+def email_confirmed(request):
+    return render(request, 'email_confirmed.html')
