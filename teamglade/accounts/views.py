@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.template.loader import render_to_string
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.views.generic import UpdateView
 from rooms.models import RoomUser, Room
@@ -62,15 +62,15 @@ def signup(request):
                 name=str(user.username) + " room",
                 created_by=user,)
 
-            # token = default_token_generator.make_token(user)
-            # uid = urlsafe_base64_encode(force_bytes(user.pk))
-            #
-            # # generate link with identifier to login_invite view
-            # context = request.build_absolute_uri('/')[:-1] + reverse('login_invite', kwargs={'code': invite_code})
-            # html_message = render_to_string('invite_email.html', {'context': context, })
-            # subject = "[TeamGlade] You are invited to join TeamGlade room"
-            # message = EmailMessage(subject, html_message, to=[user.email])  # FROM field will be DEFAULT_FROM_EMAIL
-            # message.send()
+            token = default_token_generator.make_token(user)
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+
+            # generate link with user's id and its token
+            context = request.build_absolute_uri('/')[:-1] + reverse('email_confirmed', kwargs={'uidb64':uidb64, 'token':token})
+            html_message = render_to_string('email_confirm_email.html', {'context': context, })
+            subject = "[TeamGlade] Confirm your email address"
+            message = EmailMessage(subject, html_message, to=[user.email])  # FROM field will be DEFAULT_FROM_EMAIL
+            message.send()
 
             login(request, user)
             return redirect('home')
@@ -81,5 +81,20 @@ def signup(request):
 def email_confirmation(request):
     return render(request, 'email_confirmation_sent.html')
 
-def email_confirmed(request):
-    return render(request, 'email_confirmed.html')
+def email_confirmed(request, uidb64, token):
+    # uidb64 = uid
+    # token = code
+    print("uid64 = ", uidb64, " token = ", token)
+
+    if uidb64 is not None and token is not None:
+        uid = int(urlsafe_base64_decode(uidb64))
+        print("uid = ", uid, " = ", int(uid))
+
+        user_model = get_user_model()
+        user = user_model.objects.get(pk=uid)
+        if default_token_generator.check_token(user, token):# and user.is_active == 0:
+            print("Email confirmed")
+            return render(request, 'email_confirmed.html')
+
+    print("Email not confirmed")
+    return render(request, 'email_not_confirmed.html')

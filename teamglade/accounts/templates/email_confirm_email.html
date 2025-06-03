@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Email Verification</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for email */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 100% !important;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            background-color: #f3f4f6; /* Equivalent to Tailwind's bg-gray-100 */
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            /* box-shadow and border-radius are applied inline on the table for better compatibility */
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff !important; /* Important for link color override */
+            background-color: #1b7931; /* New button color */
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .button:hover {
+            background-color: #166027; /* Darker shade of new button color */
+        }
+        .footer-link {
+            color: #6b7280; /* Equivalent to Tailwind gray-500 */
+            text-decoration: none;
+        }
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive adjustments */
+        @media screen and (max-width: 600px) {
+            .container {
+                width: 100% !important;
+                padding: 15px !important;
+            }
+            .button {
+                padding: 10px 20px !important;
+                font-size: 15px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #f3f4f6;">
+        <tr>
+            <td align="center" valign="top">
+                <table border="0" cellspacing="0" cellpadding="0" class="container" style="width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+                    <tr>
+                        <td align="center" style="padding: 24px 0;">
+                            <img src="https://placehold.co/150x50/1b7931/ffffff?text=YourLogo&font=inter" alt="Company Logo" style="max-width: 150px; height: auto; border-radius: 4px;" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=Logo+Error&font=inter';">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="center" style="padding: 24px 32px;">
+                            <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin-top: 0; margin-bottom: 16px;">
+                                Please Verify Your Email Address
+                            </h1>
+                            <p style="font-size: 18px; color: #374151; line-height: 1.6; margin-bottom: 24px;">
+                                Thanks for signing up for TeamGlade! To complete your registration and start using our services, please verify your email address by clicking the button below.
+                            </p>
+
+                            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                <tr>
+                                    <td align="center" style="padding-bottom: 24px;">
+                                        <a href="{{ context }}" class="button" target="_blank">
+                                            Verify Email Address
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="font-size: 16px; color: #4b5563; line-height: 1.6; margin-bottom: 16px;">
+                                If the button above doesn't work, you can copy and paste the following link into your browser's address bar:
+                            </p>
+                            <p style="font-size: 14px; color: #2563eb; line-height: 1.5; margin-bottom: 24px; word-break: break-all;">
+                                <a href="{{ context }}" target="_blank" style="color: #2563eb; text-decoration: underline;">
+                                    {{ context }}
+                                </a>
+                            </p>
+                            <p style="font-size: 16px; color: #4b5563; line-height: 1.6; margin-bottom: 0;">
+                                If you did not sign up for an account with TeamGlade please disregard this email.
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 24px 32px; border-top: 1px solid #e5e7eb; background-color: #f9fafb; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+                            <p style="font-size: 14px; color: #6b7280; text-align: center; margin: 0;">
+                                &copy; <script>document.write(new Date().getFullYear())</script> TeamGlade. All rights reserved.<br>
+                            </p>
+                            <p style="font-size: 14px; color: #6b7280; text-align: center; margin-top: 8px; margin-bottom: 0;">
+                                <a href="https://teamglade.com/" class="footer-link" target="_blank" style="margin: 0 5px;">Contact Us</a>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                </td>
+        </tr>
+    </table>
+</body>
+</html>
+
+
+
+
