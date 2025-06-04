@@ -1,4 +1,4 @@
-from django.contrib.auth import login, get_user_model
+from django.contrib.auth import login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
@@ -79,6 +79,15 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 def email_confirmation(request):
+
+    #for test
+    token = default_token_generator.make_token(request.user)
+    print("token = ", token)
+    result = default_token_generator.check_token(request.user, token)
+    print("result = ", result)
+    result = default_token_generator.check_token(request.user, token)
+    print("result = ", result)
+
     return render(request, 'email_confirmation_sent.html')
 
 def email_confirmed(request, uidb64, token):
@@ -92,7 +101,8 @@ def email_confirmed(request, uidb64, token):
 
         user_model = get_user_model()
         user = user_model.objects.get(pk=uid)
-        if default_token_generator.check_token(user, token):# and user.is_active == 0:
+        if_valid = default_token_generator.check_token(user, token)
+        if if_valid:# and user.is_active == 0:
             print("Email confirmed")
             return render(request, 'email_confirmed.html')
 
