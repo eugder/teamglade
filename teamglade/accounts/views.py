@@ -62,18 +62,9 @@ def signup(request):
                 name=str(user.username) + " room",
                 created_by=user,)
 
-            token = default_token_generator.make_token(user)
-            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-
-            # generate link with user's id and its token
-            context = request.build_absolute_uri('/')[:-1] + reverse('email_confirmed', kwargs={'uidb64':uidb64, 'token':token})
-            html_message = render_to_string('email_confirm_email.html', {'context': context, })
-            subject = "[TeamGlade] Confirm your email address"
-            message = EmailMessage(subject, html_message, to=[user.email])  # FROM field will be DEFAULT_FROM_EMAIL
-            message.send()
-
-            login(request, user)
-            return redirect('home')
+            send_email_confirmation(request, user)
+            # login(request, user)
+            return redirect('email_confirmation')
     else:
         form = RoomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
@@ -81,30 +72,52 @@ def signup(request):
 def email_confirmation(request):
 
     #for test
-    token = default_token_generator.make_token(request.user)
-    print("token = ", token)
-    result = default_token_generator.check_token(request.user, token)
-    print("result = ", result)
-    result = default_token_generator.check_token(request.user, token)
-    print("result = ", result)
+    # user_model = get_user_model()
+    # user = user_model.objects.get(pk=250)
+    #
+    # token = default_token_generator.make_token(user)
+    # print("token = ", token)
+    # result = default_token_generator.check_token(user, token)
+    # print("result = ", result)
+    # context = request.build_absolute_uri('/')[:-1] + reverse('email_confirmed', kwargs={'uidb64': 250, 'token': token})
+    # print("context = ", context)
 
     return render(request, 'email_confirmation_sent.html')
 
 def email_confirmed(request, uidb64, token):
-    # uidb64 = uid
-    # token = code
-    print("uid64 = ", uidb64, " token = ", token)
 
-    if uidb64 is not None and token is not None:
-        uid = int(urlsafe_base64_decode(uidb64))
-        print("uid = ", uid, " = ", int(uid))
+    uid = urlsafe_base64_decode(uidb64)
 
-        user_model = get_user_model()
-        user = user_model.objects.get(pk=uid)
-        if_valid = default_token_generator.check_token(user, token)
-        if if_valid:# and user.is_active == 0:
-            print("Email confirmed")
-            return render(request, 'email_confirmed.html')
+    user_model = get_user_model()
+    user = user_model.objects.get(pk=uid)
+    if_valid = default_token_generator.check_token(user, token)
 
-    print("Email not confirmed")
+    if if_valid:
+        return render(request, 'email_confirmed.html')
+
+    # if uidb64 is not None and token is not None:
+    #     uid = int(urlsafe_base64_decode(uidb64))
+    #     print("uid = ", uid, " = ", int(uid))
+    #
+    #     user_model = get_user_model()
+    #     user = user_model.objects.get(pk=uid)
+    #     if_valid = default_token_generator.check_token(user, token)
+    #     if if_valid:# and user.is_active == 0:
+    #         print("Email confirmed")
+    #         return render(request, 'email_confirmed.html')
+    #
+    # print("Email not confirmed")
     return render(request, 'email_not_confirmed.html')
+
+
+def send_email_confirmation(request, user):
+    token = default_token_generator.make_token(user)
+    uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+
+    # generate link with user's id and its token
+    context = request.build_absolute_uri('/')[:-1] + reverse('email_confirmed',
+                                                             kwargs={'uidb64': uidb64, 'token': token})
+    html_message = render_to_string('email_confirm_email_test.html', {'context': context, })
+    subject = "[TeamGlade] Confirm your email address"
+    message = EmailMessage(subject, html_message, to=[user.email])  # FROM field will be DEFAULT_FROM_EMAIL
+    message.send()
