@@ -50,12 +50,13 @@ class UserUpdateView(UpdateView):
 
         return HttpResponseRedirect(reverse('room'))
 
-
 def signup(request):
     if request.method == 'POST':
         form = RoomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            user.is_active = False
+            user.save()
 
             # all new users get a room
             new_room = Room.objects.create(
@@ -63,50 +64,34 @@ def signup(request):
                 created_by=user,)
 
             send_email_confirmation(request, user)
-            # login(request, user)
+
             return redirect('email_confirmation')
     else:
         form = RoomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
 def email_confirmation(request):
-
-    #for test
-    # user_model = get_user_model()
-    # user = user_model.objects.get(pk=250)
-    #
-    # token = default_token_generator.make_token(user)
-    # print("token = ", token)
-    # result = default_token_generator.check_token(user, token)
-    # print("result = ", result)
-    # context = request.build_absolute_uri('/')[:-1] + reverse('email_confirmed', kwargs={'uidb64': 250, 'token': token})
-    # print("context = ", context)
-
     return render(request, 'email_confirmation_sent.html')
 
 def email_confirmed(request, uidb64, token):
 
-    uid = urlsafe_base64_decode(uidb64)
+    try:
+        # catching errors caused by url with malicious broken uidb64 that leads to
+        # not existing user or error with decode
+        uid = urlsafe_base64_decode(uidb64)
 
-    user_model = get_user_model()
-    user = user_model.objects.get(pk=uid)
-    if_valid = default_token_generator.check_token(user, token)
+        user_model = get_user_model()
+        user = user_model.objects.get(pk=uid)
+        if_valid = default_token_generator.check_token(user, token)
 
-    if if_valid:
-        return render(request, 'email_confirmed.html')
+        if if_valid:
+            user.is_active = True
+            user.save()
+            return render(request, 'email_confirmed.html')
+    except:
+        # in any case as result is redirection to "email not confirmed"
+        pass
 
-    # if uidb64 is not None and token is not None:
-    #     uid = int(urlsafe_base64_decode(uidb64))
-    #     print("uid = ", uid, " = ", int(uid))
-    #
-    #     user_model = get_user_model()
-    #     user = user_model.objects.get(pk=uid)
-    #     if_valid = default_token_generator.check_token(user, token)
-    #     if if_valid:# and user.is_active == 0:
-    #         print("Email confirmed")
-    #         return render(request, 'email_confirmed.html')
-    #
-    # print("Email not confirmed")
     return render(request, 'email_not_confirmed.html')
 
 
