@@ -2,7 +2,7 @@ from django.contrib.auth import login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.shortcuts import render, redirect
@@ -74,7 +74,6 @@ def email_confirmation(request):
     return render(request, 'email_confirmation_sent.html')
 
 def email_confirmed(request, uidb64, token):
-
     try:
         # catching errors caused by url with malicious broken uidb64 that leads to
         # not existing user or error with decode
@@ -94,6 +93,13 @@ def email_confirmed(request, uidb64, token):
 
     return render(request, 'email_not_confirmed.html')
 
+def email_resent(request, uidb64):
+    uid = urlsafe_base64_decode(uidb64)
+    user_model = get_user_model()
+    user = user_model.objects.get(pk=uid)
+    send_email_confirmation(request, user)
+
+    return render(request, 'email_confirmation_sent.html')
 
 def send_email_confirmation(request, user):
     token = default_token_generator.make_token(user)

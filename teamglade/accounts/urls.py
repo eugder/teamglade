@@ -6,6 +6,7 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('signup/email-confirmation/', views.email_confirmation, name='email_confirmation'),
     path('signup/email-confirmed/<str:uidb64>/<str:token>/', views.email_confirmed, name='email_confirmed'),
+    path('signup/email-resent/<str:uidb64>/', views.email_resent, name='email_resent'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('reset/',

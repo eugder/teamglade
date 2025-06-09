@@ -15,8 +15,8 @@
         <img class="card-img-top mx-auto mt-4" src="{% static 'images/error-circle.svg' %}" alt="Error" style="width: 12%; height: 12%;">
         <div class="card-body">
           <h3 class="card-title text-muted">Email verification failed!</h3>
-          <p class="text-dark mb-3">The verification code does not match our record.</p>
-          <a href="{% url 'login' %}" class="btn btn-info btn-block">Go to Log in</a>
+          <p class="text-dark mb-3">This verification link either invalid or has expired.</p>
+          <a href="{% url 'email_resent' %}" class="btn btn-info btn-block">Resend verification link.</a>
         </div>
       </div>
     </div>
