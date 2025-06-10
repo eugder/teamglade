@@ -2,7 +2,7 @@ from django.contrib.auth import login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.shortcuts import render, redirect
@@ -65,6 +65,7 @@ def signup(request):
 
             send_email_confirmation(request, user)
 
+            # return render(request, 'email_confirmation_sent.html')
             return redirect('email_confirmation')
     else:
         form = RoomUserCreationForm()
@@ -91,13 +92,16 @@ def email_confirmed(request, uidb64, token):
         # in any case as result is redirection to "email not confirmed"
         pass
 
-    return render(request, 'email_not_confirmed.html')
+    return render(request, 'email_not_confirmed.html', {'context': uidb64}) # here uidb64 for resend
 
-def email_resent(request, uidb64):
-    uid = urlsafe_base64_decode(uidb64)
-    user_model = get_user_model()
-    user = user_model.objects.get(pk=uid)
-    send_email_confirmation(request, user)
+def email_resend(request, uidb64):
+    try:
+        uid = urlsafe_base64_decode(uidb64)
+        user_model = get_user_model()
+        user = user_model.objects.get(pk=uid)
+        send_email_confirmation(request, user)
+    except:
+        raise Http404
 
     return render(request, 'email_confirmation_sent.html')
 

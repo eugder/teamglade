@@ -16,7 +16,7 @@
         <div class="card-body">
           <h3 class="card-title text-muted">Email verification failed!</h3>
           <p class="text-dark mb-3">This verification link either invalid or has expired.</p>
-          <a href="{% url 'email_resent' %}" class="btn btn-info btn-block">Resend verification link.</a>
+          <a href="{% url 'email_resend' context %}" class="btn btn-info btn-block">Resend verification link.</a>
         </div>
       </div>
     </div>
