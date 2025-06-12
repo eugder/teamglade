@@ -63,21 +63,21 @@ def signup(request):
                 name=str(user.username) + " room",
                 created_by=user,)
 
-            send_email_confirmation(request, user)
+            uidb64 = send_email_confirmation(request, user)
 
             # return render(request, 'email_confirmation_sent.html')
-            return redirect('email_confirmation')
+            return redirect('email_confirmation', uidb64=uidb64)
     else:
         form = RoomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
-def email_confirmation(request):
-    return render(request, 'email_confirmation_sent.html')
+def email_confirmation(request, uidb64):
+    return render(request, 'email_confirmation_sent.html', {'context': uidb64})
 
 def email_confirmed(request, uidb64, token):
     try:
-        # catching errors caused by url with malicious broken uidb64 that leads to
-        # not existing user or error with decode
+        # catching errors caused by url with malicious broken uidb64 that leads to not existing user
+        # or error with decode
         uid = urlsafe_base64_decode(uidb64)
 
         user_model = get_user_model()
@@ -89,7 +89,7 @@ def email_confirmed(request, uidb64, token):
             user.save()
             return render(request, 'email_confirmed.html')
     except:
-        # in any case as result is redirection to "email not confirmed"
+        # in any other case as result is redirection to "email not confirmed"
         pass
 
     return render(request, 'email_not_confirmed.html', {'context': uidb64}) # here uidb64 for resend
@@ -103,7 +103,7 @@ def email_resend(request, uidb64):
     except:
         raise Http404
 
-    return render(request, 'email_confirmation_sent.html')
+    return redirect('email_confirmation', uidb64=uidb64)
 
 def send_email_confirmation(request, user):
     token = default_token_generator.make_token(user)
@@ -116,3 +116,5 @@ def send_email_confirmation(request, user):
     subject = "[TeamGlade] Confirm your email address"
     message = EmailMessage(subject, html_message, to=[user.email])  # FROM field will be DEFAULT_FROM_EMAIL
     message.send()
+
+    return uidb64
