@@ -1,5 +1,7 @@
 #from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse, resolve
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 from django.test import TestCase
 from ..views import signup
 #from ..rooms.models import RoomUser
@@ -48,12 +50,13 @@ class SuccessfulSignUpTests(TestCase):
         }
         # Create a new user
         self.response = self.client.post(url, data)
-        self.home_url = reverse('home')
+        uidb64 = urlsafe_base64_encode(force_bytes(1))
+        self.email_confirmation_url = reverse('email_confirmation', kwargs={'uidb64': uidb64})
 
     def test_redirection(self):
-        # A valid form submission should redirect the user to the home page
+        # A valid form submission should redirect the user to the email_confirmation page
         # (302 code, 200 code means not correct filled data in form in setUp)
-        self.assertRedirects(self.response, self.home_url)
+        self.assertRedirects(self.response, self.email_confirmation_url)
 
     def test_user_creation(self):
         # User was created
