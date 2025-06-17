@@ -50,7 +50,9 @@ class SuccessfulSignUpTests(TestCase):
         }
         # Create a new user
         self.response = self.client.post(url, data)
-        uidb64 = urlsafe_base64_encode(force_bytes(1))
+        self.home_url = reverse('home')
+        uid = RoomUser.objects.all().first().id
+        uidb64 = urlsafe_base64_encode(force_bytes(uid))
         self.email_confirmation_url = reverse('email_confirmation', kwargs={'uidb64': uidb64})
 
     def test_redirection(self):
@@ -62,13 +64,12 @@ class SuccessfulSignUpTests(TestCase):
         # User was created
         self.assertTrue(RoomUser.objects.exists())
 
-    def test_user_authentication(self):
-        # Create a new request to an arbitrary page.
-        # The resulting response should now have a `user` to its context,
-        # after a successful signup.
+    def test_user_no_authentication(self):
+        # Create a new request to a home page. The resulting response should now have a `user` to its context.
+        # and this user should be AnonymousUser (not logged in as far as it is not active yet)
         response = self.client.get(self.home_url)
         user = response.context.get('user')
-        self.assertTrue(user.is_authenticated)
+        self.assertTrue(user.is_anonymous)
 
 class InvalidSignUpTests(TestCase):
     def setUp(self):
