@@ -1,4 +1,5 @@
 #from django.contrib.auth.forms import UserCreationForm
+from django.core import mail
 from django.urls import reverse, resolve
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
@@ -18,7 +19,7 @@ class SignUpTests(TestCase):
         self.assertEquals(self.response.status_code, 200)
 
     def test_signup_url_resolves_signup_view(self):
-        # URL leads to correct func
+        # URL named 'signup' leads to correct func
         view = resolve(self.url)
         self.assertEquals(view.func, signup)
 
@@ -52,8 +53,9 @@ class SuccessfulSignUpTests(TestCase):
         self.response = self.client.post(url, data)
         self.home_url = reverse('home')
         uid = RoomUser.objects.all().first().id
-        uidb64 = urlsafe_base64_encode(force_bytes(uid))
-        self.email_confirmation_url = reverse('email_confirmation', kwargs={'uidb64': uidb64})
+        self.uidb64 = urlsafe_base64_encode(force_bytes(uid))
+        self.email_confirmation_url = reverse('email_confirmation', kwargs={'uidb64': self.uidb64})
+        self.email = mail.outbox[0]
 
     def test_redirection(self):
         # A valid form submission should redirect the user to the email_confirmation page
@@ -66,10 +68,21 @@ class SuccessfulSignUpTests(TestCase):
 
     def test_user_no_authentication(self):
         # Create a new request to a home page. The resulting response should now have a `user` to its context.
-        # and this user should be AnonymousUser (not logged in as far as it is not active yet)
+        # and this user should be AnonymousUser (not logged in as far as user is not active yet)
         response = self.client.get(self.home_url)
         user = response.context.get('user')
         self.assertTrue(user.is_anonymous)
+
+    def test_email_confirmation_subject(self):
+        self.assertEqual('[TeamGlade] Confirm your email address', self.email.subject)
+
+    def test_email_confirmation_to(self):
+        self.assertEqual(['john@doe.com',], self.email.to)
+
+    def test_email_confirmation_body_uidb64(self):
+        # email body has a link to email_confirmed view (without token)
+        email_confirmed_url = reverse('email_confirmed', kwargs={'uidb64': self.uidb64, 'token': 111})[:-4]
+        self.assertIn(email_confirmed_url, self.email.body)
 
 class InvalidSignUpTests(TestCase):
     def setUp(self):

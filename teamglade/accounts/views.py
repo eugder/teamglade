@@ -106,6 +106,17 @@ def email_resend(request, uidb64):
     return redirect('email_confirmation', uidb64=uidb64)
 
 def send_email_confirmation(request, user):
+    """
+    Helper function. Sends email confirmation email with token to a user.
+
+    Args:
+        request (HttpRequest): link in email will be to URI that request came from.
+        user (User): user to which send email.
+
+    Returns:
+        uidb64: uidb64 of user.
+    """
+
     token = default_token_generator.make_token(user)
     uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
 
