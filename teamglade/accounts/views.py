@@ -123,7 +123,7 @@ def send_email_confirmation(request, user):
     # generate link with user's id and its token
     context = request.build_absolute_uri('/')[:-1] + reverse('email_confirmed',
                                                              kwargs={'uidb64': uidb64, 'token': token})
-    html_message = render_to_string('email_confirm_email_test.html', {'context': context, })
+    html_message = render_to_string('email_confirm_email.html', {'context': context, })
     subject = "[TeamGlade] Confirm your email address"
     message = EmailMessage(subject, html_message, to=[user.email])  # FROM field will be DEFAULT_FROM_EMAIL
     message.send()
