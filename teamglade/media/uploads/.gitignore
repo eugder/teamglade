@@ -1,0 +1,3 @@
+# Ignore all files except .gitignore to keep empty folders on GitHub (for deployment from GitHub)
+*
+!.gitignore
