@@ -102,9 +102,12 @@
                         </li>
                         <div class="dropdown-divider"></div>
                         <li class="ud-submenu-item">
-                          <a href="{% url 'logout' %}" class="ud-submenu-link">
-                            Log out
-                          </a>
+                          <form method="post" action="{% url 'logout' %}" style="display: block; margin: 0;">
+                            {% csrf_token %}
+                            <button type="submit" class="ud-submenu-button-link">
+                              Log out
+                            </button>
+                          </form>
                         </li>                      
                       </ul>
                     </li>

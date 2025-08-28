@@ -15,7 +15,7 @@ from pathlib import Path
 import os
 
 # uncomment this for deployment on DigitalOcean
-load_dotenv(dotenv_path='DO_prod.env')
+# load_dotenv(dotenv_path='DO_prod.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -95,7 +95,7 @@ DATABASES = {
         'PASSWORD': os.environ.get('DATABASE_PASSWORD', '123'),
         # 'HOST': "host.docker.internal",
         'HOST': os.environ.get('DATABASE_HOST', '127.0.0.1'),
-        'PORT': os.environ.get('DATABASE_PORT', '5432'),
+        'PORT': os.environ.get('DATABASE_PORT', '5433'),
     }
 }
 
