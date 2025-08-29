@@ -126,6 +126,7 @@ def send_email_confirmation(request, user):
     html_message = render_to_string('email_confirm_email.html', {'context': context, })
     subject = "[TeamGlade] Confirm your email address"
     message = EmailMessage(subject, html_message, to=[user.email])  # FROM field will be DEFAULT_FROM_EMAIL
+    message.content_subtype = 'html'
     message.send()
 
     return uidb64
