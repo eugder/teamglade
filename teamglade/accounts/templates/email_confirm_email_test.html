@@ -1,3 +1,5 @@
+{% load static %}
 Email with link
 {{ context }}
+{{ request.scheme }}://{{ request.get_host }}{% static 'images/check-circle.svg' %}
 End email
