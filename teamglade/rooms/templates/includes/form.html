@@ -9,30 +9,46 @@
 {% endif %}
 
 {% for field in form %}
-  <div class="form-group">
-    {{ field.label_tag }}
-
-    {% if form.is_bound %}
-      {% if field.errors %}
-
-        {% render_field field class="form-control is-invalid" %}
-        {% for error in field.errors %}
-          <div class="invalid-feedback">
-            {{ error }}
-          </div>
-        {% endfor %}
-
+  {% if field.name == 'website' or field.name == 'phone' %}
+    <!-- Honeypot fields - hidden from users -->
+    <div class="honeypot-container" aria-hidden="true">
+      {% if field.name == 'website' %}
+        <label for="{{ field.id_for_label }}">Website (leave blank)</label>
       {% else %}
-        {% render_field field class="form-control is-valid" %}
+        <label for="{{ field.id_for_label }}">Phone (leave blank)</label>
       {% endif %}
-    {% else %}
-      {% render_field field class="form-control" %}
-    {% endif %}
+      {% render_field field class="honeypot-field" placeholder="Leave this field blank" %}
+    </div>
+  {% elif field.name == 'timestamp' %}
+    <!-- Hidden timestamp field -->
+    {{ field }}
+  {% else %}
+    <!-- Regular form fields -->
+    <div class="form-group">
+      {{ field.label_tag }}
 
-    {% if field.help_text %}
-      <small class="form-text text-muted">
-        {{ field.help_text }}
-      </small>
-    {% endif %}
-  </div>
+      {% if form.is_bound %}
+        {% if field.errors %}
+
+          {% render_field field class="form-control is-invalid" %}
+          {% for error in field.errors %}
+            <div class="invalid-feedback">
+              {{ error }}
+            </div>
+          {% endfor %}
+
+        {% else %}
+          {% render_field field class="form-control is-valid" %}
+        {% endif %}
+      {% else %}
+        {% render_field field class="form-control" %}
+      {% endif %}
+
+      {% if field.help_text %}
+        <small class="form-text text-muted">
+          {{ field.help_text }}
+        </small>
+      {% endif %}
+    </div>
+  {% endif %}
 {% endfor %}

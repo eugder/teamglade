@@ -12,6 +12,10 @@ from django.utils.encoding import force_bytes
 from django.views.generic import UpdateView
 from rooms.models import RoomUser, Room
 from .forms import RoomUserCreationForm, UserUpdateForm
+import logging
+
+# Set up logging for bot detection
+logger = logging.getLogger(__name__)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -50,9 +54,48 @@ class UserUpdateView(UpdateView):
 
         return HttpResponseRedirect(reverse('room'))
 
+
+def detect_bot_behavior(request):
+    """
+    Additional bot detection based on request patterns
+    Returns True if bot-like behavior is detected
+    """
+    suspicious_indicators = []
+
+    # Check User-Agent
+    user_agent = request.META.get('HTTP_USER_AGENT', '')
+    bot_keywords = ['bot', 'crawler', 'spider', 'scraper', 'automated']
+    if any(keyword in user_agent.lower() for keyword in bot_keywords):
+        suspicious_indicators.append('bot_user_agent')
+
+    # Check for missing common headers
+    if not request.META.get('HTTP_ACCEPT'):
+        suspicious_indicators.append('missing_accept_header')
+
+    if not request.META.get('HTTP_ACCEPT_LANGUAGE'):
+        suspicious_indicators.append('missing_accept_language')
+
+    # Log suspicious activity
+    if suspicious_indicators:
+        ip_address = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', 'Unknown'))
+        logger.warning(f"Suspicious registration attempt from IP {ip_address}. "
+                       f"Indicators: {', '.join(suspicious_indicators)}. "
+                       f"User-Agent: {user_agent}")
+
+    # Return True if multiple indicators present
+    return len(suspicious_indicators) >= 2
+
+
 def signup(request):
     if request.method == 'POST':
         form = RoomUserCreationForm(request.POST)
+
+        # Additional bot detection based on request headers
+        if detect_bot_behavior(request):
+            logger.warning(f"Bot registration attempt blocked from IP: "
+                           f"{request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', 'Unknown'))}")
+            form.add_error(None, 'Registration failed. Please try again later.')
+
         if form.is_valid():
             user = form.save()
             user.is_active = False
@@ -61,18 +104,36 @@ def signup(request):
             # all new users get a room
             new_room = Room.objects.create(
                 name=str(user.username) + " room",
-                created_by=user,)
+                created_by=user, )
 
             uidb64 = send_email_confirmation(request, user)
 
-            # return render(request, 'email_confirmation_sent.html')
+            # Log successful registration (for monitoring)
+            ip_address = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', 'Unknown'))
+            logger.info(f"New user registration: {user.username} from IP {ip_address}")
+
             return redirect('email_confirmation', uidb64=uidb64)
+        else:
+            # Log form validation failures (might indicate bot attempts)
+            # Check if honeypot fields were filled by examining raw POST data
+            ip_address = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', 'Unknown'))
+
+            website_value = request.POST.get('website', '')
+            phone_value = request.POST.get('phone', '')
+
+            if website_value or phone_value:
+                logger.warning(f"Honeypot triggered from IP {ip_address}. "
+                               f"Website field: '{website_value}', "
+                               f"Phone field: '{phone_value}'")
     else:
         form = RoomUserCreationForm()
+
     return render(request, 'signup.html', {'form': form})
+
 
 def email_confirmation(request, uidb64):
     return render(request, 'email_confirmation_sent.html', {'context': uidb64})
+
 
 def email_confirmed(request, uidb64, token):
     try:
@@ -87,12 +148,17 @@ def email_confirmed(request, uidb64, token):
         if if_valid:
             user.is_active = True
             user.save()
+
+            # Log successful email confirmation
+            logger.info(f"Email confirmed for user: {user.username}")
+
             return render(request, 'email_confirmed.html')
     except:
         # in any other case as result is redirection to "email not confirmed"
         pass
 
-    return render(request, 'email_not_confirmed.html', {'context': uidb64}) # here uidb64 for resend
+    return render(request, 'email_not_confirmed.html', {'context': uidb64})  # here uidb64 for resend
+
 
 def email_resend(request, uidb64):
     try:
@@ -104,6 +170,7 @@ def email_resend(request, uidb64):
         raise Http404
 
     return redirect('email_confirmation', uidb64=uidb64)
+
 
 def send_email_confirmation(request, user):
     """
@@ -127,7 +194,7 @@ def send_email_confirmation(request, user):
     html_message = render_to_string('email_confirm_email.html', {'context': context, }, request=request)
     subject = "[TeamGlade] Confirm your email address"
     message = EmailMessage(subject, html_message, to=[user.email])  # FROM field will be DEFAULT_FROM_EMAIL
-    message.content_subtype = 'html'    # content_subtype is "text" as default
+    message.content_subtype = 'html'  # content_subtype is "text" as default
     message.send()
 
     return uidb64
