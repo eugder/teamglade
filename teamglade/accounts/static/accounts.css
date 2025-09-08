@@ -1,3 +1,27 @@
 body {
   background-image: url(./images/leaves.webp);
 }
+
+
+/* Honeypot field styling - hide from humans but not from bots */
+.honeypot-field {
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  white-space: nowrap !important;
+}
+
+/* Alternative method - make it invisible but still accessible to screen readers */
+.honeypot-container {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0;
+  width: 0;
+  z-index: -1;
+}

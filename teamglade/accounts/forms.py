@@ -1,15 +1,20 @@
+import time
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from rooms.models import RoomUser, Room
-import time
 
 
 class RoomUserCreationForm(UserCreationForm):
-    email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
 
-    # Honeypot fields - bots will likely fill these
+    email = forms.CharField(
+        max_length=254,
+        required=True,
+        widget=forms.EmailInput()
+    )
+
+    # Honeypot fields - website and phone
     website = forms.CharField(
         max_length=100,
         required=False,
@@ -81,20 +86,6 @@ class RoomUserCreationForm(UserCreationForm):
                 raise ValidationError('Invalid form data. Please try again.')
 
         return timestamp
-
-    def clean(self):
-        """Additional validation to catch sophisticated bots"""
-        cleaned_data = super().clean()
-
-        # Check if both honeypot fields are filled (extra suspicious)
-        website = cleaned_data.get('website')
-        phone = cleaned_data.get('phone')
-
-        if website and phone:
-            raise ValidationError(
-                'Multiple spam indicators detected. Please contact support if you believe this is an error.')
-
-        return cleaned_data
 
 
 class UserUpdateForm(forms.ModelForm):
