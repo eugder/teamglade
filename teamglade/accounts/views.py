@@ -62,7 +62,7 @@ def detect_bot_behavior(request):
     """
     suspicious_indicators = []
 
-    # Check User-Agent
+    # Check User-Agent, what browser/tool is making the request
     user_agent = request.META.get('HTTP_USER_AGENT', '')
     bot_keywords = ['bot', 'crawler', 'spider', 'scraper', 'automated']
     if any(keyword in user_agent.lower() for keyword in bot_keywords):
