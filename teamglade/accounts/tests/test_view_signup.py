@@ -235,3 +235,71 @@ class TimestampHoneypotSignUpTests(TestCase):
         form = response.context.get('form')
         self.assertTrue(form.errors)
         self.assertIn('Form session expired', str(form.errors))
+
+class HeaderBotDetectionTests(TestCase):
+    """
+    Tests for the additional bot detection based on request headers.
+    """
+    def setUp(self):
+        self.url = reverse('signup')
+        self.data = {
+            'username': 'john',
+            'email': 'john@doe.com',
+            'password1': 'abcdef123456',
+            'password2': 'abcdef123456',
+            'website': '',
+            'phone': '',
+        }
+
+    def test_registration_blocked_for_bot_user_agent_and_missing_header(self):
+        """
+        Tests that registration is blocked if the User-Agent is bot-like AND
+        a common header is missing (2 suspicious indicators).
+        """
+        response = self.client.post(
+            self.url,
+            self.data,
+            HTTP_USER_AGENT='TestBot/1.0 crawler',  # Indicator 1
+            # Missing HTTP_ACCEPT header             # Indicator 2
+            HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.9',
+        )
+
+        self.assertEquals(response.status_code, 200)
+        self.assertFalse(RoomUser.objects.exists())
+        # Check for the specific error message from the view
+        self.assertContains(response, 'Registration failed. Please try again later.')
+
+    def test_registration_blocked_for_missing_multiple_headers(self):
+        """
+        Tests that registration is blocked if multiple common headers are missing
+        (2 suspicious indicators).
+        """
+        response = self.client.post(
+            self.url,
+            self.data,
+            HTTP_USER_AGENT='Mozilla/5.0 (Windows NT 10.0; ...)',
+            # Missing HTTP_ACCEPT header                # Indicator 1
+            # Missing HTTP_ACCEPT_LANGUAGE header       # Indicator 2
+        )
+
+        self.assertEquals(response.status_code, 200)
+        self.assertFalse(RoomUser.objects.exists())
+        self.assertContains(response, 'Registration failed. Please try again later.')
+
+
+    def test_registration_allowed_with_only_one_suspicious_indicator(self):
+        """
+        Tests that registration is allowed if only one suspicious indicator is present,
+        as the threshold is two.
+        """
+        response = self.client.post(
+            self.url,
+            self.data,
+            HTTP_USER_AGENT='A single TestBot crawler',  # Indicator 1
+            HTTP_ACCEPT='text/html,application/xhtml+xml,application/xml;q=0.9...',
+            HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.9',
+        )
+
+        # Should succeed and redirect
+        self.assertEquals(response.status_code, 302)
+        self.assertTrue(RoomUser.objects.exists())
