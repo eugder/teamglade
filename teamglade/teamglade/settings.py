@@ -166,3 +166,35 @@ MEDIA_URL = os.environ.get('MEDIA_URL', '/media/')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} === {message}',
+            'style': '{',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': 'test.log',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'rooms.views': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'accounts.views': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+    },
+}

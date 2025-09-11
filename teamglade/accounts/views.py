@@ -56,6 +56,7 @@ class UserUpdateView(UpdateView):
         return HttpResponseRedirect(reverse('room'))
 
 def signup(request):
+    logger.warning("Log: Signup")
     if request.method == 'POST':
         form = RoomUserCreationForm(request.POST)
 
