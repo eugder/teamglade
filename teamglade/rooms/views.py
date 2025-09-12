@@ -249,7 +249,7 @@ def message(request):
 
 
 def index(request):
-    logger.warning("Log: Index page")
+    logger.error("Log: Index page")
     return render(request, 'index.html')
 
 

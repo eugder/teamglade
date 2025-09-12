@@ -19,6 +19,8 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+# Path to dir with logs
+LOGS_DIR = os.environ.get('LOGS_DIR', 'logs')
 
 
 # Quick-start development settings - unsuitable for production
@@ -172,7 +174,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': '{levelname} {asctime} === {message}',
+            'format': '[{asctime}] {levelname:8} === {message}',
             'style': '{',
             'datefmt': '%Y-%m-%d %H:%M:%S',
         },
@@ -180,8 +182,10 @@ LOGGING = {
     'handlers': {
         'file': {
             'level': 'WARNING',
-            'class': 'logging.FileHandler',
-            'filename': 'test.log',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOGS_DIR + '/security.log',
+            'maxBytes': 1024 * 1024 * 15,  # 15MB
+            'backupCount': 10,
             'formatter': 'verbose',
         },
     },
@@ -191,7 +195,7 @@ LOGGING = {
             'level': 'WARNING',
             'propagate': True,
         },
-        'accounts.views': {
+        'accounts': {
             'handlers': ['file'],
             'level': 'WARNING',
             'propagate': True,
