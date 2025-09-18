@@ -11,10 +11,7 @@ from django.views.generic import ListView, DeleteView
 from django.utils.decorators import method_decorator
 from .models import Topic, Room, RoomUser, File
 from .forms import NewTopicForm, SendInviteForm
-import logging
 
-# Set up logging for bot detection
-logger = logging.getLogger(__name__)
 
 @method_decorator(login_required, name='dispatch')
 class RoomView(ListView):
@@ -249,7 +246,6 @@ def message(request):
 
 
 def index(request):
-    logger.error("Log: Index page")
     return render(request, 'index.html')
 
 

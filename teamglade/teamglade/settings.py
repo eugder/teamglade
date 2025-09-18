@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from dotenv import load_dotenv
 from pathlib import Path
 import os
+import logging
 
 # uncomment this for deployment on DigitalOcean
 # load_dotenv(dotenv_path='DO_prod.env')
@@ -179,25 +180,35 @@ LOGGING = {
             'datefmt': '%Y-%m-%d %H:%M:%S',
         },
     },
+    'filters': {
+        'info_only': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': lambda record: record.levelno == logging.INFO
+        },
+    },
     'handlers': {
-        'file': {
+        'accounts_security_file': {
             'level': 'WARNING',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': LOGS_DIR + '/security.log',
-            'maxBytes': 1024 * 1024 * 15,  # 15MB
+            'filename': LOGS_DIR + '/accounts_security.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5MB
             'backupCount': 10,
             'formatter': 'verbose',
         },
+        'accounts_info_file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOGS_DIR + '/accounts_info.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5MB
+            'backupCount': 10,
+            'formatter': 'verbose',
+            'filters': ['info_only'],
+        },
     },
     'loggers': {
-        'rooms.views': {
-            'handlers': ['file'],
-            'level': 'WARNING',
-            'propagate': True,
-        },
         'accounts': {
-            'handlers': ['file'],
-            'level': 'WARNING',
+            'handlers': ['accounts_security_file', 'accounts_info_file'],
+            'level': 'INFO',
             'propagate': True,
         },
     },
