@@ -21,7 +21,7 @@ import logging
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 # Path to dir with logs
-LOGS_DIR = os.environ.get('LOGS_DIR', 'logs')
+LOGS_DIR = os.environ.get('LOGS_DIR', 'logs/')
 
 
 # Quick-start development settings - unsuitable for production
@@ -180,17 +180,11 @@ LOGGING = {
             'datefmt': '%Y-%m-%d %H:%M:%S',
         },
     },
-    'filters': {
-        'info_only': {
-            '()': 'django.utils.log.CallbackFilter',
-            'callback': lambda record: record.levelno == logging.INFO
-        },
-    },
     'handlers': {
         'accounts_security_file': {
             'level': 'WARNING',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': LOGS_DIR + '/accounts_security.log',
+            'filename': LOGS_DIR + 'accounts_security.log',
             'maxBytes': 1024 * 1024 * 5,  # 5MB
             'backupCount': 10,
             'formatter': 'verbose',
@@ -198,11 +192,10 @@ LOGGING = {
         'accounts_info_file': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': LOGS_DIR + '/accounts_info.log',
+            'filename': LOGS_DIR + 'accounts.log',
             'maxBytes': 1024 * 1024 * 5,  # 5MB
             'backupCount': 10,
             'formatter': 'verbose',
-            'filters': ['info_only'],
         },
     },
     'loggers': {

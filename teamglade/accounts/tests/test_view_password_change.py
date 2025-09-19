@@ -29,8 +29,8 @@ class PasswordChangeTests(TestCase):
         self.assertIsInstance(form, PasswordChangeForm)
 
     def test_form_inputs(self):
-        # The view must contain four inputs: csrf, old_password, new_password1, new_password2
-        self.assertContains(self.response, '<input', 4)
+        # The view must contain 5 inputs: csrf, old_password, new_password1, new_password2 and one csrf for logout menu
+        self.assertContains(self.response, '<input', 5)
         self.assertContains(self.response, 'type="password"', 3)
 
 
