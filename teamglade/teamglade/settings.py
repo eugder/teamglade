@@ -16,7 +16,7 @@ import os
 import logging
 
 # uncomment this for deployment on DigitalOcean
-# load_dotenv(dotenv_path='DO_prod.env')
+load_dotenv(dotenv_path='DO_prod.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
