@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from dotenv import load_dotenv
 from pathlib import Path
 import os
+from uuid import uuid4
 #test 3
 # uncomment this for deployment on DigitalOcean
 load_dotenv(dotenv_path='DO_prod.env')
