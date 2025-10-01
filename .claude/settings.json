@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./teamglade/*.env)",
+      "Read(./tg_keys.csv)",
+      "Read(./Diagrams.drawio)"
+    ]
+  }
+}
