@@ -10,12 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
+from platform import system
 from dotenv import load_dotenv
 from pathlib import Path
-import os
 
-# uncomment this for deployment on DigitalOcean
-load_dotenv(dotenv_path='DO_prod.env')
+
+# Automatically detect environment based on OS platform
+# Development: Windows (uses default settings, no env file)
+# Production: Linux (loads DO_prod.env for deployment)
+if system() == 'Linux':
+    load_dotenv(dotenv_path='DO_prod.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
