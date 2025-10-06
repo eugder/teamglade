@@ -200,10 +200,23 @@ LOGGING = {
             'backupCount': 10,
             'formatter': 'verbose',
         },
+        'rooms_security_file': {
+            'level': 'WARNING',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOGS_DIR + 'rooms_security.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5MB
+            'backupCount': 10,
+            'formatter': 'verbose',
+        },
     },
     'loggers': {
         'accounts': {
             'handlers': ['accounts_security_file', 'accounts_info_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'rooms': {
+            'handlers': ['rooms_security_file'],
             'level': 'INFO',
             'propagate': True,
         },

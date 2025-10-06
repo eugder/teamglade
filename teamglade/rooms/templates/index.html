@@ -352,6 +352,15 @@
               <h3 class="ud-contact-form-title">Send us a Message</h3>
               <form class="ud-contact-form" action="/message/" method="post">
                 {% csrf_token %}
+                <!-- Honeypot fields - should remain empty -->
+                <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                  <label for="website">Website</label>
+                  <input type="text" name="website" id="website" placeholder="Your website" tabindex="-1" autocomplete="off" />
+                </div>
+                <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                  <label for="email_confirmation">Email Confirmation</label>
+                  <input type="email" name="email_confirmation" id="email_confirmation" placeholder="Confirm your email" tabindex="-1" autocomplete="off" />
+                </div>
                 <div class="ud-form-group">
                   <label for="name">Name*</label>
                   <input
@@ -359,7 +368,7 @@
                     name="name"
                     placeholder="Name"
                     required
-                    minlength="3" 
+                    minlength="3"
                     maxlength="30"
                   />
                 </div>

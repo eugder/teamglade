@@ -11,6 +11,10 @@ from django.views.generic import ListView, DeleteView
 from django.utils.decorators import method_decorator
 from .models import Topic, Room, RoomUser, File
 from .forms import NewTopicForm, SendInviteForm
+import logging
+
+# Set up logging for bot detection
+logger = logging.getLogger(__name__)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -230,6 +234,19 @@ def message(request):
     Accepts message form from home page and sends email with message
     """
     if request.method == 'POST':
+        # Honeypot validation - if filled, it's a bot
+        website = request.POST.get('website', '')
+        email_confirmation = request.POST.get('email_confirmation', '')
+
+        # If bot detected
+        if website or email_confirmation:
+            ip_address = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', 'Unknown'))
+            logger.warning(f"Home page honeypot triggered from IP {ip_address}. "
+                           f"Website field: '{website}', "
+                           f"Email confirmation field: '{email_confirmation}'")
+            # and silently reject and redirect to home
+            return redirect('home')
+
         name = request.POST['name']
         from_email = request.POST['email']
         phone = request.POST['phone']
