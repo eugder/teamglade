@@ -24,6 +24,8 @@ You have to follow these principles in all code changes:
 - Design systems so that new functionality can be added with minimal changes to existing code
 
 Write clean, senior level code.
+You can offer your own solution if you think it is a better solution, only offer, no code without confirmation.
+When in doubt, ask for clarification.
 
 ## Project Overview
 
