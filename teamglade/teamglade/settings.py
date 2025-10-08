@@ -15,15 +15,15 @@ from platform import system
 from dotenv import load_dotenv
 from pathlib import Path
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'. (place where manage.py located)
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Automatically detect environment based on OS platform
 # Development: Windows (uses default settings, no env file)
 # Production: Linux (loads DO_prod.env for deployment)
 if system() == 'Linux':
-    load_dotenv(dotenv_path='DO_prod.env')
+    load_dotenv(os.path.join(BASE_DIR, 'DO_prod.env'))
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 # Path to dir with logs
 LOGS_DIR = os.environ.get('LOGS_DIR', 'logs/')
 
