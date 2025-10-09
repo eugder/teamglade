@@ -19,6 +19,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Automatically detect environment based on OS platform
+# This is a  best practice to use BASE_DIR with load_dotenv as far as Gunicorn's CWD may be different from expected
 if system() == 'Linux':
     load_dotenv(os.path.join(BASE_DIR, 'DO_prod.env'))
 
