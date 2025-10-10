@@ -15,7 +15,7 @@ from platform import system
 from dotenv import load_dotenv
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# BASE_DIR - absolute path to root project folder (CWD) (where manage.py file located)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Automatically detect environment based on OS platform

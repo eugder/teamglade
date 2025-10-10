@@ -68,8 +68,8 @@
                 <table border="0" cellspacing="0" cellpadding="0" class="container" style="width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
                     <tr>
                         <td align="center" style="padding: 24px 0;">
-                            <!-- Generating absolute url to image -->
-                            <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo3.png' %}" alt="Company Logo" style="max-width: 150px; height: auto; border-radius: 4px;">
+                            <!-- Generating absolute url to image, image should be png, not svg format (may be blocked by email client) -->
+                            <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo3.png' %}" alt="TeamGlade Logo" style="height: auto; border-radius: 4px;">
                         </td>
                     </tr>
 
