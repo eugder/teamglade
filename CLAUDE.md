@@ -11,7 +11,7 @@ Teamglade is a free online collaboration platform for sharing files and messages
 ### Setup
 ```bash
 # Install dependencies
-pip install -r teamglade/requirements.txt
+pip install -r teamglade/DO_requirements.txt
 
 # Run database migrations
 python teamglade/manage.py migrate
