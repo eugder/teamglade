@@ -13,7 +13,7 @@ from django.views.generic import UpdateView
 from rooms.models import RoomUser, Room
 from .forms import RoomUserCreationForm, UserUpdateForm
 import logging
-from .utils import detect_bot_behavior
+from .utils import detect_bot_behavior, get_ip
 
 # Set up logging for bot detection
 logger = logging.getLogger(__name__)
@@ -59,10 +59,9 @@ def signup(request):
     if request.method == 'POST':
         form = RoomUserCreationForm(request.POST)
 
-        # Additional bot detection based on request headers
+        # Bot detection based on request headers
         if detect_bot_behavior(request):
-            logger.warning(f"Bot registration attempt blocked from IP: "
-                           f"{request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', 'Unknown'))}")
+            logger.warning(f"Bot registration attempt blocked from IP: {get_ip(request)}")
             form.add_error(None, 'Registration failed. Please try again later.')
 
         if form.is_valid():
@@ -78,22 +77,20 @@ def signup(request):
             uidb64 = send_email_confirmation(request, user)
 
             # Log successful registration (for monitoring)
-            ip_address = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', 'Unknown'))
-            logger.info(f"New user registration: {user.username} from IP {ip_address}")
+            logger.info(f"New user registration: {user.username} from IP {get_ip(request)}")
 
             return redirect('email_confirmation', uidb64=uidb64)
-        else:
-            # Log form validation failures (might indicate bot attempts)
-            # Check if honeypot fields were filled by examining raw POST data
-            ip_address = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', 'Unknown'))
 
+        else:
+            # Log form validation failures caused bot activity
+            # Check if honeypot fields were filled by examining raw POST data
             website_value = request.POST.get('website', '')
             phone_value = request.POST.get('phone', '')
-
             if website_value or phone_value:
-                logger.warning(f"Honeypot triggered from IP {ip_address}. "
+                logger.warning(f"Honeypot triggered from IP {get_ip(request)}. "
                                f"Website field: '{website_value}', "
                                f"Phone field: '{phone_value}'")
+
     else:
         form = RoomUserCreationForm()
 

@@ -25,8 +25,7 @@ def detect_bot_behavior(request):
 
     # Log suspicious activity
     if suspicious_indicators:
-        ip_address = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', 'Unknown'))
-        logger.warning(f"Suspicious registration attempt from IP {ip_address}. "
+        logger.warning(f"Suspicious registration attempt from IP {get_ip(request)}. "
                        f"Indicators: {', '.join(suspicious_indicators)}. "
                        f"User-Agent: {user_agent}")
 
@@ -34,4 +33,7 @@ def detect_bot_behavior(request):
     # Here 2 is trade-off between security and usability
     # browsers can miss HTTP_ACCEPT_LANGUAGE (privacy setting) or proxies can cut HTTP_ACCEPT
     return len(suspicious_indicators) >= 2
+
+def get_ip(request):
+    return request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', 'Unknown'))
 

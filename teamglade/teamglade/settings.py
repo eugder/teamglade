@@ -138,14 +138,13 @@ LOGIN_URL = 'login'
 # EMAIL_HOST_PASSWORD = ''
 # DEFAULT_FROM_EMAIL = 'noreply@mg.teamglade.com'
 
-# Uncomment these two parameters to use Mailgun HTTP API
 ANYMAIL = {
     "MAILGUN_API_KEY": os.environ.get('MAILGUN_API_KEY', ''),
     "MAILGUN_SENDER_DOMAIN": os.environ.get('MAILGUN_SENDER_DOMAIN', 'mg.teamglade.com'),
 }
 
+# Uncomment necessary EMAIL_BACKEND to use Mailgun HTTP API or Mailgun SMTP
 EMAIL_BACKEND = os.environ.get('HTTP_EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
-# Uncomment EMAIL_BACKEND to use Mailgun SMTP
 #EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
 EMAIL_PORT = os.environ.get('EMAIL_PORT', '25')

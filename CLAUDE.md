@@ -134,6 +134,16 @@ LOGIN_URL = 'login'
 - When a user views a topic, they're added to this field
 - Room view shows which topics are unread for the current user
 
+**Email System:**
+- Uses Mailgun HTTP API via django-anymail for sending emails
+- Three email types sent:
+  1. Email confirmation (accounts/views.py:165) - Token-based email verification for new signups
+  2. Room invitations (rooms/views.py:156) - Invite emails with registration links
+  3. Contact form (rooms/views.py:258) - Messages from site visitors
+- All emails use HTML templates rendered with `render_to_string()`
+- Configuration via `ANYMAIL` settings dictionary in settings.py
+- FROM address: `DEFAULT_FROM_EMAIL` or `SERVER_EMAIL` (noreply@mg.teamglade.com)
+
 ### Environment Configuration
 
 Settings load from `DO_prod.env` file (DigitalOcean production environment):
@@ -142,9 +152,10 @@ Settings load from `DO_prod.env` file (DigitalOcean production environment):
 - `DJANGO_ALLOWED_HOSTS` - Space-separated allowed hosts
 - `CSRF_TRUSTED_ORIGINS` - Space-separated trusted origins
 - Database settings: `DATABASE_ENGINE`, `DATABASE_NAME`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_HOST`, `DATABASE_PORT`
-- Email settings: `EMAIL_BACKEND`, `EMAIL_HOST`, `EMAIL_PORT`, etc.
+- Email settings (legacy SMTP, not currently used): `EMAIL_BACKEND`, `EMAIL_HOST`, `EMAIL_PORT`, etc.
 - `STATIC_URL`, `MEDIA_ROOT`, `MEDIA_URL`
 - `LOGS_DIR` - Directory for log files
+- Mailgun API settings (for email): `MAILGUN_API_KEY`, `MAILGUN_SENDER_DOMAIN`
 
 ### Logging
 
