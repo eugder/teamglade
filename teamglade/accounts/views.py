@@ -77,7 +77,7 @@ def signup(request):
             uidb64 = send_email_confirmation(request, user)
 
             # Log successful registration (for monitoring)
-            logger.info(f"New user registration: {user.username} from IP {get_ip(request)}")
+            logger.info(f"New user registration, user: {user.username} from IP {get_ip(request)}")
 
             return redirect('email_confirmation', uidb64=uidb64)
 
@@ -87,7 +87,7 @@ def signup(request):
             website_value = request.POST.get('website', '')
             phone_value = request.POST.get('phone', '')
             if website_value or phone_value:
-                logger.warning(f"Honeypot triggered from IP {get_ip(request)}. "
+                logger.warning(f"Honeypot fields triggered from IP {get_ip(request)}. "
                                f"Website field: '{website_value}', "
                                f"Phone field: '{phone_value}'")
 
@@ -116,7 +116,7 @@ def email_confirmed(request, uidb64, token):
             user.save()
 
             # Log successful email confirmation
-            logger.info(f"Email confirmed for user: {user.username}")
+            logger.info(f"New user email confirmed for user: {user.username}")
 
             return render(request, 'email_confirmed.html')
     except:

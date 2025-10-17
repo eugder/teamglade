@@ -12,9 +12,21 @@ def detect_bot_behavior(request):
 
     # Check User-Agent, what browser/tool is making the request
     user_agent = request.META.get('HTTP_USER_AGENT', '')
-    bot_keywords = ['bot', 'crawler', 'spider', 'scraper', 'automated']
-    if any(keyword in user_agent.lower() for keyword in bot_keywords):
-        suspicious_indicators.append('bot_user_agent')
+    bot_keywords = [
+        # HTTP clients
+        'curl', 'wget', 'python-requests', 'python-urllib', 'httpie',
+        'httpclient', 'okhttp', 'axios',
+        # Headless browsers & automation
+        'headless', 'phantomjs', 'phantom', 'selenium', 'webdriver',
+        'puppeteer', 'playwright', 'chromedriver',
+        # Generic indicators
+        'script','bot', 'crawler', 'spider', 'scraper', 'automated',
+        # Programming languages (suspicious for web registration)
+        'python/', 'java/', 'go-http-client'
+    ]
+    detected_keywords = [keyword for keyword in bot_keywords if keyword in user_agent.lower()]
+    if detected_keywords:
+        suspicious_indicators.append(f'bot_user_agent keywords ({", ".join(detected_keywords)})')
 
     # Check for missing common headers
     if not request.META.get('HTTP_ACCEPT'):

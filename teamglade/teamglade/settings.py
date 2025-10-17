@@ -188,7 +188,7 @@ LOGGING = {
         'verbose': {
             'format': '[{asctime}] {levelname:8} === {message}',
             'style': '{',
-            'datefmt': '%Y-%m-%d %H:%M:%S',
+            'datefmt': '%d-%b-%Y %H:%M:%S',
         },
     },
     'handlers': {
