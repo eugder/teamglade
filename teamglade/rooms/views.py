@@ -266,6 +266,10 @@ def index(request):
     return render(request, 'index.html')
 
 
+def policy(request):
+    return render(request, 'privacy_policy.html')
+
+
 def get_user_room(request):
     """
     Helper function.

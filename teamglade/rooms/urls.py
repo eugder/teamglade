@@ -11,4 +11,5 @@ urlpatterns = [
     path('topic/<int:pk>/', views.topic, name='topic'),
     path('topic/<int:pk>/delete/', views.DeleteTopicView.as_view(), name='delete_topic'),
     path('message/', views.message, name='message'),
+    path('policy/', views.policy, name='policy'),
 ]

@@ -1,0 +1,100 @@
+/* Legal Pages Styles (Privacy Policy, Terms of Service, etc.) */
+
+.legal-page {
+  line-height: 1.8;
+  color: #333;
+}
+
+.legal-header {
+  text-align: center;
+  padding: 2rem 0 1rem 0;
+  margin-bottom: 2rem;
+  border-bottom: 3px solid #1b7931;
+}
+
+.legal-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+  color: #007f1f;
+}
+
+.legal-header .effective-date {
+  font-size: 0.95rem;
+  margin: 0;
+  color: #6c757d;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #007f1f;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #b9dac1;
+}
+
+.section-title:first-of-type {
+  margin-top: 0;
+}
+
+.subsection-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1b7931;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.legal-page p {
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.definition-term {
+  font-weight: 600;
+  color: #1b7931;
+}
+
+.list-item {
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.highlight-box {
+  background-color: #f8f9fa;
+  border-left: 4px solid #1b7931;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0.25rem;
+}
+
+.contact-section {
+  background-color: #e8f5e9;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-top: 2rem;
+  text-align: center;
+  border: 1px solid #b9dac1;
+}
+
+.footer-attribution {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #b9dac1;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.legal-page a {
+  color: #007f1f;
+  text-decoration: none;
+}
+
+.legal-page a:hover {
+  color: #1b7931;
+  text-decoration: underline;
+}
