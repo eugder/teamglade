@@ -270,6 +270,10 @@ def policy(request):
     return render(request, 'privacy_policy.html')
 
 
+def terms(request):
+    return render(request, 'terms_conditions.html')
+
+
 def get_user_room(request):
     """
     Helper function.
