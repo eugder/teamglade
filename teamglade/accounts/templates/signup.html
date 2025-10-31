@@ -18,7 +18,16 @@
             <form method="post" novalidate>
               {% csrf_token %}
               {% include 'includes/form.html' %}
-              <button type="submit" class="btn btn-primary btn-block">Create an account</button>
+
+              <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="termsCheckbox">
+                <label class="form-check-label" for="termsCheckbox">
+                  I have read and agree to the <a href="{% url 'terms' %}" target="_blank">Terms & Conditions</a>
+                  and <a href="{% url 'policy' %}" target="_blank">Privacy Policy</a>
+                </label>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block" id="submitBtn" disabled>Create an account</button>
             </form>
           </div>
           <div class="card-footer text-muted text-center">
@@ -28,4 +37,15 @@
       </div>
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const termsCheckbox = document.getElementById('termsCheckbox');
+      const submitBtn = document.getElementById('submitBtn');
+
+      termsCheckbox.addEventListener('change', function() {
+        submitBtn.disabled = !this.checked;
+      });
+    });
+  </script>
 {% endblock %}

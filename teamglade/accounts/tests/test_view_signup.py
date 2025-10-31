@@ -39,12 +39,13 @@ class SignUpTests(TestCase):
         self.assertIsInstance(form, RoomUserCreationForm)
 
     def test_form_inputs(self):
-        # The view must contain five inputs:
-        # csrf, username, email, password1, password2 and honeypot fields website, phone and timestamp
-        self.assertContains(self.response, '<input', 8)
+        # The view must contain inputs:
+        # csrf, username, email, password1, password2, terms checkbox, honeypot fields: website, phone and timestamp
+        self.assertContains(self.response, '<input', 9)
         self.assertContains(self.response, 'type="text"', 3)
         self.assertContains(self.response, 'type="email"', 1)
         self.assertContains(self.response, 'type="password"', 2)
+        self.assertContains(self.response, 'type="checkbox"', 1)
 
 class SuccessfulSignUpTests(TestCase):
     def setUp(self):
@@ -303,3 +304,65 @@ class HeaderBotDetectionTests(TestCase):
         # Should succeed and redirect
         self.assertEquals(response.status_code, 302)
         self.assertTrue(RoomUser.objects.exists())
+
+
+class TermsAndConditionsCheckboxTests(TestCase):
+    """
+    Tests for the Terms & Conditions and Privacy Policy acceptance checkbox.
+    """
+    def setUp(self):
+        self.url = reverse('signup')
+        self.response = self.client.get(
+            self.url,
+            HTTP_USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36...',
+            HTTP_ACCEPT='text/html,application/xhtml+xml,application/xml;q=0.9...',
+            HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.9',
+        )
+
+    def test_terms_checkbox_present(self):
+        """
+        Tests that the terms & conditions checkbox is present on the signup page.
+        """
+        self.assertContains(self.response, 'id="termsCheckbox"')
+        self.assertContains(self.response, 'type="checkbox"')
+
+    def test_submit_button_disabled_by_default(self):
+        """
+        Tests that the submit button has the disabled attribute by default.
+        """
+        self.assertContains(self.response, 'id="submitBtn"')
+        self.assertContains(self.response, 'disabled')
+
+    def test_privacy_policy_link_present(self):
+        """
+        Tests that the Privacy Policy link is present in the checkbox label.
+        """
+        # Check for the link to privacy policy page
+        privacy_url = reverse('policy')
+        self.assertContains(self.response, privacy_url)
+        self.assertContains(self.response, 'Privacy Policy')
+        self.assertContains(self.response, 'target="_blank"')
+
+    def test_terms_conditions_link_present(self):
+        """
+        Tests that the Terms & Conditions link is present in the checkbox label.
+        """
+        # Check for the link to terms page
+        terms_url = reverse('terms')
+        self.assertContains(self.response, terms_url)
+        self.assertContains(self.response, 'Terms & Conditions')
+
+    def test_checkbox_label_text(self):
+        """
+        Tests that the checkbox label contains the proper acceptance text.
+        """
+        self.assertContains(self.response, 'I have read and agree to the')
+
+    def test_javascript_for_button_control_present(self):
+        """
+        Tests that the JavaScript code for enabling/disabling the submit button is present.
+        """
+        self.assertContains(self.response, 'termsCheckbox')
+        self.assertContains(self.response, 'submitBtn')
+        self.assertContains(self.response, 'addEventListener')
+        self.assertContains(self.response, 'disabled')
