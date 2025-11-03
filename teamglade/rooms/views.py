@@ -241,7 +241,7 @@ def message(request):
         # If bot detected
         if website or email_confirmation:
             ip_address = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', 'Unknown'))
-            logger.warning(f"Home page honeypot triggered from IP {ip_address}. "
+            logger.warning(f"Home page honeypot triggered from IP {ip_address}. Bot send message attempt blocked. "
                            f"Website field: '{website}', "
                            f"Email confirmation field: '{email_confirmation}'")
             # and silently reject and redirect to home

@@ -82,14 +82,17 @@ def signup(request):
             return redirect('email_confirmation', uidb64=uidb64)
 
         else:
-            # Log form validation failures caused bot activity
+            # Log form validation failures caused bot activity:
             # Check if honeypot fields were filled by examining raw POST data
             website_value = request.POST.get('website', '')
             phone_value = request.POST.get('phone', '')
             if website_value or phone_value:
-                logger.warning(f"Honeypot fields triggered from IP {get_ip(request)}. "
+                logger.warning(f"Honeypot fields triggered from IP {get_ip(request)}. Bot registration attempt blocked. "
                                f"Website field: '{website_value}', "
                                f"Phone field: '{phone_value}'")
+            # Check if time-based validation failed
+            if 'timestamp' in form.errors:
+                logger.warning(f"Time-based validation failed from IP {get_ip(request)}. Bot registration attempt blocked.")
 
     else:
         form = RoomUserCreationForm()
@@ -119,9 +122,13 @@ def email_confirmed(request, uidb64, token):
             logger.info(f"New user email confirmed for user: {user.username}")
 
             return render(request, 'email_confirmed.html')
+        else:
+            # Token is invalid or expired
+            logger.warning(f"Email confirmation failed - invalid token from IP {get_ip(request)}")
     except:
         # in any other case as result is redirection to "email not confirmed"
-        pass
+        # Log failed confirmation attempts (invalid uidb64 or user doesn't exist)
+        logger.warning(f"Email confirmation failed - invalid request from IP {get_ip(request)}")
 
     return render(request, 'email_not_confirmed.html', {'context': uidb64})  # here uidb64 for resend
 
