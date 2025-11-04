@@ -53,6 +53,9 @@ class UserUpdateView(UpdateView):
             room.name = form.cleaned_data['roomname']
             room.save()
 
+        # Log successful account update
+        logger.info(f"Account username updated for new user name: {user.username}")
+
         return HttpResponseRedirect(reverse('room'))
 
 def signup(request):
@@ -87,12 +90,14 @@ def signup(request):
             website_value = request.POST.get('website', '')
             phone_value = request.POST.get('phone', '')
             if website_value or phone_value:
-                logger.warning(f"Honeypot fields triggered from IP {get_ip(request)}. Bot registration attempt blocked. "
+                logger.warning(f"Honeypot fields triggered from IP {get_ip(request)}."
                                f"Website field: '{website_value}', "
                                f"Phone field: '{phone_value}'")
+                logger.warning(f"Bot registration attempt blocked from IP: {get_ip(request)}")
             # Check if time-based validation failed
             if 'timestamp' in form.errors:
-                logger.warning(f"Time-based validation failed from IP {get_ip(request)}. Bot registration attempt blocked.")
+                logger.warning(f"Time-based validation failed from IP {get_ip(request)}.")
+                logger.warning(f"Bot registration attempt blocked from IP: {get_ip(request)}")
 
     else:
         form = RoomUserCreationForm()
@@ -119,7 +124,7 @@ def email_confirmed(request, uidb64, token):
             user.save()
 
             # Log successful email confirmation
-            logger.info(f"New user email confirmed for user: {user.username}")
+            logger.info(f"New user registration email confirmed for user: {user.username}")
 
             return render(request, 'email_confirmed.html')
         else:
@@ -139,7 +144,12 @@ def email_resend(request, uidb64):
         user_model = get_user_model()
         user = user_model.objects.get(pk=uid)
         send_email_confirmation(request, user)
+
+        # Log successful email resend
+        logger.info(f"Email confirmation resent for user: {user.username} from IP {get_ip(request)}")
     except:
+        # Log failed resend attempts (invalid uidb64 or user doesn't exist)
+        logger.warning(f"Email confirmation resend failed - invalid request from IP {get_ip(request)}")
         raise Http404
 
     return redirect('email_confirmation', uidb64=uidb64)
