@@ -54,7 +54,7 @@ class UserUpdateView(UpdateView):
             room.save()
 
         # Log successful account update
-        logger.info(f"Account username updated for new user name: {user.username}")
+        logger.info(f"Account username updated from IP: {get_ip(self.request)} for new user name: {user.username}")
 
         return HttpResponseRedirect(reverse('room'))
 
