@@ -159,9 +159,12 @@ Settings load from `DO_prod.env` file (DigitalOcean production environment):
 
 ### Logging
 
-Configured for the accounts app with two handlers:
+Configured for the accounts app with three handlers:
 - `accounts_security.log` - WARNING level and above (security-related events)
+- `rooms_security.log` - WARNING level and above (security-related events)
 - `accounts.log` - INFO level and above (general account activities)
+
+- `logs/` - Development directory for log files
 
 Both use rotating file handlers (5MB max, 10 backups).
 
